@@ -206,6 +206,9 @@
             <i class="fa-solid fa-camera text-[10px]" style="color: rgba(148,163,184,0.5)"></i>
         </div>
 
+        <button id="cam-tour"        onclick="setCam('tour')"        class="gov-btn w-full text-amber-300 font-semibold" style="border-color: rgba(245, 158, 11, 0.45); background: rgba(245, 158, 11, 0.15)">
+            <i class="fa-solid fa-play text-amber-400"></i> Jury Presentation Tour
+        </button>
         <button id="cam-aerial"      onclick="setCam('aerial')"      class="gov-btn w-full active">
             <i class="fa-solid fa-layer-group text-blue-400"></i> Overhead Arterial
         </button>
@@ -274,8 +277,8 @@
 
     <!-- Navigation Help -->
     <div class="hud-overlay bottom-4 left-4 hud-glass px-3 py-1.5 text-[10px] font-sans pointer-events-none hidden sm:block" style="color: rgba(148,163,184,0.8)">
-        <i class="fa-solid fa-mouse mr-1.5"></i>
-        <span class="font-medium text-white">Controls:</span> Drag to Rotate &bull; Scroll to Zoom &bull; Click to Inspect
+        <i class="fa-solid fa-gamepad mr-1.5 text-blue-400"></i>
+        <span class="font-medium text-white">Controls:</span> Drag to Orbit &bull; Scroll to Zoom &bull; Click Vehicle &bull; <kbd class="px-1 py-0.5 rounded bg-white/10 text-white font-mono">T</kbd> Presentation Tour &bull; <kbd class="px-1 py-0.5 rounded bg-white/10 text-white font-mono">1-5</kbd> Scenarios
     </div>
 
     <!-- Scripts -->
@@ -382,6 +385,8 @@
             else if (e.key.toLowerCase() === 'c') setCam('cybertowers');
             else if (e.key.toLowerCase() === 'f') setCam('flyover');
             else if (e.key.toLowerCase() === 'e') setCam('ambulance');
+            else if (e.key.toLowerCase() === 't') setCam('tour');
+            else if (e.key.toLowerCase() === 'h') { if (window.twin3D && window.twin3D.toggleHoloWireframe) window.twin3D.toggleHoloWireframe(); }
             else if (e.key.toLowerCase() === 'l') toggleTwinTheme();
             else if (e.code === 'Space') { e.preventDefault(); toggleAutoRotate(); }
         });
