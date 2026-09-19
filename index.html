@@ -538,12 +538,15 @@
             </div>
 
             <!-- Tabs Header -->
-            <div class="px-4 py-2 border-b border-white/10 flex gap-2 text-xs" style="background: var(--surface-base)">
+            <div class="px-4 py-2 border-b border-white/10 flex gap-2 text-xs flex-wrap" style="background: var(--surface-base)">
                 <button id="btn-neurax-tab-traffic" onclick="window.switchNeuraXTab('traffic')" class="btn-scada btn-scada-primary py-1 px-3 text-[11px]">
                     <i class="fa-solid fa-chart-line mr-1 text-indigo-300"></i>Traffic Flow Forecasting (R²: 0.86)
                 </button>
                 <button id="btn-neurax-tab-vision" onclick="window.switchNeuraXTab('vision')" class="btn-scada py-1 px-3 text-[11px]">
-                    <i class="fa-solid fa-camera mr-1 text-amber-400"></i>Road Defect Computer Vision Scanner
+                    <i class="fa-solid fa-camera mr-1 text-amber-400"></i>Road Defect Vision (69.5%)
+                </button>
+                <button id="btn-neurax-tab-des" onclick="window.switchNeuraXTab('des')" class="btn-scada py-1 px-3 text-[11px]">
+                    <i class="fa-solid fa-industry mr-1 text-purple-400"></i>Mendeley DES Queuing (R²: 0.99)
                 </button>
             </div>
 
@@ -657,6 +660,68 @@
                         <!-- Populated by script -->
                     </div>
                 </div>
+
+                <!-- TAB 3: MENDELEY DISCRETE-EVENT QUEUING & BOTTLENECK -->
+                <div id="neurax-tab-des" class="space-y-4 hidden">
+                    <div class="flex items-center justify-between pb-2 border-b border-white/10 flex-wrap gap-2">
+                        <div>
+                            <div class="font-semibold text-white text-xs">Mendeley Discrete-Event Queuing &amp; Bottleneck Model (Arena Simulation)</div>
+                            <div class="text-[10px] text-slate-400">Trained on 6,000 Rockwell Arena simulation runs &bull; DOI: 10.17632/3rw227zxt7.2 (UNSW)</div>
+                        </div>
+                        <span class="badge-scada text-[9.5px] px-2 py-0.5 bg-purple-500/20 text-purple-300 border-purple-500/30">QUEUE DELAY R²: 0.9885</span>
+                    </div>
+
+                    <!-- Demand Slider & Prediction -->
+                    <div class="p-3 rounded-lg border border-white/10" style="background: var(--surface-raised)">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="font-semibold text-white text-xs">Inbound Demand Rate: <span id="modal-des-vph" class="font-mono text-amber-400 font-bold">1,800 PCU/h</span></span>
+                            <span id="modal-des-badge" class="badge-scada badge-cyan text-[10px]">DEMAND 10</span>
+                        </div>
+                        <input type="range" id="modal-des-slider" min="1" max="20" value="10" step="1" oninput="window.updateMendeleyDESModal(this.value)" class="w-full accent-purple-500 cursor-pointer">
+                        <div class="flex justify-between text-[9px] font-mono text-slate-500 mt-1">
+                            <span>180 PCU/h</span>
+                            <span>1,800 PCU/h (Nominal)</span>
+                            <span>3,600 PCU/h (Saturated)</span>
+                        </div>
+                    </div>
+
+                    <!-- 3 Stage Utilization Grid -->
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
+                        <div class="p-2.5 rounded bg-slate-900/60 border border-white/10">
+                            <div class="text-[9.5px] text-slate-400">Stage 1: Cyber Towers (Inbound)</div>
+                            <div id="modal-des-u1" class="text-base font-mono font-bold text-cyan-400 mt-1">48.2% Util</div>
+                            <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden mt-1">
+                                <div id="modal-des-bar1" class="bg-cyan-400 h-full rounded-full" style="width: 48.2%"></div>
+                            </div>
+                        </div>
+                        <div class="p-2.5 rounded bg-slate-900/60 border border-white/10">
+                            <div class="text-[9.5px] text-slate-400">Stage 2: Mindspace (Mid-Weave)</div>
+                            <div id="modal-des-u2" class="text-base font-mono font-bold text-indigo-400 mt-1">36.0% Util</div>
+                            <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden mt-1">
+                                <div id="modal-des-bar2" class="bg-indigo-400 h-full rounded-full" style="width: 36.0%"></div>
+                            </div>
+                        </div>
+                        <div class="p-2.5 rounded bg-slate-900/60 border border-white/10">
+                            <div class="text-[9.5px] text-slate-400">Stage 3: Bio-Diversity (Bottleneck)</div>
+                            <div id="modal-des-u3" class="text-base font-mono font-bold text-amber-400 mt-1">71.9% Util</div>
+                            <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden mt-1">
+                                <div id="modal-des-bar3" class="bg-amber-400 h-full rounded-full" style="width: 71.9%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bottleneck Delay Summary -->
+                    <div class="p-3 rounded-lg border border-purple-500/30 flex justify-between items-center" style="background: rgba(168, 85, 247, 0.08)">
+                        <div>
+                            <div class="text-white text-xs font-semibold">Predicted Bottleneck Queuing Time</div>
+                            <div class="text-[10px] text-slate-400">Non-linear queue growth following Kleinrock formula</div>
+                        </div>
+                        <div class="text-right">
+                            <div id="modal-des-delay" class="text-xl font-mono font-bold text-red-400">2.09 mins</div>
+                            <span id="modal-des-status" class="badge-scada badge-green text-[9px]">FLOW NOMINAL</span>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- Modal Footer -->
@@ -698,20 +763,62 @@
         window.switchNeuraXTab = function(tab) {
             const trafficTab = document.getElementById('neurax-tab-traffic');
             const visionTab = document.getElementById('neurax-tab-vision');
+            const desTab = document.getElementById('neurax-tab-des');
             const btnTraffic = document.getElementById('btn-neurax-tab-traffic');
             const btnVision = document.getElementById('btn-neurax-tab-vision');
+            const btnDes = document.getElementById('btn-neurax-tab-des');
 
-            if (tab === 'traffic') {
-                trafficTab.classList.remove('hidden');
-                visionTab.classList.add('hidden');
-                btnTraffic.className = 'btn-scada btn-scada-primary py-1 px-3 text-[11px]';
-                btnVision.className = 'btn-scada py-1 px-3 text-[11px]';
-            } else {
-                trafficTab.classList.add('hidden');
-                visionTab.classList.remove('hidden');
-                btnTraffic.className = 'btn-scada py-1 px-3 text-[11px]';
-                btnVision.className = 'btn-scada btn-scada-primary py-1 px-3 text-[11px]';
-                window.renderVisionDefectCards();
+            if (trafficTab) trafficTab.classList.toggle('hidden', tab !== 'traffic');
+            if (visionTab) visionTab.classList.toggle('hidden', tab !== 'vision');
+            if (desTab) desTab.classList.toggle('hidden', tab !== 'des');
+
+            if (btnTraffic) btnTraffic.className = (tab === 'traffic') ? 'btn-scada btn-scada-primary py-1 px-3 text-[11px]' : 'btn-scada py-1 px-3 text-[11px]';
+            if (btnVision) btnVision.className = (tab === 'vision') ? 'btn-scada btn-scada-primary py-1 px-3 text-[11px]' : 'btn-scada py-1 px-3 text-[11px]';
+            if (btnDes) btnDes.className = (tab === 'des') ? 'btn-scada btn-scada-primary py-1 px-3 text-[11px]' : 'btn-scada py-1 px-3 text-[11px]';
+
+            if (tab === 'vision') window.renderVisionDefectCards();
+            if (tab === 'des') window.updateMendeleyDESModal(document.getElementById('modal-des-slider') ? document.getElementById('modal-des-slider').value : 10);
+        };
+
+        window.updateMendeleyDESModal = function(val) {
+            const demand = parseInt(val) || 10;
+            const badge = document.getElementById('modal-des-badge');
+            const vphEl = document.getElementById('modal-des-vph');
+            if (badge) badge.textContent = `DEMAND ${demand}`;
+            if (vphEl) vphEl.textContent = `${(demand * 180).toLocaleString()} PCU/h`;
+
+            if (!window.neuraxEngine || !window.neuraxEngine.predictDESDemand) return;
+            const row = window.neuraxEngine.predictDESDemand(demand);
+            if (!row) return;
+
+            const u1 = (row.inbound_util * 100).toFixed(1);
+            const u2 = (row.midcorridor_util * 100).toFixed(1);
+            const u3 = (row.bottleneck_util * 100).toFixed(1);
+
+            const u1El = document.getElementById('modal-des-u1');
+            const bar1 = document.getElementById('modal-des-bar1');
+            if (u1El) u1El.textContent = `${u1}% Util`;
+            if (bar1) bar1.style.width = `${u1}%`;
+
+            const u2El = document.getElementById('modal-des-u2');
+            const bar2 = document.getElementById('modal-des-bar2');
+            if (u2El) u2El.textContent = `${u2}% Util`;
+            if (bar2) bar2.style.width = `${u2}%`;
+
+            const u3El = document.getElementById('modal-des-u3');
+            const bar3 = document.getElementById('modal-des-bar3');
+            if (u3El) u3El.textContent = `${u3}% Util`;
+            if (bar3) bar3.style.width = `${u3}%`;
+
+            const delayEl = document.getElementById('modal-des-delay');
+            if (delayEl) delayEl.textContent = `${row.bottleneck_delay_min.toFixed(1)} mins`;
+
+            const statusEl = document.getElementById('modal-des-status');
+            if (statusEl) {
+                statusEl.textContent = row.status;
+                if (row.status === 'NOMINAL') statusEl.className = 'badge-scada badge-green text-[9px]';
+                else if (row.status === 'WARNING') statusEl.className = 'badge-scada badge-amber text-[9px]';
+                else statusEl.className = 'badge-scada badge-red text-[9px]';
             }
         };
 

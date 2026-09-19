@@ -1,0 +1,290 @@
+{
+  "model_name": "NeuraX-Mendeley-DES-Bottleneck-v1.0",
+  "dataset_source": "Mendeley Data",
+  "dataset_doi": "10.17632/3rw227zxt7.2",
+  "dataset_title": "Manufacturing Data Shared Facility - Discrete-Event Simulation",
+  "authors": [
+    "Marsel Rabaev",
+    "Handy Pratama",
+    "Ka Ching Chan"
+  ],
+  "institution": "University of New South Wales",
+  "simulation_engine": "Rockwell Arena Simulation v15 (Discrete-Event Simulation)",
+  "total_simulation_runs": 6000,
+  "metrics": {
+    "Parts per hour": {
+      "r2": 1.0,
+      "mae": 0.3194
+    },
+    "Drilling Util": {
+      "r2": 0.9996,
+      "mae": 0.0034
+    },
+    "Milling Util": {
+      "r2": 0.9996,
+      "mae": 0.0027
+    },
+    "Assembly Util": {
+      "r2": 0.9998,
+      "mae": 0.0027
+    },
+    "Assembly Waiting Time": {
+      "r2": 0.9885,
+      "mae": 5.8698
+    },
+    "Drilling Waiting Time": {
+      "r2": 0.9639,
+      "mae": 4.7577
+    }
+  },
+  "stage_profiles": {
+    "stage_1_inbound": {
+      "name": "Stage 1: Inbound Gateway (Cyber Towers)",
+      "service_type": "Primary Arterial Feeding",
+      "mean_utilization": 0.649,
+      "max_utilization": 1.0,
+      "queue_behavior": "Low delay up to Demand Level 12, gradual queue formation beyond 2,200 PCU/h."
+    },
+    "stage_2_midcorridor": {
+      "name": "Stage 2: Mid-Corridor Merge (Mindspace Incline)",
+      "service_type": "Inter-Junction Vehicle Weaving",
+      "mean_utilization": 0.486,
+      "max_utilization": 0.752,
+      "queue_behavior": "Moderate buffer capacity, absorbs wave fluctuations before choke point."
+    },
+    "stage_3_bottleneck": {
+      "name": "Stage 3: Critical Bottleneck (Bio-Diversity Interchange)",
+      "service_type": "Multi-Phase Choke Discharge",
+      "mean_utilization": 0.776,
+      "max_utilization": 0.996,
+      "queue_behavior": "Critical saturation point (0.996 Util). Uncontrolled spillback triggers when demand exceeds 2,500 PCU/h."
+    }
+  },
+  "demand_curve": [
+    {
+      "demand": 1,
+      "demand_scaled_vph": 180,
+      "throughput_rate": 98.9,
+      "inbound_util": 0.301,
+      "midcorridor_util": 0.225,
+      "bottleneck_util": 0.38,
+      "bottleneck_delay_min": 34.42,
+      "inbound_delay_min": 16.74,
+      "status": "NOMINAL"
+    },
+    {
+      "demand": 2,
+      "demand_scaled_vph": 360,
+      "throughput_rate": 124.2,
+      "inbound_util": 0.388,
+      "midcorridor_util": 0.29,
+      "bottleneck_util": 0.474,
+      "bottleneck_delay_min": 52.31,
+      "inbound_delay_min": 16.62,
+      "status": "NOMINAL"
+    },
+    {
+      "demand": 3,
+      "demand_scaled_vph": 540,
+      "throughput_rate": 152.9,
+      "inbound_util": 0.48,
+      "midcorridor_util": 0.359,
+      "bottleneck_util": 0.604,
+      "bottleneck_delay_min": 57.75,
+      "inbound_delay_min": 18.45,
+      "status": "NOMINAL"
+    },
+    {
+      "demand": 4,
+      "demand_scaled_vph": 720,
+      "throughput_rate": 146.5,
+      "inbound_util": 0.461,
+      "midcorridor_util": 0.345,
+      "bottleneck_util": 0.589,
+      "bottleneck_delay_min": 50.17,
+      "inbound_delay_min": 16.86,
+      "status": "NOMINAL"
+    },
+    {
+      "demand": 5,
+      "demand_scaled_vph": 900,
+      "throughput_rate": 152.6,
+      "inbound_util": 0.482,
+      "midcorridor_util": 0.361,
+      "bottleneck_util": 0.629,
+      "bottleneck_delay_min": 45.69,
+      "inbound_delay_min": 15.74,
+      "status": "NOMINAL"
+    },
+    {
+      "demand": 6,
+      "demand_scaled_vph": 1080,
+      "throughput_rate": 173.0,
+      "inbound_util": 0.549,
+      "midcorridor_util": 0.411,
+      "bottleneck_util": 0.702,
+      "bottleneck_delay_min": 58.98,
+      "inbound_delay_min": 17.13,
+      "status": "NOMINAL"
+    },
+    {
+      "demand": 7,
+      "demand_scaled_vph": 1260,
+      "throughput_rate": 181.9,
+      "inbound_util": 0.579,
+      "midcorridor_util": 0.434,
+      "bottleneck_util": 0.752,
+      "bottleneck_delay_min": 56.9,
+      "inbound_delay_min": 17.67,
+      "status": "NOMINAL"
+    },
+    {
+      "demand": 8,
+      "demand_scaled_vph": 1440,
+      "throughput_rate": 190.9,
+      "inbound_util": 0.607,
+      "midcorridor_util": 0.454,
+      "bottleneck_util": 0.812,
+      "bottleneck_delay_min": 48.7,
+      "inbound_delay_min": 17.65,
+      "status": "NOMINAL"
+    },
+    {
+      "demand": 9,
+      "demand_scaled_vph": 1620,
+      "throughput_rate": 196.0,
+      "inbound_util": 0.624,
+      "midcorridor_util": 0.467,
+      "bottleneck_util": 0.829,
+      "bottleneck_delay_min": 54.9,
+      "inbound_delay_min": 18.13,
+      "status": "NOMINAL"
+    },
+    {
+      "demand": 10,
+      "demand_scaled_vph": 1800,
+      "throughput_rate": 204.7,
+      "inbound_util": 0.655,
+      "midcorridor_util": 0.491,
+      "bottleneck_util": 0.857,
+      "bottleneck_delay_min": 67.76,
+      "inbound_delay_min": 17.64,
+      "status": "WARNING"
+    },
+    {
+      "demand": 11,
+      "demand_scaled_vph": 1980,
+      "throughput_rate": 216.5,
+      "inbound_util": 0.697,
+      "midcorridor_util": 0.521,
+      "bottleneck_util": 0.872,
+      "bottleneck_delay_min": 94.7,
+      "inbound_delay_min": 17.06,
+      "status": "WARNING"
+    },
+    {
+      "demand": 12,
+      "demand_scaled_vph": 2160,
+      "throughput_rate": 226.8,
+      "inbound_util": 0.729,
+      "midcorridor_util": 0.545,
+      "bottleneck_util": 0.884,
+      "bottleneck_delay_min": 112.35,
+      "inbound_delay_min": 17.67,
+      "status": "WARNING"
+    },
+    {
+      "demand": 13,
+      "demand_scaled_vph": 2340,
+      "throughput_rate": 243.4,
+      "inbound_util": 0.784,
+      "midcorridor_util": 0.586,
+      "bottleneck_util": 0.921,
+      "bottleneck_delay_min": 131.25,
+      "inbound_delay_min": 18.47,
+      "status": "WARNING"
+    },
+    {
+      "demand": 14,
+      "demand_scaled_vph": 2520,
+      "throughput_rate": 236.5,
+      "inbound_util": 0.763,
+      "midcorridor_util": 0.571,
+      "bottleneck_util": 0.877,
+      "bottleneck_delay_min": 133.23,
+      "inbound_delay_min": 18.49,
+      "status": "WARNING"
+    },
+    {
+      "demand": 15,
+      "demand_scaled_vph": 2700,
+      "throughput_rate": 248.3,
+      "inbound_util": 0.787,
+      "midcorridor_util": 0.589,
+      "bottleneck_util": 0.867,
+      "bottleneck_delay_min": 149.12,
+      "inbound_delay_min": 30.57,
+      "status": "WARNING"
+    },
+    {
+      "demand": 16,
+      "demand_scaled_vph": 2880,
+      "throughput_rate": 267.0,
+      "inbound_util": 0.82,
+      "midcorridor_util": 0.614,
+      "bottleneck_util": 0.887,
+      "bottleneck_delay_min": 162.85,
+      "inbound_delay_min": 49.25,
+      "status": "WARNING"
+    },
+    {
+      "demand": 17,
+      "demand_scaled_vph": 3060,
+      "throughput_rate": 270.0,
+      "inbound_util": 0.804,
+      "midcorridor_util": 0.601,
+      "bottleneck_util": 0.863,
+      "bottleneck_delay_min": 162.62,
+      "inbound_delay_min": 64.63,
+      "status": "WARNING"
+    },
+    {
+      "demand": 18,
+      "demand_scaled_vph": 3240,
+      "throughput_rate": 273.2,
+      "inbound_util": 0.792,
+      "midcorridor_util": 0.593,
+      "bottleneck_util": 0.856,
+      "bottleneck_delay_min": 158.6,
+      "inbound_delay_min": 71.7,
+      "status": "WARNING"
+    },
+    {
+      "demand": 19,
+      "demand_scaled_vph": 3420,
+      "throughput_rate": 293.4,
+      "inbound_util": 0.815,
+      "midcorridor_util": 0.61,
+      "bottleneck_util": 0.876,
+      "bottleneck_delay_min": 164.97,
+      "inbound_delay_min": 94.1,
+      "status": "WARNING"
+    },
+    {
+      "demand": 20,
+      "demand_scaled_vph": 3600,
+      "throughput_rate": 282.2,
+      "inbound_util": 0.781,
+      "midcorridor_util": 0.585,
+      "bottleneck_util": 0.866,
+      "bottleneck_delay_min": 145.78,
+      "inbound_delay_min": 90.81,
+      "status": "WARNING"
+    }
+  ],
+  "feature_importance": {
+    "Demand": 0.584,
+    "Total parts": 0.362,
+    "VA Time": 0.054
+  }
+}

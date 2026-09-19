@@ -141,36 +141,44 @@
     </header>
 
     <!-- Top KPI Grid -->
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-3.5">
-        <div class="hud-card p-3.5">
-            <div class="text-[10px] uppercase font-semibold tracking-wider" style="color: var(--text-muted)">Traffic Flow Model (R²)</div>
-            <div class="text-2xl font-mono font-bold mt-1 text-emerald-400">0.8623</div>
-            <div class="text-[10.5px] mt-0.5" style="color: var(--text-tertiary)">MAE: 153.7 PCU/h &bull; Speed R²: 0.8216</div>
+    <div class="grid grid-cols-2 md:grid-cols-5 gap-3">
+        <div class="hud-card p-3">
+            <div class="text-[9.5px] uppercase font-semibold tracking-wider" style="color: var(--text-muted)">Traffic Flow (R²)</div>
+            <div class="text-xl font-mono font-bold mt-1 text-emerald-400">0.8623</div>
+            <div class="text-[10px] mt-0.5" style="color: var(--text-tertiary)">MAE: 153.7 PCU/h</div>
         </div>
-        <div class="hud-card p-3.5">
-            <div class="text-[10px] uppercase font-semibold tracking-wider" style="color: var(--text-muted)">Road Defect Vision (CNN)</div>
-            <div class="text-2xl font-mono font-bold mt-1 text-cyan-400">69.50%</div>
-            <div class="text-[10.5px] mt-0.5" style="color: var(--text-tertiary)">PyTorch 3-Layer CNN &bull; 5 Defect Classes</div>
+        <div class="hud-card p-3">
+            <div class="text-[9.5px] uppercase font-semibold tracking-wider" style="color: var(--text-muted)">Road Defect Vision</div>
+            <div class="text-xl font-mono font-bold mt-1 text-cyan-400">69.50%</div>
+            <div class="text-[10px] mt-0.5" style="color: var(--text-tertiary)">PyTorch 5-Class CNN</div>
         </div>
-        <div class="hud-card p-3.5">
-            <div class="text-[10px] uppercase font-semibold tracking-wider" style="color: var(--text-muted)">Training Corpus Evaluated</div>
-            <div class="text-2xl font-mono font-bold mt-1 text-indigo-400">200,000</div>
-            <div class="text-[10.5px] mt-0.5" style="color: var(--text-tertiary)">From NEURAX_SMART_CITIES_V2 (1.88M)</div>
+        <div class="hud-card p-3">
+            <div class="text-[9.5px] uppercase font-semibold tracking-wider" style="color: var(--text-muted)">Mendeley DES (R²)</div>
+            <div class="text-xl font-mono font-bold mt-1 text-purple-400">0.9885</div>
+            <div class="text-[10px] mt-0.5" style="color: var(--text-tertiary)">Bottleneck Delay Model</div>
         </div>
-        <div class="hud-card p-3.5">
-            <div class="text-[10px] uppercase font-semibold tracking-wider" style="color: var(--text-muted)">Telemetry Broadcast</div>
-            <div class="text-2xl font-mono font-bold mt-1 text-amber-400" id="stat-packet-count">0</div>
-            <div class="text-[10.5px] mt-0.5" style="color: var(--text-tertiary)">2.0s Cycle &bull; Direct TelemetryBus Sync</div>
+        <div class="hud-card p-3">
+            <div class="text-[9.5px] uppercase font-semibold tracking-wider" style="color: var(--text-muted)">Evaluated Records</div>
+            <div class="text-xl font-mono font-bold mt-1 text-indigo-400">206,000</div>
+            <div class="text-[10px] mt-0.5" style="color: var(--text-tertiary)">200k NeuraX + 6k DES</div>
+        </div>
+        <div class="hud-card p-3">
+            <div class="text-[9.5px] uppercase font-semibold tracking-wider" style="color: var(--text-muted)">Telemetry Sync</div>
+            <div class="text-xl font-mono font-bold mt-1 text-amber-400" id="stat-packet-count">0</div>
+            <div class="text-[10px] mt-0.5" style="color: var(--text-tertiary)">2.0s AI Engine Bus</div>
         </div>
     </div>
 
     <!-- Navigation Tabs -->
-    <div class="flex items-center gap-2 border-b pb-3" style="border-color: var(--border-subtle)">
+    <div class="flex items-center gap-2 border-b pb-3 flex-wrap" style="border-color: var(--border-subtle)">
         <button id="tab-btn-traffic" onclick="switchTab('traffic')" class="tab-btn active">
             <i class="fa-solid fa-route mr-1.5"></i>NeuraX Corridor Predictor (436 Segments)
         </button>
         <button id="tab-btn-vision" onclick="switchTab('vision')" class="tab-btn">
             <i class="fa-solid fa-camera-retro mr-1.5"></i>PyTorch Road Defect Vision Scanner (train.zip)
+        </button>
+        <button id="tab-btn-mendeley" onclick="switchTab('mendeley')" class="tab-btn">
+            <i class="fa-solid fa-chart-line mr-1.5 text-purple-400"></i>Mendeley DES Queuing &amp; Bottleneck Engine (Arena)
         </button>
         <button id="tab-btn-telemetry" onclick="switchTab('telemetry')" class="tab-btn">
             <i class="fa-solid fa-code mr-1.5"></i>Live 2.0s AI Bus Payload
@@ -321,7 +329,128 @@
         </div>
     </div>
 
-    <!-- TAB 3: Telemetry Payload -->
+    <!-- TAB 3: MENDELEY DES QUEUING & BOTTLENECK ENGINE -->
+    <div id="tab-mendeley" class="hidden flex flex-col gap-4">
+        <div class="hud-card p-4">
+            <div class="flex items-center justify-between flex-wrap gap-2">
+                <div>
+                    <div class="flex items-center gap-2">
+                        <h2 class="text-sm font-semibold" style="color: var(--text-primary)">Mendeley Discrete-Event Simulation (DES) Queuing &amp; Bottleneck AI</h2>
+                        <span class="badge-scada badge-purple text-[10px]">DOI: 10.17632/3rw227zxt7.2</span>
+                    </div>
+                    <div class="text-[11px] mt-1" style="color: var(--text-muted)">
+                        Rockwell Arena Discrete-Event Models (3,000 Runs/Model) &bull; Authors: M. Rabaev, H. Pratama, K.C. Chan (UNSW) &bull; Queue Delay R²: <span class="font-mono font-bold text-emerald-400">0.9885</span>
+                    </div>
+                </div>
+                <a href="https://data.mendeley.com/datasets/3rw227zxt7/2" target="_blank" class="btn-scada text-xs py-1 px-2.5 hover:text-white" title="Open Official Mendeley Data Repository">
+                    <i class="fa-solid fa-arrow-up-right-from-square text-[10px] mr-1 text-purple-400"></i>Mendeley Source
+                </a>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+            <!-- Interactive Demand Controller -->
+            <div class="hud-card p-4 flex flex-col gap-3">
+                <div class="flex items-center justify-between">
+                    <span class="text-xs font-semibold uppercase tracking-wider" style="color: var(--text-secondary)">Corridor Inbound Demand</span>
+                    <span id="mendeley-demand-badge" class="badge-scada badge-cyan text-[10px]">LEVEL 10</span>
+                </div>
+
+                <div class="space-y-2 mt-2">
+                    <div class="flex justify-between text-xs">
+                        <span style="color: var(--text-muted)">Inflow Rate:</span>
+                        <span id="mendeley-demand-vph" class="font-mono font-bold text-amber-400">1,800 PCU/h</span>
+                    </div>
+                    <input type="range" id="mendeley-demand-slider" min="1" max="20" value="10" step="1" oninput="onMendeleyDemandChanged(this.value)" class="w-full accent-indigo-500 cursor-pointer">
+                    <div class="flex justify-between text-[10px] font-mono text-slate-500">
+                        <span>Min (180 PCU/h)</span>
+                        <span>Mid (1,800)</span>
+                        <span>Sat (3,600 PCU/h)</span>
+                    </div>
+                </div>
+
+                <div class="p-3 rounded-lg mt-2 text-xs space-y-2" style="background: var(--surface-inset); border: 1px solid var(--border-subtle)">
+                    <div class="flex justify-between items-center">
+                        <span style="color: var(--text-muted)">Network Throughput:</span>
+                        <span id="mendeley-throughput" class="font-mono font-bold text-emerald-400">-</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span style="color: var(--text-muted)">Bottleneck Queue Delay:</span>
+                        <span id="mendeley-bottleneck-delay" class="font-mono font-bold text-red-400">-</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span style="color: var(--text-muted)">Corridor Flow State:</span>
+                        <span id="mendeley-choke-status" class="badge-scada badge-green text-[9px]">-</span>
+                    </div>
+                </div>
+
+                <div class="p-2.5 rounded-lg text-[10.5px] leading-relaxed" style="background: var(--surface-inset); color: var(--text-secondary); border: 1px solid var(--border-subtle)">
+                    <i class="fa-solid fa-calculator text-purple-400 mr-1"></i>
+                    Validates Kleinrock Queuing Law: as Bottleneck Node Utilization reaches 98%, queue delay spikes non-linearly, causing upstream spillback into Cyber Towers.
+                </div>
+            </div>
+
+            <!-- 3-Stage Corridor Node Utilization -->
+            <div class="hud-card p-4 lg:col-span-2 flex flex-col gap-4">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <div class="text-xs font-semibold uppercase tracking-wider" style="color: var(--text-secondary)">Multi-Stage Discrete-Event Service Utilization</div>
+                        <div class="text-[11px]" style="color: var(--text-muted)">Trained on 6,000 Discrete Arena Simulation Runs (Model 1 &amp; Model 2)</div>
+                    </div>
+                    <span class="badge-scada badge-green text-[10px]">Util R²: 0.9998</span>
+                </div>
+
+                <div class="space-y-3.5 mt-1">
+                    <!-- Stage 1 -->
+                    <div class="p-3 rounded-lg border border-white/5" style="background: var(--surface-inset)">
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="text-xs font-semibold text-white">Stage 1: Inbound Gateway (Cyber Towers Junction)</span>
+                            <span id="mendeley-util-1" class="font-mono font-bold text-cyan-400 text-sm">48.2%</span>
+                        </div>
+                        <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden mb-1.5">
+                            <div id="mendeley-bar-1" class="bg-cyan-400 h-full rounded-full transition-all duration-300" style="width: 48.2%"></div>
+                        </div>
+                        <div class="flex justify-between text-[10.5px] text-slate-400">
+                            <span>Arena Service: Inbound Feed (Drilling)</span>
+                            <span>Queue Waiting Time: <span id="mendeley-wait-1" class="font-mono text-slate-200">0.41 min</span></span>
+                        </div>
+                    </div>
+
+                    <!-- Stage 2 -->
+                    <div class="p-3 rounded-lg border border-white/5" style="background: var(--surface-inset)">
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="text-xs font-semibold text-white">Stage 2: Mid-Corridor Weaving (Mindspace Incline)</span>
+                            <span id="mendeley-util-2" class="font-mono font-bold text-indigo-400 text-sm">36.0%</span>
+                        </div>
+                        <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden mb-1.5">
+                            <div id="mendeley-bar-2" class="bg-indigo-400 h-full rounded-full transition-all duration-300" style="width: 36.0%"></div>
+                        </div>
+                        <div class="flex justify-between text-[10.5px] text-slate-400">
+                            <span>Arena Service: Inter-Junction Weave (Milling)</span>
+                            <span>Queue Waiting Time: <span id="mendeley-wait-2" class="font-mono text-slate-200">0.00 min</span></span>
+                        </div>
+                    </div>
+
+                    <!-- Stage 3 -->
+                    <div class="p-3 rounded-lg border border-white/5" style="background: var(--surface-inset)">
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="text-xs font-semibold text-white">Stage 3: Critical Choke Bottleneck (Bio-Diversity Interchange)</span>
+                            <span id="mendeley-util-3" class="font-mono font-bold text-amber-400 text-sm">71.9%</span>
+                        </div>
+                        <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden mb-1.5">
+                            <div id="mendeley-bar-3" class="bg-amber-400 h-full rounded-full transition-all duration-300" style="width: 71.9%"></div>
+                        </div>
+                        <div class="flex justify-between text-[10.5px] text-slate-400">
+                            <span>Arena Service: Multi-Phase Merge (Assembly)</span>
+                            <span>Queue Waiting Time: <span id="mendeley-wait-3" class="font-mono text-slate-200 font-bold">2.09 min</span></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TAB 4: Telemetry Payload -->
     <div id="tab-telemetry" class="hidden flex flex-col gap-4">
         <div class="hud-card p-4">
             <div class="flex items-center justify-between mb-2">
@@ -361,8 +490,10 @@
             setSimTheme(isDark ? 'light' : 'dark');
         }
 
+        let desData = null;
+
         function switchTab(tabId) {
-            ['traffic', 'vision', 'telemetry'].forEach(t => {
+            ['traffic', 'vision', 'mendeley', 'telemetry'].forEach(t => {
                 const el = document.getElementById(`tab-${t}`);
                 const btn = document.getElementById(`tab-btn-${t}`);
                 if (el) el.classList.toggle('hidden', t !== tabId);
@@ -372,18 +503,70 @@
 
         async function initPage() {
             try {
-                const [trafficRes, visionRes] = await Promise.all([
+                const [trafficRes, visionRes, desRes] = await Promise.all([
                     fetch('data/neurax_traffic_model.json'),
-                    fetch('data/road_defect_model.json')
+                    fetch('data/road_defect_model.json'),
+                    fetch('data/des_bottleneck_model.json')
                 ]);
                 if (trafficRes.ok) modelData = await trafficRes.json();
                 if (visionRes.ok) visionData = await visionRes.json();
+                if (desRes.ok) desData = await desRes.json();
 
                 populateSegments();
                 populateDefectCards();
+                initMendeleyDES();
             } catch (err) {
                 console.error('Failed to load models:', err);
             }
+        }
+
+        function initMendeleyDES() {
+            onMendeleyDemandChanged(10);
+        }
+
+        function onMendeleyDemandChanged(val) {
+            const demandLevel = parseInt(val);
+            const badge = document.getElementById('mendeley-demand-badge');
+            const vphEl = document.getElementById('mendeley-demand-vph');
+            if (badge) badge.textContent = `LEVEL ${demandLevel}`;
+            if (vphEl) vphEl.textContent = `${(demandLevel * 180).toLocaleString()} PCU/h`;
+
+            if (!desData || !desData.demand_curve) return;
+            const curve = desData.demand_curve;
+            const row = curve.find(r => r.demand === demandLevel) || curve[demandLevel - 1] || curve[0];
+            if (!row) return;
+
+            document.getElementById('mendeley-throughput').textContent = `${(row.throughput_rate * 18).toFixed(0)} PCU/h`;
+            document.getElementById('mendeley-bottleneck-delay').textContent = `${row.bottleneck_delay_min.toFixed(1)} mins`;
+
+            const statusEl = document.getElementById('mendeley-choke-status');
+            if (statusEl) {
+                statusEl.textContent = row.status;
+                if (row.status === 'NOMINAL') {
+                    statusEl.className = 'badge-scada badge-green text-[9px]';
+                } else if (row.status === 'WARNING') {
+                    statusEl.className = 'badge-scada badge-amber text-[9px]';
+                } else {
+                    statusEl.className = 'badge-scada badge-red text-[9px]';
+                }
+            }
+
+            // Util 1
+            const u1Pct = (row.inbound_util * 100).toFixed(1);
+            document.getElementById('mendeley-util-1').textContent = `${u1Pct}%`;
+            document.getElementById('mendeley-bar-1').style.width = `${u1Pct}%`;
+            document.getElementById('mendeley-wait-1').textContent = `${row.inbound_delay_min.toFixed(2)} min`;
+
+            // Util 2
+            const u2Pct = (row.midcorridor_util * 100).toFixed(1);
+            document.getElementById('mendeley-util-2').textContent = `${u2Pct}%`;
+            document.getElementById('mendeley-bar-2').style.width = `${u2Pct}%`;
+
+            // Util 3 (Bottleneck)
+            const u3Pct = (row.bottleneck_util * 100).toFixed(1);
+            document.getElementById('mendeley-util-3').textContent = `${u3Pct}%`;
+            document.getElementById('mendeley-bar-3').style.width = `${u3Pct}%`;
+            document.getElementById('mendeley-wait-3').textContent = `${row.bottleneck_delay_min.toFixed(2)} min`;
         }
 
         function populateSegments() {

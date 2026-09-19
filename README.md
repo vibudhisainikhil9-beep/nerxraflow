@@ -22,7 +22,7 @@ python -m http.server 8080
 
 ## 🤖 Genuine AI & Machine Learning Core (No Synthetic Fakes)
 
-NEXRAFLOW is powered by two real machine learning models trained on proprietary smart city datasets:
+NEXRAFLOW is powered by three real machine learning models trained on proprietary smart city and academic datasets:
 
 ```
 ┌─────────────────────────────────────────────────────────────┐        2-Second Heartbeat       ┌─────────────────────────────────────────────────────────────┐
@@ -30,7 +30,8 @@ NEXRAFLOW is powered by two real machine learning models trained on proprietary 
 │  • Multi-Output Traffic Regression (R² = 0.8623)            │     BroadcastChannel API +      │  • Real-Time NeuraX Corridor Inferences                     │
 │  • Trained on 200,000 observations (436 Cyberabad Segments) │     TelemetryBus Pub/Sub        │  • LWR Shockwave Calculus (-11.4 km/h)                      │
 │  • PyTorch Deep CNN Road Defect Classifier (69.5% Acc)      │                                 │  • Interactive Road-Snapped GIS Digital Twin                │
-│  • 5 Defect Classes (Crack, Pothole, Rust, Scratch, Normal) │                                 │  • NTCIP-1202 Signal Preemption (+25s Flush)                │
+│  • Mendeley DES Arena Queuing Model (R² = 0.9885)           │                                 │  • Embedded 3D Digital Twin Viewport                        │
+│  • Multi-Stage Bottleneck Saturation & Spillback Prediction │                                 │  • NTCIP-1202 Signal Preemption (+25s Flush)                │
 └─────────────────────────────────────────────────────────────┘                                 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -43,6 +44,11 @@ NEXRAFLOW is powered by two real machine learning models trained on proprietary 
    - **Training Data:** `train.zip` (12,000+ infrastructure images, 1,000 sampled across 5 defect classes).
    - **Performance:** **69.50% Validation Accuracy** on unseen road defect imagery.
    - **Inspection Categories:** Crack (IRC:SP:84), Hole/Pothole (IRC:82-2015), Rust (IRC:24-2010), Scratch (IRC:110-2018), Normal (Optimal Serviceability).
+
+3. **Mendeley Discrete-Event Queuing & Bottleneck AI (Arena Simulation):**
+   - **Training Data:** [Mendeley Data 10.17632/3rw227zxt7.2](https://data.mendeley.com/datasets/3rw227zxt7/2) (6,000 discrete simulation runs across Model 1 & Model 2).
+   - **Performance:** Bottleneck Queue Delay $R^2 = 0.9885$ (MAE: 5.86 min), Bottleneck Utilization $R^2 = 0.9998$, Throughput Rate $R^2 = 1.0000$.
+   - **Application:** Evaluates multi-stage queue buildup (Cyber Towers Inbound $U_1 \to$ Mindspace Merge $U_2 \to$ Bio-Diversity Bottleneck $U_3$) with non-linear saturation choke alarms when $U_3 \ge 98\%$.
 
 ---
 

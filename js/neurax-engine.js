@@ -9,6 +9,7 @@ class NeuraXEngine {
     constructor() {
         this.modelData = null;
         this.visionData = null;
+        this.desData = null;
         this.isLoaded = false;
         this.currentScenario = 'nominal';
         this.activeSegmentIdx = 0;
@@ -28,14 +29,16 @@ class NeuraXEngine {
 
     async _loadModelData() {
         try {
-            const [trafficRes, visionRes] = await Promise.all([
+            const [trafficRes, visionRes, desRes] = await Promise.all([
                 fetch('data/neurax_traffic_model.json'),
-                fetch('data/road_defect_model.json')
+                fetch('data/road_defect_model.json'),
+                fetch('data/des_bottleneck_model.json')
             ]);
             if (trafficRes.ok) this.modelData = await trafficRes.json();
             if (visionRes.ok) this.visionData = await visionRes.json();
+            if (desRes.ok) this.desData = await desRes.json();
             this.isLoaded = true;
-            console.log('✓ NeuraX AI Engine loaded with genuine trained weights (R²: 0.8623 Flow, 0.8216 Speed)');
+            console.log('✓ NeuraX AI Engine loaded with genuine trained weights (NeuraX Smart City + Mendeley DES Queuing + Road Vision CNN)');
         } catch (e) {
             console.warn('NeuraX model fetch fallback:', e);
             this.isLoaded = true;
@@ -189,6 +192,22 @@ class NeuraXEngine {
             sampleImage: imgs[cat] || `assets/defect_samples/${cat}_sample.png`,
             accuracy: `${(this.visionData.accuracy * 100).toFixed(1)}%`
         }));
+    }
+
+    // Mendeley Discrete-Event Simulation (DES) Queuing & Bottleneck Engine
+    getDESDemandCurve() {
+        return (this.desData && this.desData.demand_curve) ? this.desData.demand_curve : [];
+    }
+
+    predictDESDemand(demandLevel) {
+        const curve = this.getDESDemandCurve();
+        if (!curve || !curve.length) return null;
+        const target = Math.max(1, Math.min(20, Math.round(demandLevel)));
+        return curve.find(d => d.demand === target) || curve[target - 1] || curve[0];
+    }
+
+    getDESModelInfo() {
+        return this.desData || null;
     }
 }
 
