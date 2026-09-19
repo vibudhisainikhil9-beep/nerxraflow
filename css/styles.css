@@ -443,6 +443,100 @@ footer {
 ::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 4px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
 
+/* ── Live Clock ─────────────────────────────────────────────── */
+#live-clock-display {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    color: var(--accent-text);
+    padding: 3px 8px;
+    background: var(--accent-subtle);
+    border: 1px solid rgba(37,99,235,0.2);
+    border-radius: var(--radius-sm);
+    white-space: nowrap;
+}
+
+/* ── Scenario Buttons – Active State ────────────────────────── */
+.scenario-btn.scenario-active {
+    background: var(--accent-subtle) !important;
+    border: 1px solid var(--accent) !important;
+    color: var(--accent-text) !important;
+    box-shadow: 0 0 0 2px rgba(37,99,235,0.15), 0 2px 6px rgba(37,99,235,0.12);
+    font-weight: 700 !important;
+}
+html.dark .scenario-btn.scenario-active {
+    background: rgba(59,130,246,0.15) !important;
+    border-color: #3b82f6 !important;
+    color: #93c5fd !important;
+}
+.scenario-btn { transition: all 0.2s cubic-bezier(0.4,0,0.2,1); }
+.scenario-btn:hover:not(.scenario-active) {
+    background: var(--surface-hover);
+    transform: translateY(-1px);
+}
+
+/* ── VMS Scrolling Marquee ──────────────────────────────────── */
+.vms-marquee-wrapper { overflow: hidden; white-space: nowrap; flex: 1; min-width: 0; }
+.vms-marquee-inner {
+    display: inline-block;
+    animation: vms-scroll 22s linear infinite;
+    padding-right: 60px;
+}
+.vms-marquee-inner:hover { animation-play-state: paused; }
+@keyframes vms-scroll {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+/* ── Metric Cards – Pulse on Update ─────────────────────────── */
+@keyframes metric-flash {
+    0%   { background-color: rgba(37,99,235,0.18); }
+    100% { background-color: transparent; }
+}
+.metric-update-flash { animation: metric-flash 0.45s ease-out; }
+
+/* ── Sparkline Canvas ────────────────────────────────────────── */
+#speed-sparkline { display: block; width: 100%; height: 36px; border-radius: var(--radius-sm); margin-top: 6px; }
+
+/* ── Scada Card – Subtle lift on hover ───────────────────────── */
+.scada-card { transition: border-color 0.18s ease, box-shadow 0.18s ease, transform 0.15s ease; }
+.scada-card:hover { transform: translateY(-1px); }
+
+/* ── Phase Timer Glow ────────────────────────────────────────── */
+#signal-phase-timer { transition: color 0.3s ease; }
+.phase-red   #signal-phase-timer { color: var(--status-red) !important;   text-shadow: 0 0 12px rgba(239,68,68,0.5); }
+.phase-amber #signal-phase-timer { color: var(--status-amber) !important; text-shadow: 0 0 12px rgba(245,158,11,0.5); }
+.phase-green #signal-phase-timer { color: var(--status-green) !important; text-shadow: 0 0 12px rgba(34,197,94,0.5); }
+
+/* ── Footer uptime ───────────────────────────────────────────── */
+#footer-uptime { font-family: var(--font-mono); font-size: 0.68rem; color: var(--status-green); }
+
+/* ── Incident Badge Alert Pop ────────────────────────────────── */
+@keyframes badge-alert-pop { 0%,100% { transform: scale(1); } 40% { transform: scale(1.08); } }
+.badge-alert-active { animation: badge-alert-pop 1.8s ease-in-out infinite; }
+
+/* ── NeuraX AI glow ──────────────────────────────────────────── */
+#btn-open-simulator { transition: all 0.2s ease; }
+#btn-open-simulator:hover { box-shadow: 0 0 14px rgba(34,211,238,0.35); }
+
+/* ── Signal lens active glow ─────────────────────────────────── */
+.traffic-lens.green.active { animation: green-glow 2.5s ease-in-out infinite alternate; }
+@keyframes green-glow {
+    from { box-shadow: 0 0 10px rgba(34,197,94,0.6), inset 0 1px 2px rgba(255,255,255,0.2); }
+    to   { box-shadow: 0 0 22px rgba(34,197,94,0.9), inset 0 1px 2px rgba(255,255,255,0.3); }
+}
+.traffic-lens.red.active { animation: red-glow 2.5s ease-in-out infinite alternate; }
+@keyframes red-glow {
+    from { box-shadow: 0 0 10px rgba(239,68,68,0.6), inset 0 1px 2px rgba(255,255,255,0.2); }
+    to   { box-shadow: 0 0 22px rgba(239,68,68,0.9), inset 0 1px 2px rgba(255,255,255,0.3); }
+}
+.traffic-lens.amber.active { animation: amber-glow 2.5s ease-in-out infinite alternate; }
+@keyframes amber-glow {
+    from { box-shadow: 0 0 10px rgba(245,158,11,0.6), inset 0 1px 2px rgba(255,255,255,0.2); }
+    to   { box-shadow: 0 0 22px rgba(245,158,11,0.9), inset 0 1px 2px rgba(255,255,255,0.3); }
+}
+
 .scada-tooltip {
     background: var(--surface-overlay) !important;
     backdrop-filter: var(--glass-blur) !important;

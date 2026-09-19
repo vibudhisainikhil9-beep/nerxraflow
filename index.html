@@ -72,6 +72,8 @@
                 <i class="fa-solid fa-brain text-[10px] ml-1 text-cyan-300"></i>
             </button>
 
+            <span id="live-clock-display" title="Current IST Time">--:--:-- IST</span>
+
             <div id="header-incident-badge" class="badge-scada badge-green py-0.5 text-[10.5px]">STATUS: NORMAL</div>
 
             <div class="scenario-bar flex items-center text-[10.5px] font-sans">
@@ -217,6 +219,13 @@
                     <div id="comp-text-legend" class="text-[9px] font-sans mt-1" style="color: var(--text-muted)">
                         2W: 45% &bull; Auto: 18% &bull; Car: 25% &bull; Bus: 12%
                     </div>
+                    <div class="mt-2 pt-2" style="border-top: 1px solid var(--border-subtle)">
+                        <div class="flex justify-between items-center text-[9px] font-sans mb-1" style="color: var(--text-muted)">
+                            <span class="font-medium uppercase tracking-wide">Speed Trend (last 12 readings)</span>
+                            <span id="sparkline-delta" class="font-mono font-semibold" style="color: var(--status-green)">↑ +2.1</span>
+                        </div>
+                        <canvas id="speed-sparkline"></canvas>
+                    </div>
                 </div>
             </div>
 
@@ -282,8 +291,10 @@
                     <span class="w-1.5 h-1.5 rounded-full animate-pulse bg-amber-400"></span>
                     <span class="text-[9px] font-sans font-medium uppercase tracking-wide" style="color: var(--text-muted)">VMS Gantry #04 [Cyber Towers]:</span>
                 </div>
-                <div id="vms-gantry-text" class="text-[11px] font-mono font-semibold truncate" style="color: var(--status-amber)">
-                    [ CORRIDOR FLOW NOMINAL | CYBER TOWERS TO GACHIBOWLI CLEAR | SPEED: 46.5 KM/H ]
+            <div class="vms-marquee-wrapper">
+                    <div id="vms-gantry-text" class="vms-marquee-inner text-[11px] font-mono font-semibold" style="color: var(--status-amber)">
+                        [ CORRIDOR FLOW NOMINAL | CYBER TOWERS TO GACHIBOWLI CLEAR | SPEED: 46.5 KM/H ]&nbsp;&nbsp;&nbsp;&nbsp;&bull;&nbsp;&nbsp;&nbsp;&nbsp;[ CORRIDOR FLOW NOMINAL | CYBER TOWERS TO GACHIBOWLI CLEAR | SPEED: 46.5 KM/H ]
+                    </div>
                 </div>
             </div>
 
@@ -631,9 +642,10 @@
     <footer class="px-4 py-1.5 text-[9.5px] font-sans flex flex-wrap justify-between items-center gap-2" style="color: var(--text-muted)">
         <div class="flex items-center gap-4">
             <span style="color: var(--text-tertiary)">
-                <i class="fa-solid fa-server mr-1" style="color: var(--status-cyan)"></i>SCADA Core: Online
+                <i class="fa-solid fa-server mr-1" style="color: var(--status-cyan)"></i>SCADA Core: <span class="font-semibold" style="color: var(--status-green)">Online</span>
             </span>
             <span>NTCIP-1202 &bull; IRC:106 &bull; LWR PDE &bull; Kalman Filter</span>
+            <span id="footer-uptime"><i class="fa-solid fa-clock mr-1"></i>Uptime: 00:00:00</span>
         </div>
         <div>NexraFlow AI &bull; NeuraX 3.0 &bull; Smart Cities Mission &bull; Autonomous Digital Twin</div>
     </footer>
@@ -1053,6 +1065,191 @@
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') window.closeNeuraXModal();
         });
+    </script>
+
+    <!-- ═══ UX ENHANCEMENT RUNTIME ═══════════════════════════════════════ -->
+    <script>
+    (function() {
+        // ── 1. Live IST Clock ──────────────────────────────────────────
+        const clockEl = document.getElementById('live-clock-display');
+        function tickClock() {
+            const now = new Date();
+            const ist = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
+            const hh = String(ist.getHours()).padStart(2,'0');
+            const mm = String(ist.getMinutes()).padStart(2,'0');
+            const ss = String(ist.getSeconds()).padStart(2,'0');
+            if (clockEl) clockEl.textContent = `${hh}:${mm}:${ss} IST`;
+        }
+        tickClock();
+        setInterval(tickClock, 1000);
+
+        // ── 2. Session Uptime Counter ─────────────────────────────────
+        const uptimeEl = document.getElementById('footer-uptime');
+        const sessionStart = Date.now();
+        function tickUptime() {
+            const elapsed = Math.floor((Date.now() - sessionStart) / 1000);
+            const h = String(Math.floor(elapsed / 3600)).padStart(2,'0');
+            const m = String(Math.floor((elapsed % 3600) / 60)).padStart(2,'0');
+            const s = String(elapsed % 60).padStart(2,'0');
+            if (uptimeEl) uptimeEl.innerHTML = `<i class="fa-solid fa-clock mr-1"></i>Uptime: ${h}:${m}:${s}`;
+        }
+        setInterval(tickUptime, 1000);
+
+        // ── 3. Speed Sparkline ────────────────────────────────────────
+        const MAX_SPARK = 12;
+        const speedHistory = [];
+        const canvas = document.getElementById('speed-sparkline');
+        const deltaEl = document.getElementById('sparkline-delta');
+
+        function drawSparkline(history) {
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const dpr = window.devicePixelRatio || 1;
+            const w = canvas.offsetWidth || 200;
+            const h = 36;
+            canvas.width  = w * dpr;
+            canvas.height = h * dpr;
+            ctx.scale(dpr, dpr);
+            ctx.clearRect(0, 0, w, h);
+            if (history.length < 2) return;
+
+            const min = Math.min(...history) - 2;
+            const max = Math.max(...history) + 2;
+            const range = max - min || 1;
+            const step = w / (history.length - 1);
+            const pts = history.map((v, i) => ({ x: i * step, y: h - ((v - min) / range) * (h - 4) - 2 }));
+
+            // Gradient fill
+            const grad = ctx.createLinearGradient(0, 0, 0, h);
+            grad.addColorStop(0,   'rgba(34,197,94,0.25)');
+            grad.addColorStop(1,   'rgba(34,197,94,0)');
+            ctx.beginPath();
+            ctx.moveTo(pts[0].x, pts[0].y);
+            pts.slice(1).forEach(p => ctx.lineTo(p.x, p.y));
+            ctx.lineTo(pts[pts.length - 1].x, h);
+            ctx.lineTo(0, h);
+            ctx.closePath();
+            ctx.fillStyle = grad;
+            ctx.fill();
+
+            // Line
+            ctx.beginPath();
+            ctx.moveTo(pts[0].x, pts[0].y);
+            pts.slice(1).forEach(p => ctx.lineTo(p.x, p.y));
+            ctx.strokeStyle = '#22c55e';
+            ctx.lineWidth = 1.5;
+            ctx.lineJoin = 'round';
+            ctx.stroke();
+
+            // Last dot
+            const last = pts[pts.length - 1];
+            ctx.beginPath();
+            ctx.arc(last.x, last.y, 2.5, 0, Math.PI * 2);
+            ctx.fillStyle = '#22c55e';
+            ctx.fill();
+
+            // Delta label
+            if (deltaEl && history.length >= 2) {
+                const delta = (history[history.length - 1] - history[history.length - 2]).toFixed(1);
+                const up = delta >= 0;
+                deltaEl.textContent = `${up ? '↑' : '↓'} ${up ? '+' : ''}${delta}`;
+                deltaEl.style.color = up ? 'var(--status-green)' : 'var(--status-red)';
+            }
+        }
+
+        // Intercept telemetryBus packets to feed sparkline
+        function hookSparklineOnBus() {
+            if (!window.telemetryBus) { setTimeout(hookSparklineOnBus, 800); return; }
+            window.telemetryBus.subscribe(function(pkt) {
+                if (pkt && pkt.rawSpeedKmh != null) {
+                    speedHistory.push(Number(pkt.rawSpeedKmh));
+                    if (speedHistory.length > MAX_SPARK) speedHistory.shift();
+                    drawSparkline(speedHistory);
+                    // Flash metric cards
+                    ['metric-corridor-speed','metric-flow-pcu'].forEach(id => {
+                        const el = document.getElementById(id);
+                        if (el && el.parentElement) {
+                            el.parentElement.classList.remove('metric-update-flash');
+                            void el.parentElement.offsetWidth; // reflow
+                            el.parentElement.classList.add('metric-update-flash');
+                        }
+                    });
+                }
+            });
+        }
+        hookSparklineOnBus();
+
+        // ── 4. Scenario Active Button Highlight ──────────────────────
+        const scenBtns = {
+            nominal:            document.getElementById('btn-scen-nominal'),
+            tsrtcBreakdown:     document.getElementById('btn-scen-tsrtcBreakdown'),
+            monsoonFlood:       document.getElementById('btn-scen-monsoonFlood'),
+            flyoverCollision:   document.getElementById('btn-scen-flyoverCollision'),
+            ambulanceCorridor:  document.getElementById('btn-scen-ambulanceCorridor'),
+        };
+        window._setActiveScenarioBtn = function(scenarioId) {
+            Object.entries(scenBtns).forEach(([id, el]) => {
+                if (!el) return;
+                el.classList.toggle('scenario-active', id === scenarioId);
+            });
+        };
+        // Poll for when scadaApp is ready to read the initial scenario
+        function initScenarioBtn() {
+            if (window.scadaApp && window.scadaApp.currentScenario) {
+                window._setActiveScenarioBtn(window.scadaApp.currentScenario);
+                return;
+            }
+            setTimeout(initScenarioBtn, 600);
+        }
+        initScenarioBtn();
+
+        // Monkey-patch loadScenario to keep button state in sync
+        function patchLoadScenario() {
+            if (!window.scadaApp || !window.scadaApp.loadScenario) { setTimeout(patchLoadScenario, 600); return; }
+            const orig = window.scadaApp.loadScenario.bind(window.scadaApp);
+            window.scadaApp.loadScenario = function(id) {
+                orig(id);
+                window._setActiveScenarioBtn(id);
+            };
+        }
+        patchLoadScenario();
+
+        // ── 5. VMS Marquee Text Update ────────────────────────────────
+        // Whenever app.js sets vms-gantry-text textContent, mirror it to marquee
+        const vmsEl = document.getElementById('vms-gantry-text');
+        if (vmsEl) {
+            const vmsObserver = new MutationObserver(() => {
+                const txt = vmsEl.firstChild ? vmsEl.firstChild.textContent.trim() : vmsEl.textContent.trim();
+                // Ensure the duplicate is always present for seamless scroll
+                if (!txt.includes('•')) {
+                    vmsEl.innerHTML = `${txt}&nbsp;&nbsp;&nbsp;&nbsp;&bull;&nbsp;&nbsp;&nbsp;&nbsp;${txt}`;
+                }
+            });
+            vmsObserver.observe(vmsEl, { childList: true, characterData: true, subtree: true });
+        }
+
+        // ── 6. Phase Timer colour class helper ───────────────────────
+        const sigContainer = document.getElementById('panel-signal-controller');
+        const origSetPhase = window.setSignalPhase;
+        if (sigContainer) {
+            function updatePhaseClass(phase) {
+                sigContainer.classList.remove('phase-red','phase-amber','phase-green');
+                if (phase === 'RED')   sigContainer.classList.add('phase-red');
+                else if (phase === 'AMBER') sigContainer.classList.add('phase-amber');
+                else                    sigContainer.classList.add('phase-green');
+            }
+            // Poll signal-phase-label to detect phase changes
+            const phaseLabel = document.getElementById('signal-phase-label');
+            if (phaseLabel) {
+                const phaseObs = new MutationObserver(() => {
+                    updatePhaseClass((phaseLabel.textContent || '').trim().toUpperCase());
+                });
+                phaseObs.observe(phaseLabel, { childList: true, characterData: true, subtree: true });
+                updatePhaseClass((phaseLabel.textContent || '').trim().toUpperCase());
+            }
+        }
+
+    })();
     </script>
 </body>
 </html>
