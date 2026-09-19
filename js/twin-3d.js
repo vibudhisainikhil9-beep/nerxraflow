@@ -1,0 +1,1162 @@
+/**
+ * NEXRAFLOW AI - 3D Smart City WebGL Digital Twin Engine (Ultra-Sharp Pro SCADA Edition)
+ * Built with Three.js (Procedural SCADA Aesthetics, 60 FPS, Zero External Model Dependencies)
+ * Features: Raycaster Click-to-Inspect, 3D Streetlights, Holographic Wireframe Mode,
+ * Tactical Web Audio, and 2-Second TelemetryBus Real-Time Synchronization.
+ */
+
+class NexraFlow3D {
+    constructor(containerId) {
+        this.container = document.getElementById(containerId);
+        this.width = this.container.clientWidth || window.innerWidth;
+        this.height = this.container.clientHeight || window.innerHeight;
+
+        // Core Three.js components
+        this.scene = null;
+        this.camera = null;
+        this.renderer = null;
+        this.controls = null;
+        this.clock = new THREE.Clock();
+
+        // Raycasting & Inspection
+        this.raycaster = new THREE.Raycaster();
+        this.mouse = new THREE.Vector2();
+        this.selectedObject = null;
+
+        // Scene objects
+        this.vehicles = [];
+        this.signals = [];
+        this.buildings = [];
+        this.streetlights = [];
+        this.flyoverMesh = null;
+        this.flyoverCurve = null;
+        this.cyberTowers = null;
+        this.waterPlane = null;
+        this.rainSystem = null;
+        this.incidentGroup = new THREE.Group();
+        this.ambulance = null;
+
+        // Visual modes
+        this.isWireframeHolo = false;
+        this.cameraMode = 'aerial';
+        this.autoRotate = false;
+        this.audioMuted = false;
+
+        // Live Corridor Telemetry
+        this.scenarioId = 'nominal';
+        this.corridorSpeed = 46.5;
+        this.flowPCU = 1820;
+        this.signalPhase = 'GREEN';
+        // Theme & Lighting Modes (Default: Dark Mode)
+        this.currentTheme = localStorage.getItem('nexraflow_theme_app3') || 'dark';
+        this.ambientLight = null;
+        this.dirLight = null;
+        this.fillLight = null;
+        this.ground = null;
+        this.gridHelper = null;
+
+        this._initEngine();
+        this._initAudio();
+        this._buildEnvironment();
+        this._buildRoadwaysAndFlyover();
+        this._buildStreetlights();
+        this._buildCyberTowersLandmark();
+        this._buildSkyscrapers();
+        this._buildTrafficSignals();
+        this._initVehicles();
+        this._initWeatherEffects();
+        this._initRaycaster();
+        this._initTelemetrySync();
+        this.setTheme(this.currentTheme, false);
+        this._animate();
+    }
+
+    /* ==========================================================================
+       1. ULTRA-SHARP THREE.JS ENGINE
+       ========================================================================== */
+    _initEngine() {
+        this.scene = new THREE.Scene();
+        this.scene.background = new THREE.Color(0x040812);
+        this.scene.fog = new THREE.FogExp2(0x040812, 0.002);
+
+        this.camera = new THREE.PerspectiveCamera(45, this.width / this.height, 1, 3500);
+        this.camera.position.set(0, 180, 260);
+
+        // High-DPI Razor-Sharp WebGL Renderer
+        this.renderer = new THREE.WebGLRenderer({
+            antialias: true,
+            powerPreference: 'high-performance',
+            stencil: false,
+            depth: true
+        });
+        this.renderer.setSize(this.width, this.height);
+        this.renderer.setPixelRatio(window.devicePixelRatio || 1);
+        this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        this.renderer.toneMappingExposure = 1.3;
+        this.renderer.outputEncoding = THREE.sRGBEncoding;
+        this.container.appendChild(this.renderer.domElement);
+
+        this.controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
+        this.controls.enableDamping = true;
+        this.controls.dampingFactor = 0.06;
+        this.controls.maxPolarAngle = Math.PI / 2 - 0.02;
+        this.controls.minDistance = 15;
+        this.controls.maxDistance = 750;
+        this.controls.target.set(0, 15, 0);
+
+        // Crisp SCADA Lighting (Configured for Dynamic Day/Night Mode)
+        this.ambientLight = new THREE.AmbientLight(0x1a2942, 1.5);
+        this.scene.add(this.ambientLight);
+
+        this.dirLight = new THREE.DirectionalLight(0x38bdf8, 1.4);
+        this.dirLight.position.set(120, 260, 100);
+        this.scene.add(this.dirLight);
+
+        this.fillLight = new THREE.DirectionalLight(0x818cf8, 0.7);
+        this.fillLight.position.set(-140, 160, -120);
+        this.scene.add(this.fillLight);
+
+        window.addEventListener('resize', () => this.onWindowResize());
+    }
+
+    onWindowResize() {
+        this.width = this.container.clientWidth || window.innerWidth;
+        this.height = this.container.clientHeight || window.innerHeight;
+        this.camera.aspect = this.width / this.height;
+        this.camera.updateProjectionMatrix();
+        this.renderer.setSize(this.width, this.height);
+        this.renderer.setPixelRatio(window.devicePixelRatio || 1);
+    }
+
+    /* ==========================================================================
+       2. TACTICAL WEB AUDIO SYNTHESIZER
+       ========================================================================== */
+    _initAudio() {
+        try {
+            const AudioContext = window.AudioContext || window.webkitAudioContext;
+            this.audioCtx = new AudioContext();
+        } catch (e) {
+            this.audioCtx = null;
+        }
+    }
+
+    playUiPing(freq = 880, duration = 0.08) {
+        if (this.audioMuted || !this.audioCtx) return;
+        if (this.audioCtx.state === 'suspended') this.audioCtx.resume();
+
+        const osc = this.audioCtx.createOscillator();
+        const gain = this.audioCtx.createGain();
+
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, this.audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(freq * 1.5, this.audioCtx.currentTime + duration);
+
+        gain.gain.setValueAtTime(0.08, this.audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, this.audioCtx.currentTime + duration);
+
+        osc.connect(gain);
+        gain.connect(this.audioCtx.destination);
+
+        osc.start();
+        osc.stop(this.audioCtx.currentTime + duration);
+    }
+
+    playSirenChime() {
+        if (this.audioMuted || !this.audioCtx) return;
+        if (this.audioCtx.state === 'suspended') this.audioCtx.resume();
+
+        const now = this.audioCtx.currentTime;
+        const osc = this.audioCtx.createOscillator();
+        const gain = this.audioCtx.createGain();
+
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(650, now);
+        osc.frequency.linearRampToValueAtTime(950, now + 0.25);
+        osc.frequency.linearRampToValueAtTime(650, now + 0.5);
+
+        gain.gain.setValueAtTime(0.09, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.55);
+
+        osc.connect(gain);
+        gain.connect(this.audioCtx.destination);
+
+        osc.start(now);
+        osc.stop(now + 0.55);
+    }
+
+    /* ==========================================================================
+       3. ENVIRONMENT & TERRAIN
+       ========================================================================== */
+    _buildEnvironment() {
+        const groundGeo = new THREE.PlaneGeometry(1400, 1400);
+        const groundMat = new THREE.MeshStandardMaterial({
+            color: 0x060b16,
+            roughness: 0.95,
+            metalness: 0.1
+        });
+        this.ground = new THREE.Mesh(groundGeo, groundMat);
+        this.ground.rotation.x = -Math.PI / 2;
+        this.ground.position.y = -0.15;
+        this.scene.add(this.ground);
+
+        // Ground Reference Grid
+        this.gridHelper = new THREE.GridHelper(1200, 120, 0x0891b2, 0x082f49);
+        this.gridHelper.position.y = 0;
+        this.scene.add(this.gridHelper);
+
+        this.scene.add(this.incidentGroup);
+    }
+
+    /* ==========================================================================
+       4. ROAD NETWORK, FLYOVER & BYPASS
+       ========================================================================== */
+    _buildRoadwaysAndFlyover() {
+        const roadGroup = new THREE.Group();
+
+        // 6-Lane Surface Arterial Highway
+        const mainRoadGeo = new THREE.PlaneGeometry(40, 840);
+        const mainRoadMat = new THREE.MeshStandardMaterial({
+            color: 0x0e1726,
+            roughness: 0.6,
+            metalness: 0.25
+        });
+        const mainRoad = new THREE.Mesh(mainRoadGeo, mainRoadMat);
+        mainRoad.rotation.x = -Math.PI / 2;
+        mainRoad.position.set(0, 0.1, 0);
+        roadGroup.add(mainRoad);
+
+        // Curbs with sharp neon borders
+        const curbMat = new THREE.MeshBasicMaterial({ color: 0x0284c7 });
+        const leftCurb = new THREE.Mesh(new THREE.BoxGeometry(0.8, 0.5, 840), curbMat);
+        leftCurb.position.set(-20.4, 0.25, 0);
+        roadGroup.add(leftCurb);
+
+        const rightCurb = new THREE.Mesh(new THREE.BoxGeometry(0.8, 0.5, 840), curbMat);
+        rightCurb.position.set(20.4, 0.25, 0);
+        roadGroup.add(rightCurb);
+
+        // Lane divider lines
+        const dashMat = new THREE.MeshBasicMaterial({ color: 0x38bdf8 });
+        [-10, 0, 10].forEach(laneX => {
+            for (let z = -400; z <= 400; z += 12) {
+                const dash = new THREE.Mesh(new THREE.PlaneGeometry(0.4, 6), dashMat);
+                dash.rotation.x = -Math.PI / 2;
+                dash.position.set(laneX, 0.2, z);
+                roadGroup.add(dash);
+            }
+        });
+
+        // Center double amber line
+        const centerLine = new THREE.Mesh(new THREE.PlaneGeometry(0.8, 840), new THREE.MeshBasicMaterial({ color: 0xf59e0b }));
+        centerLine.rotation.x = -Math.PI / 2;
+        centerLine.position.set(0, 0.21, 0);
+        roadGroup.add(centerLine);
+
+        // Elevated Flyover
+        const flyoverGroup = new THREE.Group();
+        const flyoverWidth = 20;
+
+        const curve = new THREE.CatmullRomCurve3([
+            new THREE.Vector3(0, 0.5, -130),
+            new THREE.Vector3(0, 10, -65),
+            new THREE.Vector3(0, 18, 0),
+            new THREE.Vector3(0, 10, 65),
+            new THREE.Vector3(0, 0.5, 130)
+        ]);
+
+        const deckShape = new THREE.Shape();
+        deckShape.moveTo(-flyoverWidth / 2, 0);
+        deckShape.lineTo(flyoverWidth / 2, 0);
+        deckShape.lineTo(flyoverWidth / 2 - 0.6, -2.2);
+        deckShape.lineTo(-flyoverWidth / 2 + 0.6, -2.2);
+        deckShape.closePath();
+
+        const extrudeSettings = { steps: 50, extrudePath: curve, bevelEnabled: false };
+        const deckGeo = new THREE.ExtrudeGeometry(deckShape, extrudeSettings);
+        const deckMat = new THREE.MeshStandardMaterial({ color: 0x111e33, roughness: 0.5, metalness: 0.4 });
+        this.flyoverMesh = new THREE.Mesh(deckGeo, deckMat);
+        this.flyoverMesh.name = 'Mindspace Elevated Flyover Viaduct';
+        flyoverGroup.add(this.flyoverMesh);
+
+        // Glowing Guardrails
+        const railCurveLeft = new THREE.CatmullRomCurve3([
+            new THREE.Vector3(-flyoverWidth / 2, 1.2, -130),
+            new THREE.Vector3(-flyoverWidth / 2, 11.2, -65),
+            new THREE.Vector3(-flyoverWidth / 2, 19.2, 0),
+            new THREE.Vector3(-flyoverWidth / 2, 11.2, 65),
+            new THREE.Vector3(-flyoverWidth / 2, 1.2, 130)
+        ]);
+        const leftRail = new THREE.Mesh(new THREE.TubeGeometry(railCurveLeft, 35, 0.35, 8, false), new THREE.MeshBasicMaterial({ color: 0x06b6d4 }));
+        flyoverGroup.add(leftRail);
+
+        const railCurveRight = new THREE.CatmullRomCurve3([
+            new THREE.Vector3(flyoverWidth / 2, 1.2, -130),
+            new THREE.Vector3(flyoverWidth / 2, 11.2, -65),
+            new THREE.Vector3(flyoverWidth / 2, 19.2, 0),
+            new THREE.Vector3(flyoverWidth / 2, 11.2, 65),
+            new THREE.Vector3(flyoverWidth / 2, 1.2, 130)
+        ]);
+        const rightRail = new THREE.Mesh(new THREE.TubeGeometry(railCurveRight, 35, 0.35, 8, false), new THREE.MeshBasicMaterial({ color: 0x06b6d4 }));
+        flyoverGroup.add(rightRail);
+
+        // Pillars
+        const pillarGeo = new THREE.CylinderGeometry(1.8, 1.8, 18, 16);
+        const pillarMat = new THREE.MeshStandardMaterial({ color: 0x1e293b, roughness: 0.8 });
+
+        const p1 = new THREE.Mesh(pillarGeo, pillarMat);
+        p1.position.set(0, 7.5, -45);
+        p1.scale.set(1, 13 / 18, 1);
+        flyoverGroup.add(p1);
+
+        const p2 = new THREE.Mesh(pillarGeo, pillarMat);
+        p2.position.set(0, 9, 0);
+        flyoverGroup.add(p2);
+
+        const p3 = new THREE.Mesh(pillarGeo, pillarMat);
+        p3.position.set(0, 7.5, 45);
+        p3.scale.set(1, 13 / 18, 1);
+        flyoverGroup.add(p3);
+
+        this.flyoverCurve = curve;
+        roadGroup.add(flyoverGroup);
+
+        // Durgam Cheruvu Bypass Link
+        const bypassCurve = new THREE.CatmullRomCurve3([
+            new THREE.Vector3(20, 0.2, -50),
+            new THREE.Vector3(65, 4, -10),
+            new THREE.Vector3(125, 8, 40),
+            new THREE.Vector3(185, 2, 130)
+        ]);
+        const bypassMesh = new THREE.Mesh(
+            new THREE.TubeGeometry(bypassCurve, 35, 4.5, 6, false),
+            new THREE.MeshStandardMaterial({ color: 0x083344, roughness: 0.6, metalness: 0.3 })
+        );
+        bypassMesh.scale.set(1, 0.05, 1);
+        roadGroup.add(bypassMesh);
+
+        // Cable Bridge Pylons
+        const cableBridgeTower = new THREE.Group();
+        const pylonGeo = new THREE.CylinderGeometry(0.9, 2.0, 48, 8);
+        const pylonMat = new THREE.MeshStandardMaterial({ color: 0x06b6d4, emissive: 0x083344 });
+        const pylon1 = new THREE.Mesh(pylonGeo, pylonMat);
+        pylon1.position.set(125, 21, 36);
+        pylon1.rotation.z = -0.15;
+        cableBridgeTower.add(pylon1);
+
+        const pylon2 = new THREE.Mesh(pylonGeo, pylonMat);
+        pylon2.position.set(125, 21, 44);
+        pylon2.rotation.z = 0.15;
+        cableBridgeTower.add(pylon2);
+
+        const cableMat = new THREE.LineBasicMaterial({ color: 0x38bdf8, opacity: 0.7, transparent: true });
+        for (let i = -3; i <= 3; i++) {
+            const cableGeo = new THREE.BufferGeometry().setFromPoints([
+                new THREE.Vector3(125, 38, 40),
+                new THREE.Vector3(125 + i * 15, 8, 40)
+            ]);
+            cableBridgeTower.add(new THREE.Line(cableGeo, cableMat));
+        }
+        roadGroup.add(cableBridgeTower);
+
+        this.scene.add(roadGroup);
+    }
+
+    /* ==========================================================================
+       5. 3D STREETLIGHTS & ASPHALT ILLUMINATION
+       ========================================================================== */
+    _buildStreetlights() {
+        const streetGroup = new THREE.Group();
+        const poleGeo = new THREE.CylinderGeometry(0.25, 0.3, 14, 8);
+        const poleMat = new THREE.MeshStandardMaterial({ color: 0x475569, metalness: 0.7, roughness: 0.3 });
+        const lampMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
+
+        for (let z = -380; z <= 380; z += 55) {
+            // Left Pole
+            const leftPole = new THREE.Mesh(poleGeo, poleMat);
+            leftPole.position.set(-22, 7, z);
+            streetGroup.add(leftPole);
+
+            const lampLeft = new THREE.Mesh(new THREE.SphereGeometry(0.6, 8, 8), lampMat);
+            lampLeft.position.set(-20, 13.8, z);
+            streetGroup.add(lampLeft);
+
+            // Right Pole
+            const rightPole = new THREE.Mesh(poleGeo, poleMat);
+            rightPole.position.set(22, 7, z);
+            streetGroup.add(rightPole);
+
+            const lampRight = new THREE.Mesh(new THREE.SphereGeometry(0.6, 8, 8), lampMat);
+            lampRight.position.set(20, 13.8, z);
+            streetGroup.add(lampRight);
+        }
+
+        this.scene.add(streetGroup);
+    }
+
+    /* ==========================================================================
+       6. CYBER TOWERS PROCEDURAL LANDMARK
+       ========================================================================== */
+    _buildCyberTowersLandmark() {
+        const ctGroup = new THREE.Group();
+        ctGroup.position.set(-90, 0, -220);
+        ctGroup.name = 'Cyber Towers (J-01 Iconic Landmark)';
+
+        const baseGeo = new THREE.CylinderGeometry(28, 30, 8, 32);
+        const baseMat = new THREE.MeshStandardMaterial({ color: 0x0f172a, roughness: 0.5 });
+        const base = new THREE.Mesh(baseGeo, baseMat);
+        base.position.y = 4;
+        ctGroup.add(base);
+
+        const coreGeo = new THREE.CylinderGeometry(24, 26, 65, 32);
+        const coreMat = new THREE.MeshStandardMaterial({ color: 0x0a192f, roughness: 0.3, metalness: 0.7 });
+        const core = new THREE.Mesh(coreGeo, coreMat);
+        core.position.y = 36.5;
+        ctGroup.add(core);
+
+        const bandMat = new THREE.MeshBasicMaterial({ color: 0x38bdf8 });
+        for (let y = 15; y < 65; y += 8) {
+            const band = new THREE.Mesh(new THREE.CylinderGeometry(24.2, 24.2, 1.2, 32), bandMat);
+            band.position.y = y;
+            ctGroup.add(band);
+        }
+
+        const dome = new THREE.Mesh(
+            new THREE.SphereGeometry(18, 32, 16, 0, Math.PI * 2, 0, Math.PI / 2),
+            new THREE.MeshStandardMaterial({ color: 0x0284c7, roughness: 0.2, metalness: 0.8 })
+        );
+        dome.position.y = 69;
+        ctGroup.add(dome);
+
+        const antenna = new THREE.Mesh(new THREE.CylinderGeometry(0.6, 0.6, 30, 8), new THREE.MeshBasicMaterial({ color: 0x38bdf8 }));
+        antenna.position.y = 90;
+        ctGroup.add(antenna);
+
+        const beaconMat = new THREE.MeshBasicMaterial({ color: 0xef4444 });
+        this.ctBeacon = new THREE.Mesh(new THREE.SphereGeometry(2.2, 16, 16), beaconMat);
+        this.ctBeacon.position.y = 105;
+        ctGroup.add(this.ctBeacon);
+
+        const plate = new THREE.Mesh(new THREE.BoxGeometry(44, 6, 2), new THREE.MeshBasicMaterial({ color: 0x0284c7 }));
+        plate.position.set(0, 18, 27);
+        ctGroup.add(plate);
+
+        this.cyberTowers = ctGroup;
+        this.scene.add(ctGroup);
+    }
+
+    /* ==========================================================================
+       7. CYBERABAD SKYSCRAPERS & WIREFRAME MODE
+       ========================================================================== */
+    _buildSkyscrapers() {
+        this.buildingGroup = new THREE.Group();
+        const buildingMat = new THREE.MeshStandardMaterial({ color: 0x09111e, roughness: 0.4, metalness: 0.8 });
+        const edgeMat = new THREE.LineBasicMaterial({ color: 0x1e3a5f });
+        const windowGlowMat = new THREE.MeshBasicMaterial({ color: 0x38bdf8, opacity: 0.85, transparent: true });
+
+        const buildingLocations = [];
+
+        for (let z = -360; z <= 360; z += 55) {
+            const x = -48 - Math.random() * 85;
+            const h = 42 + Math.random() * 105;
+            const w = 22 + Math.random() * 22;
+            const d = 22 + Math.random() * 22;
+            buildingLocations.push({ x, z, h, w, d, name: `Tech Park Tower W-${Math.floor((z + 400) / 40)}` });
+        }
+
+        for (let z = -360; z <= 360; z += 58) {
+            const x = 52 + Math.random() * 95;
+            const h = 38 + Math.random() * 115;
+            const w = 20 + Math.random() * 24;
+            const d = 20 + Math.random() * 24;
+            buildingLocations.push({ x, z, h, w, d, name: `Knowledge City Tower E-${Math.floor((z + 400) / 40)}` });
+        }
+
+        buildingLocations.forEach(b => {
+            const geo = new THREE.BoxGeometry(b.w, b.h, b.d);
+            const mesh = new THREE.Mesh(geo, buildingMat.clone());
+            mesh.position.set(b.x, b.h / 2, b.z);
+            mesh.name = b.name;
+            this.buildingGroup.add(mesh);
+
+            const wire = new THREE.LineSegments(new THREE.EdgesGeometry(geo), edgeMat);
+            wire.position.copy(mesh.position);
+            this.buildingGroup.add(wire);
+
+            if (Math.random() < 0.65) {
+                const win = new THREE.Mesh(new THREE.BoxGeometry(b.w * 0.85, 1.6, b.d + 0.3), windowGlowMat);
+                win.position.set(b.x, b.h * 0.72, b.z);
+                this.buildingGroup.add(win);
+            }
+
+            this.buildings.push(mesh);
+        });
+
+        this.scene.add(this.buildingGroup);
+    }
+
+    toggleHoloWireframe() {
+        this.isWireframeHolo = !this.isWireframeHolo;
+        this.buildings.forEach(b => {
+            b.material.wireframe = this.isWireframeHolo;
+            b.material.color.setHex(this.isWireframeHolo ? 0x06b6d4 : 0x09111e);
+        });
+        if (this.flyoverMesh) {
+            this.flyoverMesh.material.wireframe = this.isWireframeHolo;
+        }
+        return this.isWireframeHolo;
+    }
+
+    /* ==========================================================================
+       8. DYNAMIC 3D TRAFFIC SIGNAL GANTRIES
+       ========================================================================== */
+    _buildTrafficSignals() {
+        const gantryZPositions = [-180, -30, 160];
+
+        gantryZPositions.forEach(z => {
+            const gantry = new THREE.Group();
+            gantry.position.set(0, 0, z);
+
+            const trussMat = new THREE.MeshStandardMaterial({ color: 0x334155, metalness: 0.7, roughness: 0.3 });
+            const leftLeg = new THREE.Mesh(new THREE.CylinderGeometry(0.6, 0.6, 16, 8), trussMat);
+            leftLeg.position.set(-21, 8, 0);
+            gantry.add(leftLeg);
+
+            const rightLeg = new THREE.Mesh(new THREE.CylinderGeometry(0.6, 0.6, 16, 8), trussMat);
+            rightLeg.position.set(21, 8, 0);
+            gantry.add(rightLeg);
+
+            const crossbeam = new THREE.Mesh(new THREE.BoxGeometry(43, 1.2, 1.2), trussMat);
+            crossbeam.position.set(0, 15.5, 0);
+            gantry.add(crossbeam);
+
+            const laneSignals = [];
+            [-12, -4, 4, 12].forEach(laneX => {
+                const box = new THREE.Mesh(new THREE.BoxGeometry(1.6, 4.2, 1.2), new THREE.MeshStandardMaterial({ color: 0x0f172a }));
+                box.position.set(laneX, 13.5, 0);
+
+                const lensGeo = new THREE.CylinderGeometry(0.4, 0.4, 0.4, 16);
+                lensGeo.rotateX(Math.PI / 2);
+
+                const redLens = new THREE.Mesh(lensGeo, new THREE.MeshBasicMaterial({ color: 0x330000 }));
+                redLens.position.set(0, 1.2, 0.6);
+                box.add(redLens);
+
+                const amberLens = new THREE.Mesh(lensGeo, new THREE.MeshBasicMaterial({ color: 0x332200 }));
+                amberLens.position.set(0, 0, 0.6);
+                box.add(amberLens);
+
+                const greenLens = new THREE.Mesh(lensGeo, new THREE.MeshBasicMaterial({ color: 0x10b981 }));
+                greenLens.position.set(0, -1.2, 0.6);
+                box.add(greenLens);
+
+                gantry.add(box);
+                laneSignals.push({ red: redLens, amber: amberLens, green: greenLens });
+            });
+
+            const signalSpot = new THREE.SpotLight(0x10b981, 2.8, 40, Math.PI / 5, 0.5);
+            signalSpot.position.set(0, 15, 2);
+            signalSpot.target.position.set(0, 0, 12);
+            gantry.add(signalSpot);
+            gantry.add(signalSpot.target);
+
+            this.signals.push({ gantry, laneSignals, spot: signalSpot, phase: 'green' });
+            this.scene.add(gantry);
+        });
+    }
+
+    setSignalPhase(phase) {
+        const p = (phase || 'GREEN').toLowerCase();
+        this.signals.forEach(s => {
+            s.phase = p;
+            const isGreen = p === 'green';
+            const isRed = p === 'red';
+            const isAmber = p === 'amber';
+
+            s.laneSignals.forEach(ls => {
+                ls.green.material.color.setHex(isGreen ? 0x10b981 : 0x064e3b);
+                ls.red.material.color.setHex(isRed ? 0xef4444 : 0x450a0a);
+                ls.amber.material.color.setHex(isAmber ? 0xf59e0b : 0x451a03);
+            });
+
+            s.spot.color.setHex(isGreen ? 0x10b981 : (isRed ? 0xef4444 : 0xf59e0b));
+        });
+    }
+
+    /* ==========================================================================
+       9. 3D IRC:106 VEHICLE FLEET
+       ========================================================================== */
+    _initVehicles() {
+        this.vehicleGroup = new THREE.Group();
+        this.scene.add(this.vehicleGroup);
+
+        const numVehicles = 65;
+        for (let i = 0; i < numVehicles; i++) {
+            const rand = Math.random();
+            let type = 'car';
+            if (rand < 0.45) type = '2w';
+            else if (rand < 0.63) type = 'auto';
+            else if (rand < 0.88) type = 'car';
+            else type = 'bus';
+
+            const vehicleMesh = this._createVehicleModel(type, i);
+            const lane = Math.floor(Math.random() * 4);
+            const laneOffsets = [-12, -4, 4, 12];
+            const useFlyover = Math.random() < 0.45;
+
+            this.vehicles.push({
+                id: `HYD-${type.toUpperCase()}-${1000 + i}`,
+                mesh: vehicleMesh,
+                type: type,
+                lane: lane,
+                baseLaneX: laneOffsets[lane],
+                currentLaneX: laneOffsets[lane],
+                z: -390 + Math.random() * 780,
+                speedMultiplier: 0.82 + Math.random() * 0.36,
+                useFlyover: useFlyover,
+                isBypass: false
+            });
+
+            this.vehicleGroup.add(vehicleMesh);
+        }
+    }
+
+    _createVehicleModel(type, idx) {
+        const v = new THREE.Group();
+        v.name = `Vehicle #${idx} (${type.toUpperCase()})`;
+
+        if (type === '2w') {
+            const body = new THREE.Mesh(new THREE.BoxGeometry(0.8, 1.1, 2.2), new THREE.MeshStandardMaterial({ color: 0x38bdf8, roughness: 0.3 }));
+            body.position.y = 0.8;
+            v.add(body);
+
+            const hl = new THREE.Mesh(new THREE.SphereGeometry(0.2, 8, 8), new THREE.MeshBasicMaterial({ color: 0xffffff }));
+            hl.position.set(0, 0.9, 1.15);
+            v.add(hl);
+
+            const tl = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.2, 0.1), new THREE.MeshBasicMaterial({ color: 0xef4444 }));
+            tl.position.set(0, 0.7, -1.15);
+            v.add(tl);
+        } else if (type === 'auto') {
+            const lower = new THREE.Mesh(new THREE.BoxGeometry(1.6, 1.0, 2.6), new THREE.MeshStandardMaterial({ color: 0x15803d }));
+            lower.position.y = 0.7;
+            v.add(lower);
+
+            const hood = new THREE.Mesh(new THREE.BoxGeometry(1.5, 0.9, 2.4), new THREE.MeshStandardMaterial({ color: 0xfacc15, roughness: 0.2 }));
+            hood.position.y = 1.6;
+            v.add(hood);
+
+            const hl = new THREE.Mesh(new THREE.SphereGeometry(0.25, 8, 8), new THREE.MeshBasicMaterial({ color: 0xffffff }));
+            hl.position.set(0, 0.9, 1.35);
+            v.add(hl);
+        } else if (type === 'bus') {
+            const busBody = new THREE.Mesh(new THREE.BoxGeometry(2.8, 3.2, 10.5), new THREE.MeshStandardMaterial({ color: 0xdc2626, roughness: 0.4 }));
+            busBody.position.y = 1.9;
+            v.add(busBody);
+
+            const roof = new THREE.Mesh(new THREE.BoxGeometry(2.82, 0.4, 10.52), new THREE.MeshBasicMaterial({ color: 0xffffff }));
+            roof.position.y = 3.6;
+            v.add(roof);
+
+            const winMat = new THREE.MeshBasicMaterial({ color: 0x7dd3fc, opacity: 0.8, transparent: true });
+            const winLeft = new THREE.Mesh(new THREE.BoxGeometry(0.1, 1.0, 9.5), winMat);
+            winLeft.position.set(-1.42, 2.2, 0);
+            v.add(winLeft);
+
+            const winRight = new THREE.Mesh(new THREE.BoxGeometry(0.1, 1.0, 9.5), winMat);
+            winRight.position.set(1.42, 2.2, 0);
+            v.add(winRight);
+
+            const hl1 = new THREE.Mesh(new THREE.SphereGeometry(0.3, 8, 8), new THREE.MeshBasicMaterial({ color: 0xffffff }));
+            hl1.position.set(-0.9, 1.0, 5.3);
+            v.add(hl1);
+            const hl2 = new THREE.Mesh(new THREE.SphereGeometry(0.3, 8, 8), new THREE.MeshBasicMaterial({ color: 0xffffff }));
+            hl2.position.set(0.9, 1.0, 5.3);
+            v.add(hl2);
+        } else {
+            const colors = [0xf8fafc, 0x94a3b8, 0x0284c7, 0x334155, 0xd97706];
+            const carColor = colors[Math.floor(Math.random() * colors.length)];
+            const chassis = new THREE.Mesh(new THREE.BoxGeometry(2.0, 0.8, 4.4), new THREE.MeshStandardMaterial({ color: carColor, roughness: 0.2, metalness: 0.6 }));
+            chassis.position.y = 0.6;
+            v.add(chassis);
+
+            const cabin = new THREE.Mesh(new THREE.BoxGeometry(1.8, 0.7, 2.5), new THREE.MeshStandardMaterial({ color: 0x0f172a }));
+            cabin.position.set(0, 1.3, -0.3);
+            v.add(cabin);
+
+            const hl1 = new THREE.Mesh(new THREE.SphereGeometry(0.22, 8, 8), new THREE.MeshBasicMaterial({ color: 0xffffff }));
+            hl1.position.set(-0.7, 0.65, 2.25);
+            v.add(hl1);
+            const hl2 = new THREE.Mesh(new THREE.SphereGeometry(0.22, 8, 8), new THREE.MeshBasicMaterial({ color: 0xffffff }));
+            hl2.position.set(0.7, 0.65, 2.25);
+            v.add(hl2);
+
+            const tl1 = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.2, 0.1), new THREE.MeshBasicMaterial({ color: 0xef4444 }));
+            tl1.position.set(-0.7, 0.7, -2.25);
+            v.add(tl1);
+            const tl2 = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.2, 0.1), new THREE.MeshBasicMaterial({ color: 0xef4444 }));
+            tl2.position.set(0.7, 0.7, -2.25);
+            v.add(tl2);
+        }
+
+        return v;
+    }
+
+    /* ==========================================================================
+       10. RAYCASTER CLICK-TO-INSPECT (Holographic Card)
+       ========================================================================== */
+    _initRaycaster() {
+        this.renderer.domElement.addEventListener('pointerdown', (e) => {
+            const rect = this.renderer.domElement.getBoundingClientRect();
+            this.mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+            this.mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+
+            this.raycaster.setFromCamera(this.mouse, this.camera);
+
+            // Targets: Vehicles, Cyber Towers, Flyover
+            const clickableTargets = [];
+            this.vehicles.forEach(v => clickableTargets.push(v.mesh));
+            if (this.cyberTowers) clickableTargets.push(this.cyberTowers);
+            if (this.flyoverMesh) clickableTargets.push(this.flyoverMesh);
+
+            const intersects = this.raycaster.intersectObjects(clickableTargets, true);
+            if (intersects.length > 0) {
+                const hit = intersects[0];
+                this._handleObjectClick(hit);
+            }
+        });
+    }
+
+    _handleObjectClick(hit) {
+        this.playUiPing(1040, 0.09);
+
+        // Find if vehicle
+        let parentVehicle = null;
+        let obj = hit.object;
+        while (obj && obj.parent) {
+            const found = this.vehicles.find(v => v.mesh === obj);
+            if (found) {
+                parentVehicle = found;
+                break;
+            }
+            obj = obj.parent;
+        }
+
+        let detail = {};
+        if (parentVehicle) {
+            const v = parentVehicle;
+            const weightMap = { '2w': '0.5 PCU', 'auto': '1.2 PCU', 'car': '1.0 PCU', 'bus': '3.0 PCU' };
+            const typeMap = { '2w': 'Two-Wheeler (Motorbike)', 'auto': 'Auto-Rickshaw (3-Wheeler)', 'car': 'Sedan / Cab', 'bus': 'TSRTC Heavy Bus' };
+            detail = {
+                title: `VEHICLE ${v.id}`,
+                badge: typeMap[v.type] || 'Vehicle',
+                fields: [
+                    { label: 'IRC:106 Weight', value: weightMap[v.type] || '1.0 PCU' },
+                    { label: 'Speed', value: `${(this.corridorSpeed * v.speedMultiplier).toFixed(1)} km/h` },
+                    { label: 'Lane', value: `Lane ${v.lane + 1} (${v.useFlyover ? 'Flyover Deck' : 'Surface Highway'})` },
+                    { label: 'Telemetry Health', value: '100% Synced' }
+                ]
+            };
+        } else if (hit.object.name && hit.object.name.includes('Flyover')) {
+            detail = {
+                title: 'INFRASTRUCTURE NODE: MINDSPACE FLYOVER',
+                badge: 'GRADE-SEPARATED VIADUCT',
+                fields: [
+                    { label: 'Length', value: '240 Meters' },
+                    { label: 'Grade Slope', value: '+4.2% Incline' },
+                    { label: 'Design Speed', value: '50 km/h' },
+                    { label: 'IRC Code', value: 'IRC:SP:41 Compliant' }
+                ]
+            };
+        } else {
+            detail = {
+                title: 'JUNCTION: CYBER TOWERS (J-01)',
+                badge: 'ARTERIAL LANDMARK',
+                fields: [
+                    { label: 'GPS Coords', value: '17.4504° N, 78.3808° E' },
+                    { label: 'Design Capacity', value: '3,800 PCU/h' },
+                    { label: 'Active Queue', value: '45 PCU' },
+                    { label: 'Signal Status', value: `${this.signalPhase} (${this.signalSeconds}s)` }
+                ]
+            };
+        }
+
+        // Dispatch to DOM overlay
+        window.dispatchEvent(new CustomEvent('nexraflow:3d_inspect', { detail }));
+    }
+
+    /* ==========================================================================
+       11. WEATHER & MONSOON STORM
+       ========================================================================== */
+    _initWeatherEffects() {
+        const rainCount = 3000;
+        const rainGeo = new THREE.BufferGeometry();
+        const rainPositions = new Float32Array(rainCount * 3);
+
+        for (let i = 0; i < rainCount * 3; i += 3) {
+            rainPositions[i] = (Math.random() - 0.5) * 420;
+            rainPositions[i + 1] = Math.random() * 220;
+            rainPositions[i + 2] = (Math.random() - 0.5) * 650;
+        }
+
+        rainGeo.setAttribute('position', new THREE.BufferAttribute(rainPositions, 3));
+        this.rainSystem = new THREE.Points(rainGeo, new THREE.PointsMaterial({
+            color: 0x7dd3fc,
+            size: 0.65,
+            transparent: true,
+            opacity: 0.0
+        }));
+        this.scene.add(this.rainSystem);
+
+        this.waterPlane = new THREE.Mesh(
+            new THREE.PlaneGeometry(38, 130),
+            new THREE.MeshStandardMaterial({ color: 0x0284c7, roughness: 0.1, metalness: 0.85, transparent: true, opacity: 0.0 })
+        );
+        this.waterPlane.rotation.x = -Math.PI / 2;
+        this.waterPlane.position.set(0, 0.35, 160);
+        this.scene.add(this.waterPlane);
+    }
+
+    /* ==========================================================================
+       12. SCENARIO CONTROLLER & INCIDENTS
+       ========================================================================== */
+    applyScenario(scenarioId) {
+        this.scenarioId = scenarioId;
+
+        while (this.incidentGroup.children.length > 0) {
+            this.incidentGroup.remove(this.incidentGroup.children[0]);
+        }
+
+        if (this.rainSystem) this.rainSystem.material.opacity = 0.0;
+        if (this.waterPlane) this.waterPlane.material.opacity = 0.0;
+        this.scene.fog.color.setHex(0x040812);
+        this.scene.fog.density = 0.002;
+
+        if (scenarioId === 'nominal') {
+            this.corridorSpeed = 46.5;
+            this.setSignalPhase('GREEN');
+        } else if (scenarioId === 'tsrtcBreakdown') {
+            this.corridorSpeed = 11.2;
+            this._spawnStalledTSRTCBus();
+        } else if (scenarioId === 'monsoonFlood') {
+            this.corridorSpeed = 8.5;
+            this._triggerMonsoonStorm();
+        } else if (scenarioId === 'flyoverCollision') {
+            this.corridorSpeed = 9.8;
+            this._spawnFlyoverCrash();
+        } else if (scenarioId === 'ambulanceCorridor') {
+            this.corridorSpeed = 55.0;
+            this.setSignalPhase('GREEN');
+            this._spawnEmergencyAmbulance();
+            this.playSirenChime();
+        }
+
+        const badge = document.getElementById('hud-scenario-name');
+        if (badge) badge.textContent = scenarioId.toUpperCase();
+    }
+
+    _spawnStalledTSRTCBus() {
+        const stalledBus = this._createVehicleModel('bus', 999);
+        stalledBus.position.set(4, 18.2, 10);
+        this.incidentGroup.add(stalledBus);
+
+        const hazardLight = new THREE.PointLight(0xf59e0b, 5, 30);
+        hazardLight.position.set(4, 21, 10);
+        this.incidentGroup.add(hazardLight);
+
+        const ring = new THREE.Mesh(
+            new THREE.RingGeometry(2, 20, 32),
+            new THREE.MeshBasicMaterial({ color: 0xef4444, side: THREE.DoubleSide, transparent: true, opacity: 0.65 })
+        );
+        ring.rotation.x = -Math.PI / 2;
+        ring.position.set(4, 18.3, 10);
+        this.incidentGroup.add(ring);
+
+        const smokeGeo = new THREE.DodecahedronGeometry(1.3);
+        const smokeMat = new THREE.MeshBasicMaterial({ color: 0x64748b, transparent: true, opacity: 0.6 });
+        for (let i = 0; i < 5; i++) {
+            const sm = new THREE.Mesh(smokeGeo, smokeMat);
+            sm.position.set(4 + (Math.random() - 0.5) * 2, 21 + i * 1.6, 14 + (Math.random() - 0.5) * 2);
+            this.incidentGroup.add(sm);
+        }
+    }
+
+    _triggerMonsoonStorm() {
+        if (this.rainSystem) this.rainSystem.material.opacity = 0.85;
+        if (this.waterPlane) this.waterPlane.material.opacity = 0.7;
+        this.scene.fog.color.setHex(0x0a1628);
+        this.scene.fog.density = 0.005;
+        this.setSignalPhase('AMBER');
+    }
+
+    _spawnFlyoverCrash() {
+        const crashCar1 = this._createVehicleModel('car', 888);
+        crashCar1.position.set(-4, 15.2, -40);
+        crashCar1.rotation.y = 0.45;
+        this.incidentGroup.add(crashCar1);
+
+        const crashCar2 = this._createVehicleModel('car', 889);
+        crashCar2.position.set(-2, 15.2, -36);
+        crashCar2.rotation.y = -0.75;
+        this.incidentGroup.add(crashCar2);
+
+        const crashLight = new THREE.PointLight(0xef4444, 5, 32);
+        crashLight.position.set(-3, 17, -38);
+        this.incidentGroup.add(crashLight);
+    }
+
+    _spawnEmergencyAmbulance() {
+        const amb = new THREE.Group();
+        amb.name = 'Emergency 108 Ambulance Unit';
+
+        const body = new THREE.Mesh(new THREE.BoxGeometry(2.4, 2.6, 6.2), new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.2 }));
+        body.position.y = 1.5;
+        amb.add(body);
+
+        const stripe = new THREE.Mesh(new THREE.BoxGeometry(2.42, 0.4, 6.22), new THREE.MeshBasicMaterial({ color: 0x10b981 }));
+        stripe.position.y = 1.6;
+        amb.add(stripe);
+
+        const sirenRed = new THREE.PointLight(0xef4444, 6, 45);
+        sirenRed.position.set(-0.8, 3.2, 1.5);
+        amb.add(sirenRed);
+
+        const sirenBlue = new THREE.PointLight(0x0284c7, 6, 45);
+        sirenBlue.position.set(0.8, 3.2, 1.5);
+        amb.add(sirenBlue);
+
+        amb.position.set(0, 0.2, -350);
+        this.ambulance = amb;
+        this.incidentGroup.add(amb);
+    }
+
+    /* ==========================================================================
+       13. CAMERA PRESETS
+       ========================================================================== */
+    setCameraMode(mode) {
+        this.cameraMode = mode;
+        this.playUiPing(780, 0.06);
+
+        if (mode === 'aerial') {
+            this._tweenCamera(0, 220, 280, 0, 15, 0);
+        } else if (mode === 'cybertowers') {
+            this._tweenCamera(-50, 45, -160, -90, 30, -220);
+        } else if (mode === 'flyover') {
+            this._tweenCamera(26, 34, -90, 0, 15, 0);
+        }
+    }
+
+    _tweenCamera(px, py, pz, tx, ty, tz) {
+        this.camera.position.set(px, py, pz);
+        this.controls.target.set(tx, ty, tz);
+        this.controls.update();
+    }
+
+    /* ==========================================================================
+       14. TELEMETRY BUS SYNC
+       ========================================================================== */
+    _initTelemetrySync() {
+        if (!window.telemetryBus) return;
+
+        window.telemetryBus.subscribe(packet => {
+            if (packet.scenarioId && packet.scenarioId !== this.scenarioId) {
+                this.applyScenario(packet.scenarioId);
+            }
+            if (packet.rawSpeedKmh) {
+                this.corridorSpeed = packet.rawSpeedKmh;
+            }
+            if (packet.flowPCU) {
+                this.flowPCU = packet.flowPCU;
+            }
+
+            // Real-time signal updates
+            if (packet.type === 'signal_update' && packet.signalState) {
+                this.signalPhase = packet.signalState.phase;
+                this.signalSeconds = packet.signalState.secondsRemaining;
+                this.setSignalPhase(this.signalPhase);
+
+                const phaseTimerEl = document.getElementById('hud-signal-timer');
+                if (phaseTimerEl) {
+                    phaseTimerEl.textContent = `${this.signalPhase} (${this.signalSeconds}s)`;
+                    phaseTimerEl.className = this.signalPhase === 'GREEN' ? 'text-emerald-400 font-bold' : (this.signalPhase === 'RED' ? 'text-red-400 font-bold' : 'text-amber-400 font-bold');
+                }
+            }
+
+            const speedEl = document.getElementById('hud-speed');
+            if (speedEl) speedEl.textContent = `${this.corridorSpeed.toFixed(1)} km/h`;
+
+            const flowEl = document.getElementById('hud-flow');
+            if (flowEl) flowEl.textContent = `${this.flowPCU} PCU/h`;
+        });
+    }
+
+    /* ==========================================================================
+       THEME & DAY/NIGHT LIGHTING
+       ========================================================================== */
+    setTheme(theme) {
+        this.currentTheme = theme;
+        const isDark = (theme === 'dark');
+        const root = document.documentElement;
+
+        if (isDark) {
+            root.classList.add('dark');
+            root.classList.remove('light');
+
+            // 3D Scene Night Atmosphere
+            if (this.scene) {
+                this.scene.background = new THREE.Color(0x040812);
+                if (this.scene.fog) {
+                    this.scene.fog.color = new THREE.Color(0x040812);
+                    this.scene.fog.density = 0.002;
+                }
+            }
+            if (this.ambientLight) {
+                this.ambientLight.color.setHex(0x1a2942);
+                this.ambientLight.intensity = 1.5;
+            }
+            if (this.dirLight) {
+                this.dirLight.color.setHex(0x38bdf8);
+                this.dirLight.intensity = 1.4;
+            }
+            if (this.fillLight) {
+                this.fillLight.color.setHex(0x818cf8);
+                this.fillLight.intensity = 0.7;
+            }
+            if (this.ground) {
+                this.ground.material.color.setHex(0x060b16);
+            }
+            if (this.gridHelper) {
+                this.gridHelper.visible = true;
+            }
+        } else {
+            root.classList.remove('dark');
+            root.classList.add('light');
+
+            // 3D Scene Daytime Atmosphere
+            if (this.scene) {
+                this.scene.background = new THREE.Color(0xd7e9f7);
+                if (this.scene.fog) {
+                    this.scene.fog.color = new THREE.Color(0xd7e9f7);
+                    this.scene.fog.density = 0.0012;
+                }
+            }
+            if (this.ambientLight) {
+                this.ambientLight.color.setHex(0xffffff);
+                this.ambientLight.intensity = 1.85;
+            }
+            if (this.dirLight) {
+                this.dirLight.color.setHex(0xfffaec);
+                this.dirLight.intensity = 1.8;
+            }
+            if (this.fillLight) {
+                this.fillLight.color.setHex(0xcae3f8);
+                this.fillLight.intensity = 0.85;
+            }
+            if (this.ground) {
+                this.ground.material.color.setHex(0xe2e8f0);
+            }
+            if (this.gridHelper) {
+                this.gridHelper.visible = false;
+            }
+        }
+
+        // Update Theme Button
+        const toggleIcon = document.getElementById('theme-toggle-icon');
+        const toggleText = document.getElementById('theme-toggle-text');
+        if (toggleIcon) {
+            toggleIcon.className = isDark ? 'fa-solid fa-sun text-amber-400' : 'fa-solid fa-moon text-indigo-600';
+        }
+        if (toggleText) {
+            toggleText.textContent = isDark ? 'Day Mode' : 'Night Mode';
+        }
+
+        try {
+            localStorage.setItem('nexraflow_theme_app3', theme);
+        } catch(e) {}
+    }
+
+    toggleTheme() {
+        const next = (this.currentTheme === 'dark') ? 'light' : 'dark';
+        this.setTheme(next);
+        this.playUiPing(next === 'dark' ? 520 : 880, 0.08);
+    }
+
+    /* ==========================================================================
+       15. 60 FPS RENDER LOOP
+       ========================================================================== */
+    _animate() {
+        requestAnimationFrame(() => this._animate());
+
+        const delta = this.clock.getDelta();
+        const time = this.clock.getElapsedTime();
+
+        if (this.ctBeacon) {
+            this.ctBeacon.material.color.setHex((Math.floor(time * 2) % 2 === 0) ? 0xef4444 : 0x330000);
+        }
+
+        const speedKmh = Math.max(8, this.corridorSpeed);
+        const baseZStep = (speedKmh / 50) * 1.8;
+
+        this.vehicles.forEach(v => {
+            let speed = baseZStep * v.speedMultiplier;
+
+            if (this.scenarioId === 'tsrtcBreakdown' && v.useFlyover && v.z > -45 && v.z < 10) {
+                speed *= 0.25;
+                v.currentLaneX += (-12 - v.currentLaneX) * 0.05;
+            } else {
+                v.currentLaneX += (v.baseLaneX - v.currentLaneX) * 0.05;
+            }
+
+            v.z += speed;
+            if (v.z > 410) {
+                v.z = -410;
+            }
+
+            let y = 0.2;
+            if (v.useFlyover && v.z >= -130 && v.z <= 130) {
+                const norm = (v.z + 130) / 260;
+                y = Math.sin(norm * Math.PI) * 18 + 0.2;
+            }
+
+            v.mesh.position.set(v.currentLaneX, y, v.z);
+        });
+
+        if (this.ambulance) {
+            this.ambulance.position.z += 2.8;
+            if (this.ambulance.position.z > 410) this.ambulance.position.z = -410;
+
+            const sirenFlash = Math.sin(time * 14) > 0;
+            this.ambulance.children.forEach(c => {
+                if (c.isPointLight) c.intensity = sirenFlash ? 6 : 0.6;
+            });
+
+            if (this.cameraMode === 'ambulance') {
+                const targetZ = this.ambulance.position.z - 35;
+                const targetY = this.ambulance.position.y + 14;
+                this.camera.position.set(0, targetY, targetZ);
+                this.controls.target.set(0, this.ambulance.position.y + 2, this.ambulance.position.z + 20);
+                this.controls.update();
+            }
+        }
+
+        if (this.rainSystem && this.rainSystem.material.opacity > 0) {
+            const positions = this.rainSystem.geometry.attributes.position.array;
+            for (let i = 1; i < positions.length; i += 3) {
+                positions[i] -= 4.8;
+                if (positions[i] < 0) positions[i] = 200;
+            }
+            this.rainSystem.geometry.attributes.position.needsUpdate = true;
+        }
+
+        if (this.autoRotate && this.cameraMode !== 'ambulance') {
+            this.controls.autoRotate = true;
+            this.controls.autoRotateSpeed = 0.8;
+        } else {
+            this.controls.autoRotate = false;
+        }
+
+        this.controls.update();
+        this.renderer.render(this.scene, this.camera);
+    }
+}
+
+window.NexraFlow3D = NexraFlow3D;

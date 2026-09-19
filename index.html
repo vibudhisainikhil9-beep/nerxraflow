@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXRAFLOW AI — Autonomous Smart City Traffic &amp; Incident Intelligence SCADA</title>
+    
+    <script>
+        (function() {
+            const saved = localStorage.getItem('nexraflow_theme_app1');
+            if (saved === 'dark') {
+                document.documentElement.classList.add('dark');
+                document.documentElement.classList.remove('light');
+            } else {
+                document.documentElement.classList.remove('dark');
+                document.documentElement.classList.add('light');
+                localStorage.setItem('nexraflow_theme_app1', 'light');
+            }
+        })();
+    </script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace']
+                    }
+                }
+            }
+        };
+    </script>
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="h-screen flex flex-col overflow-hidden select-none">
+
+    <!-- HEADER -->
+    <header class="px-3 py-1.5 flex flex-wrap items-center justify-between gap-2 flex-shrink-0 z-30">
+        <div class="flex items-center gap-2.5">
+            <div class="w-8 h-8 rounded-lg flex items-center justify-center text-white shadow" style="background: var(--accent)">
+                <i class="fa-solid fa-shield-halved text-sm"></i>
+            </div>
+            <div>
+                <div class="flex items-center gap-2">
+                    <span class="font-sans font-semibold text-sm tracking-tight" style="color: var(--text-primary)">NEXRAFLOW ICCC</span>
+                    <span class="badge-scada badge-cyan text-[9px]">Smart Cities SCADA</span>
+                </div>
+                <div class="text-[9.5px] font-sans tracking-tight hidden sm:block" style="color: var(--text-muted)">
+                    Govt. of Telangana &bull; Cyberabad Traffic Police &bull; Arterial Corridor Ops
+                </div>
+            </div>
+        </div>
+
+        <div class="flex items-center gap-1.5 flex-wrap">
+            <button id="btn-open-simulator" class="badge-scada badge-amber cursor-pointer hover:opacity-80 transition py-0.5 text-[10.5px]" title="Open IoT Feeder">
+                <span id="telemetry-status-dot" class="live-pulse bg-amber-400"></span>
+                <span id="telemetry-status-text">IOT FEEDER: ACTIVE (2s)</span>
+                <i class="fa-solid fa-arrow-up-right-from-square text-[9px] ml-1"></i>
+            </button>
+
+            <div id="header-incident-badge" class="badge-scada badge-green py-0.5 text-[10.5px]">STATUS: NORMAL</div>
+
+            <div class="scenario-bar flex items-center text-[10.5px] font-sans">
+                <button id="btn-scen-nominal" onclick="window.scadaApp.loadScenario('nominal')" class="scenario-btn px-2 py-1 rounded font-medium" style="color: var(--status-green)" title="Standard corridor operations">
+                    <i class="fa-solid fa-circle-check mr-1 text-[9px]"></i>Standard
+                </button>
+                <button id="btn-scen-tsrtcBreakdown" onclick="window.scadaApp.loadScenario('tsrtcBreakdown')" class="scenario-btn px-2 py-1 rounded font-medium" style="color: var(--text-tertiary)" title="TSRTC Bus breakdown">
+                    <i class="fa-solid fa-bus text-red-500 mr-1 text-[9px]"></i>TSRTC Stall
+                </button>
+                <button id="btn-scen-monsoonFlood" onclick="window.scadaApp.loadScenario('monsoonFlood')" class="scenario-btn px-2 py-1 rounded font-medium" style="color: var(--text-tertiary)" title="Monsoon flooding">
+                    <i class="fa-solid fa-cloud-showers-heavy text-blue-500 mr-1 text-[9px]"></i>Monsoon
+                </button>
+                <button id="btn-scen-flyoverCollision" onclick="window.scadaApp.loadScenario('flyoverCollision')" class="scenario-btn px-2 py-1 rounded font-medium" style="color: var(--text-tertiary)" title="Collision incident">
+                    <i class="fa-solid fa-triangle-exclamation text-amber-500 mr-1 text-[9px]"></i>Collision
+                </button>
+                <button id="btn-scen-ambulanceCorridor" onclick="window.scadaApp.loadScenario('ambulanceCorridor')" class="scenario-btn px-2 py-1 rounded font-medium" style="color: var(--status-green)" title="108 Ambulance corridor">
+                    <i class="fa-solid fa-truck-medical mr-1 text-[9px]"></i>108 Corridor
+                </button>
+            </div>
+
+            <button id="btn-run-autopilot" class="btn-scada btn-scada-primary text-xs py-1 px-2.5">
+                <i class="fa-solid fa-play text-[10px]"></i>
+                <span>System Briefing</span>
+            </button>
+
+            <button onclick="window.open('twin3d.html', 'NexraFlow3D', 'width=1366,height=820')" class="btn-scada text-xs py-1 px-2.5" style="background: #1d4ed8 !important; color: #fff !important; border-color: #1e40af !important" title="3D Digital Twin">
+                <i class="fa-solid fa-cube text-[11px]"></i>
+                <span>3D Twin</span>
+            </button>
+
+            <button id="btn-theme-toggle" class="btn-scada text-xs py-1 px-2.5" title="Switch Theme [L]">
+                <i id="theme-toggle-icon" class="fa-solid fa-moon"></i>
+                <span id="theme-toggle-text">Dark Mode</span>
+            </button>
+
+            <button id="btn-toggle-sound" class="btn-scada w-8 h-8 !p-0 rounded-lg" title="Toggle Audio">
+                <i class="fa-solid fa-volume-high text-xs"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- AUTOPILOT HUD -->
+    <div id="autopilot-hud" class="hidden hud-banner w-full px-4 py-2 flex-shrink-0 items-center justify-between gap-3 z-20">
+        <div class="flex items-center gap-2.5 min-w-0">
+            <div class="w-7 h-7 rounded-full flex-shrink-0 flex items-center justify-center animate-spin" style="background: var(--accent-subtle); border: 1px solid var(--accent)">
+                <i class="fa-solid fa-compass text-xs" style="color: var(--accent-text)"></i>
+            </div>
+            <div class="min-w-0">
+                <div class="flex items-center gap-2 flex-wrap">
+                    <span id="hud-step-title" class="font-sans font-semibold text-xs" style="color: var(--accent-text)">Step 1: Corridor Digital Twin</span>
+                    <span id="hud-step-count" class="badge-scada badge-cyan text-[9px] px-1.5">Step 1 of 6</span>
+                </div>
+                <div id="hud-narration-text" class="text-[11px] mt-0.5 truncate max-w-2xl font-sans" style="color: var(--text-secondary)">
+                    Scanning Cyber Towers to Mindspace arterial corridor...
+                </div>
+            </div>
+        </div>
+        <div class="flex items-center gap-1.5 flex-shrink-0">
+            <div class="w-24 rounded-full h-1 overflow-hidden hidden sm:block" style="background: var(--surface-inset)">
+                <div id="hud-progress-bar" class="h-full transition-all duration-500" style="width: 16%; background: var(--accent)"></div>
+            </div>
+            <button id="btn-hud-prev" class="btn-scada text-[11px] py-1 px-2"><i class="fa-solid fa-backward-step text-[9px]"></i> Prev</button>
+            <button id="btn-hud-pause" class="btn-scada text-[11px] py-1 px-2"><i class="fa-solid fa-pause text-[9px]"></i> Pause</button>
+            <button id="btn-hud-next" class="btn-scada text-[11px] py-1 px-2">Next <i class="fa-solid fa-forward-step text-[9px]"></i></button>
+            <button id="btn-hud-stop" class="btn-scada btn-scada-danger text-[11px] py-1 px-2"><i class="fa-solid fa-xmark"></i> Exit</button>
+        </div>
+    </div>
+
+    <!-- MAIN 3-COLUMN WORKSPACE -->
+    <div class="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-2.5 p-2.5 min-h-0 overflow-hidden">
+
+        <!-- LEFT: TELEMETRY DECK (Col 3) -->
+        <aside id="panel-telemetry" class="lg:col-span-3 flex flex-col gap-2.5 overflow-y-auto pr-1 h-full max-h-full">
+
+            <!-- Corridor Kinematics -->
+            <div class="scada-card p-3">
+                <div class="flex items-center justify-between mb-3">
+                    <div class="flex items-center gap-1.5">
+                        <div class="w-1 h-3.5 rounded-full" style="background: var(--accent)"></div>
+                        <span class="text-[9.5px] font-sans font-semibold uppercase tracking-wider" style="color: var(--text-muted)">Corridor Kinematics</span>
+                    </div>
+                    <span id="metric-los-badge" class="badge-scada badge-green text-[9.5px]">LOS B</span>
+                </div>
+
+                <div class="grid grid-cols-2 gap-2 mb-3">
+                    <div class="p-2.5 rounded-lg" style="background: var(--surface-inset); border: 1px solid var(--border-subtle)">
+                        <div class="text-[9px] font-sans font-medium uppercase tracking-wide mb-1" style="color: var(--text-muted)">Corridor Speed</div>
+                        <div id="metric-corridor-speed" class="font-mono font-semibold text-lg leading-tight" style="color: var(--status-cyan)">46.5 km/h</div>
+                        <div class="text-[9px] font-sans mt-0.5" style="color: var(--text-muted)">Kalman Denoised</div>
+                    </div>
+                    <div class="p-2.5 rounded-lg" style="background: var(--surface-inset); border: 1px solid var(--border-subtle)">
+                        <div class="text-[9px] font-sans font-medium uppercase tracking-wide mb-1" style="color: var(--text-muted)">Arterial Flow</div>
+                        <div id="metric-flow-pcu" class="font-mono font-semibold text-lg leading-tight" style="color: var(--status-green)">1,820 PCU/h</div>
+                        <div id="metric-vc-ratio" class="text-[9px] font-sans mt-0.5" style="color: var(--text-muted)">V/C: 0.48</div>
+                    </div>
+                </div>
+
+                <div class="pt-2" style="border-top: 1px solid var(--border-subtle)">
+                    <div class="flex justify-between items-center text-[9px] font-sans mb-1.5" style="color: var(--text-muted)">
+                        <span class="font-medium uppercase tracking-wide">IRC:106 Stream</span>
+                        <span style="color: var(--accent-text)">PCU Equiv.</span>
+                    </div>
+                    <div class="w-full h-2 rounded-full overflow-hidden flex" style="background: var(--surface-inset)">
+                        <div id="comp-bar-2w"   class="bg-blue-400 h-full transition-all duration-300" style="width: 45%"></div>
+                        <div id="comp-bar-auto" class="bg-amber-400 h-full transition-all duration-300" style="width: 18%"></div>
+                        <div id="comp-bar-car"  class="bg-emerald-400 h-full transition-all duration-300" style="width: 25%"></div>
+                        <div id="comp-bar-bus"  class="bg-red-500 h-full transition-all duration-300" style="width: 12%"></div>
+                    </div>
+                    <div id="comp-text-legend" class="text-[9px] font-sans mt-1" style="color: var(--text-muted)">
+                        2W: 45% &bull; Auto: 18% &bull; Car: 25% &bull; Bus: 12%
+                    </div>
+                </div>
+            </div>
+
+            <!-- LWR Shockwave -->
+            <div id="panel-shockwave" class="scada-card p-3" style="border-left: 2px solid var(--accent)">
+                <div class="flex items-center justify-between mb-3">
+                    <div class="flex items-center gap-1.5">
+                        <div class="w-1 h-3.5 rounded-full" style="background: var(--status-cyan)"></div>
+                        <span class="text-[9.5px] font-sans font-semibold uppercase tracking-wider" style="color: var(--text-muted)">LWR Shockwave</span>
+                    </div>
+                    <span class="text-[9px] font-mono px-1.5 py-0.5 rounded" style="background: var(--surface-inset); color: var(--text-tertiary); border: 1px solid var(--border-subtle)">w = &Delta;q / &Delta;k</span>
+                </div>
+                <div class="grid grid-cols-2 gap-2 mb-2">
+                    <div class="p-2.5 rounded-lg" style="background: var(--surface-inset); border: 1px solid var(--border-subtle)">
+                        <div class="text-[9px] font-sans font-medium uppercase tracking-wide mb-1" style="color: var(--text-muted)">Wave Velocity</div>
+                        <div id="metric-shockwave-speed" class="font-mono font-semibold text-lg leading-tight" style="color: var(--status-green)">0.0 km/h</div>
+                    </div>
+                    <div class="p-2.5 rounded-lg" style="background: var(--surface-inset); border: 1px solid var(--border-subtle)">
+                        <div class="text-[9px] font-sans font-medium uppercase tracking-wide mb-1" style="color: var(--text-muted)">Choke ETA</div>
+                        <div id="metric-shockwave-eta" class="font-mono font-semibold text-lg leading-tight" style="color: var(--status-amber)">NONE</div>
+                    </div>
+                </div>
+                <div id="shockwave-status-text" class="text-[10px] font-sans p-2 rounded-lg leading-relaxed" style="background: var(--surface-inset); color: var(--text-secondary); border: 1px solid var(--border-subtle)">
+                    Nominal Wavefront Equilibrium (Zero backward spillback detected).
+                </div>
+            </div>
+
+            <!-- Kalman Denoising -->
+            <div class="scada-card p-3">
+                <div class="flex items-center justify-between mb-3">
+                    <div class="flex items-center gap-1.5">
+                        <div class="w-1 h-3.5 rounded-full" style="background: var(--status-green)"></div>
+                        <span class="text-[9.5px] font-sans font-semibold uppercase tracking-wider" style="color: var(--text-muted)">Kalman Denoising</span>
+                    </div>
+                    <span class="text-[9px] font-sans px-1.5 py-0.5 rounded" style="color: var(--status-green); background: var(--status-green-bg); border: 1px solid var(--status-green-border)">99.2% Stable</span>
+                </div>
+                <div class="space-y-1.5">
+                    <div class="flex justify-between text-[10px] font-sans">
+                        <span style="color: var(--text-tertiary)">Process Variance Q:</span>
+                        <span class="font-mono" style="color: var(--text-primary)">0.080</span>
+                    </div>
+                    <div class="flex justify-between text-[10px] font-sans">
+                        <span style="color: var(--text-tertiary)">Measurement Noise R:</span>
+                        <span class="font-mono" style="color: var(--text-primary)">3.500</span>
+                    </div>
+                    <div class="flex justify-between text-[10px] font-sans">
+                        <span style="color: var(--text-tertiary)">Dropout Tolerance:</span>
+                        <span class="font-sans" style="color: var(--status-green)">Up to 30% Jitter</span>
+                    </div>
+                    <div class="flex justify-between text-[10px] font-sans pt-1.5" style="border-top: 1px solid var(--border-subtle)">
+                        <span style="color: var(--text-tertiary)">Active IoT Nodes:</span>
+                        <span class="font-semibold" style="color: var(--text-primary)">14 / 14 Synced</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- CENTER: MAP (Col 6) -->
+        <main class="lg:col-span-6 flex flex-col gap-2 relative h-full max-h-full min-h-0">
+            <!-- VMS Gantry Strip -->
+            <div class="scada-card px-3 py-1.5 flex items-center justify-between gap-2 flex-shrink-0">
+                <div class="flex items-center gap-2">
+                    <span class="w-1.5 h-1.5 rounded-full animate-pulse bg-amber-400"></span>
+                    <span class="text-[9px] font-sans font-medium uppercase tracking-wide" style="color: var(--text-muted)">VMS Gantry #04 [Cyber Towers]:</span>
+                </div>
+                <div id="vms-gantry-text" class="text-[11px] font-mono font-semibold truncate" style="color: var(--status-amber)">
+                    [ CORRIDOR FLOW NOMINAL | CYBER TOWERS TO GACHIBOWLI CLEAR | SPEED: 46.5 KM/H ]
+                </div>
+            </div>
+
+            <!-- Map Card -->
+            <div id="panel-map" class="flex-1 w-full relative scada-card p-1 overflow-hidden h-full">
+                <div class="map-toolbar">
+                    <button id="map-btn-recenter" class="map-toolbar-btn" onclick="window.scadaApp.recenterMap()" title="Recenter View">
+                        <i class="fa-solid fa-crosshairs" style="color: var(--accent-text)"></i> <span>Recenter</span>
+                    </button>
+                    <button id="map-btn-satellite" class="map-toolbar-btn active" onclick="window.scadaApp.toggleSatelliteMode()" title="Satellite View">
+                        <i class="fa-solid fa-satellite text-emerald-500"></i> <span>Satellite</span>
+                    </button>
+                    <button id="map-btn-vehicles" class="map-toolbar-btn active" onclick="window.scadaApp.toggleVehicles()" title="Traffic Particles">
+                        <i class="fa-solid fa-car text-amber-500"></i> <span>Vehicles</span>
+                    </button>
+                    <button id="map-btn-routes" class="map-toolbar-btn active" onclick="window.scadaApp.toggleBusyRoutes()" title="Busy Arteries">
+                        <i class="fa-solid fa-network-wired" style="color: var(--status-cyan)"></i> <span>Busy Routes</span>
+                    </button>
+                    <button id="map-btn-sensors" class="map-toolbar-btn active" onclick="window.scadaApp.toggleSensors()" title="IoT Sensors">
+                        <i class="fa-solid fa-satellite-dish text-emerald-500"></i> <span>Sensors</span>
+                    </button>
+                    <button id="map-btn-bypass" class="map-toolbar-btn" onclick="window.scadaApp.showBypassRoute(!window.scadaApp.state.bypassActive)" title="Bypass Route">
+                        <i class="fa-solid fa-route" style="color: var(--status-cyan)"></i> <span>Bypass</span>
+                    </button>
+                    <button onclick="window.open('twin3d.html', 'NexraFlow3D', 'width=1366,height=820')" class="map-toolbar-btn" title="3D Twin">
+                        <i class="fa-solid fa-cube" style="color: var(--accent-text)"></i> <span>3D Twin</span>
+                    </button>
+                </div>
+
+                <div id="scada-map"></div>
+
+                <!-- Map Legend -->
+                <div class="map-legend-card absolute bottom-3 left-3 z-[1000] p-2.5 rounded-lg text-[10px] font-sans space-y-1">
+                    <div class="flex items-center justify-between mb-1 pb-1" style="border-bottom: 1px solid var(--border-subtle)">
+                        <span class="text-[9px] font-sans font-semibold uppercase tracking-wide" style="color: var(--text-muted)">Cyberabad GIS</span>
+                        <span class="badge-scada badge-green text-[9px] px-1.5 py-0">
+                            <i class="fa-solid fa-satellite mr-1"></i>HD Satellite
+                        </span>
+                    </div>
+                    <div class="flex items-center gap-2" style="color: var(--text-tertiary)">
+                        <span class="w-3 h-1 rounded bg-emerald-400 flex-shrink-0"></span><span>Primary Corridor</span>
+                    </div>
+                    <div class="flex items-center gap-2" style="color: var(--text-tertiary)">
+                        <span class="w-3 h-1 rounded bg-amber-400 flex-shrink-0"></span><span>Busy Arteries</span>
+                    </div>
+                    <div class="flex items-center gap-2" style="color: var(--text-tertiary)">
+                        <span class="w-3 h-1 rounded bg-cyan-400 flex-shrink-0"></span><span>Financial District</span>
+                    </div>
+                    <div class="flex items-center gap-2" style="color: var(--text-tertiary)">
+                        <span class="w-3 h-1 rounded bg-red-500 flex-shrink-0"></span><span>Peak Choke</span>
+                    </div>
+                    <div class="flex items-center gap-2" style="color: var(--text-tertiary)">
+                        <span class="w-3.5 h-3.5 rounded-full border flex items-center justify-center text-[8px] font-bold flex-shrink-0" style="border-color: var(--accent); color: var(--accent-text)">J</span>
+                        <span>SCADA Junctions</span>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- RIGHT: OPERATIONS DECK (Col 3) -->
+        <aside class="lg:col-span-3 flex flex-col gap-2 overflow-y-auto pl-1 h-full max-h-full">
+            <!-- Tab Bar -->
+            <div class="scada-card px-3">
+                <div class="grid grid-cols-4 text-[10.5px] font-sans" style="border-bottom: 1px solid var(--border-subtle)">
+                    <button id="tab-btn-radar"    onclick="window.scadaApp.switchTab('radar')"    class="scada-tab-btn py-2.5 text-center">
+                        <i class="fa-solid fa-traffic-light text-[10px] block mb-0.5"></i>Signals
+                    </button>
+                    <button id="tab-btn-bypass"   onclick="window.scadaApp.switchTab('bypass')"   class="scada-tab-btn py-2.5 text-center">
+                        <i class="fa-solid fa-route text-[10px] block mb-0.5"></i>Bypass
+                    </button>
+                    <button id="tab-btn-briefing" onclick="window.scadaApp.switchTab('briefing')" class="scada-tab-btn py-2.5 text-center">
+                        <i class="fa-solid fa-brain text-[10px] block mb-0.5"></i>Gemini
+                    </button>
+                    <button id="tab-btn-cad"      onclick="window.scadaApp.switchTab('cad')"      class="scada-tab-btn py-2.5 text-center">
+                        <i class="fa-solid fa-compass-drafting text-[10px] block mb-0.5"></i>CAD
+                    </button>
+                </div>
+            </div>
+
+            <!-- TAB 1: SIGNALS -->
+            <div id="tab-radar" class="tab-content flex flex-col gap-2.5">
+                <div id="panel-signal-controller" class="scada-card p-3">
+                    <div class="flex justify-between items-center mb-3">
+                        <div class="flex items-center gap-1.5">
+                            <div class="w-1 h-3.5 rounded-full bg-amber-400"></div>
+                            <span class="text-[9.5px] font-sans font-semibold uppercase tracking-wider" style="color: var(--text-muted)">NTCIP-1202 Controller</span>
+                        </div>
+                        <span id="signal-phase-label" class="text-xs font-semibold font-sans" style="color: var(--status-green)">GREEN</span>
+                    </div>
+
+                    <div class="flex items-center gap-4 p-3 rounded-lg mb-3" style="background: var(--surface-inset); border: 1px solid var(--border-subtle)">
+                        <div class="traffic-light-housing">
+                            <div class="traffic-light-visor"><div id="lens-red"   class="traffic-lens red"></div></div>
+                            <div class="traffic-light-visor"><div id="lens-amber" class="traffic-lens amber"></div></div>
+                            <div class="traffic-light-visor"><div id="lens-green" class="traffic-lens green active"></div></div>
+                        </div>
+                        <div class="flex-1">
+                            <div class="text-[9px] font-sans font-medium uppercase tracking-wide mb-0.5" style="color: var(--text-muted)">Phase Remaining</div>
+                            <div id="signal-phase-timer" class="font-mono font-bold text-3xl leading-none" style="color: var(--text-primary)">45s</div>
+                            <div class="mt-2">
+                                <div id="signal-split-text" class="text-[9px] font-sans mb-1" style="color: var(--text-tertiary)">STANDARD: 45s / 45s</div>
+                                <div class="w-full rounded-full h-1.5 overflow-hidden" style="background: var(--surface-base)">
+                                    <div id="signal-split-green-bar" class="bg-emerald-400 h-full transition-all duration-300" style="width: 50%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2">
+                        <button id="btn-force-flush" class="btn-scada btn-scada-primary text-xs py-1.5">
+                            <i class="fa-solid fa-bolt text-amber-300"></i> Force +25s
+                        </button>
+                        <button id="btn-reset-signal" class="btn-scada text-xs py-1.5">
+                            <i class="fa-solid fa-arrow-rotate-left"></i> Reset 90s
+                        </button>
+                    </div>
+                </div>
+
+                <div class="scada-card p-3">
+                    <div class="flex justify-between items-center mb-2">
+                        <div class="flex items-center gap-1.5">
+                            <div class="w-1 h-3.5 rounded-full" style="background: var(--status-cyan)"></div>
+                            <span class="text-[9.5px] font-sans font-semibold uppercase tracking-wider" style="color: var(--text-muted)">15-60m Predictive Radar</span>
+                        </div>
+                        <span class="text-[9px] font-sans" style="color: var(--accent-text)">Autoregressive</span>
+                    </div>
+                    <div id="radar-cards-container" class="space-y-2"></div>
+                </div>
+            </div>
+
+            <!-- TAB 2: BYPASS -->
+            <div id="tab-bypass" class="tab-content hidden flex flex-col gap-2.5">
+                <div class="scada-card p-3">
+                    <div class="flex items-center gap-1.5 mb-3">
+                        <div class="w-1 h-3.5 rounded-full" style="background: var(--status-cyan)"></div>
+                        <span class="text-[9.5px] font-sans font-semibold uppercase tracking-wider" style="color: var(--text-muted)">Durgam Cheruvu Bypass</span>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2 mb-3">
+                        <div class="p-2.5 rounded-lg" style="background: var(--surface-inset); border: 1px solid var(--border-subtle)">
+                            <div class="text-[9px] font-sans uppercase tracking-wide mb-1" style="color: var(--text-muted)">Time Saved</div>
+                            <div id="bypass-time-saved" class="font-mono font-semibold text-base leading-tight" style="color: var(--status-cyan)">18.4 Mins/Car</div>
+                        </div>
+                        <div class="p-2.5 rounded-lg" style="background: var(--surface-inset); border: 1px solid var(--border-subtle)">
+                            <div class="text-[9px] font-sans uppercase tracking-wide mb-1" style="color: var(--text-muted)">Diversion Split</div>
+                            <div id="bypass-split-pct" class="font-sans font-semibold text-base leading-tight" style="color: var(--status-green)">35% Arterial</div>
+                        </div>
+                    </div>
+                    <p class="text-[10px] font-sans leading-relaxed" style="color: var(--text-secondary)">
+                        Multi-criteria diversion re-routes vehicles over the Durgam Cheruvu Cable Bridge into Road No. 36 Jubilee Hills, completely circumventing the Mindspace Incline choke.
+                    </p>
+                </div>
+
+                <div class="scada-card p-3" style="border-top: 2px solid var(--status-amber)">
+                    <div class="flex justify-between items-center mb-2 text-[9px] font-sans font-semibold uppercase tracking-wide" style="color: var(--status-amber)">
+                        <span><i class="fa-solid fa-display mr-1"></i>VMS Gantry #04</span>
+                        <span class="animate-pulse">&#9679; Public Advisory</span>
+                    </div>
+                    <div id="vms-gantry-text" class="rounded p-2 text-center font-mono font-bold text-[10.5px] tracking-wider" style="background: #050505; border: 1px solid rgba(245,158,11,0.25); color: #f59e0b">
+                        [ TSRTC BREAKDOWN | DIVERT VIA DURGAM CHERUVU | SAVE 18.4 MIN ]
+                    </div>
+                    <div class="text-[9px] font-sans mt-1 flex justify-between" style="color: var(--text-muted)">
+                        <span>Target: Inbound Commuters</span>
+                        <span style="color: var(--status-green); font-weight: 600">Compliance: 35%</span>
+                    </div>
+                </div>
+
+                <div class="scada-card p-3" style="border-left: 2px solid var(--status-green)">
+                    <div class="flex justify-between items-center mb-2">
+                        <div class="flex items-center gap-1.5">
+                            <div class="w-1 h-3.5 rounded-full" style="background: var(--status-green)"></div>
+                            <span class="text-[9.5px] font-sans font-semibold uppercase tracking-wider" style="color: var(--text-muted)">WhatsApp Police Dispatch</span>
+                        </div>
+                        <span class="text-[9px] font-sans" style="color: var(--status-green)">ACP Cyberabad</span>
+                    </div>
+                    <textarea id="whatsapp-payload-preview" rows="9" readonly class="w-full text-[10px] font-mono leading-tight"></textarea>
+                    <div class="grid grid-cols-2 gap-2 mt-2">
+                        <button id="btn-dispatch-whatsapp" class="btn-scada text-xs py-2" style="background: var(--status-green) !important; color: #fff !important; border-color: #15803d !important">
+                            <i class="fa-brands fa-whatsapp"></i> 1-Click Dispatch
+                        </button>
+                        <button id="btn-copy-payload" class="btn-scada text-xs py-2">
+                            <i class="fa-solid fa-copy"></i> Copy
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 3: GEMINI -->
+            <div id="tab-briefing" class="tab-content hidden flex flex-col gap-2.5">
+                <div class="scada-card p-3">
+                    <div class="flex justify-between items-center mb-2">
+                        <div class="flex items-center gap-1.5">
+                            <div class="w-1 h-3.5 rounded-full bg-purple-500"></div>
+                            <span class="text-[9.5px] font-sans font-semibold uppercase tracking-wider" style="color: var(--text-muted)">Gemini Neural Core</span>
+                        </div>
+                        <span id="briefing-timestamp" class="text-[9px] font-sans" style="color: var(--text-muted)">16:05:00 IST</span>
+                    </div>
+                    <div id="briefing-classification" class="badge-scada badge-green text-[9.5px] mb-2 w-full justify-center py-1">
+                        CODE GREEN // CORRIDOR STABILITY NOMINAL
+                    </div>
+                    <div id="briefing-summary" class="text-[10px] font-sans italic p-2.5 rounded-lg mb-2 leading-relaxed" style="background: var(--accent-subtle); color: var(--text-secondary); border: 1px solid rgba(37,99,235,0.12)">
+                        Synthesizing arterial status...
+                    </div>
+                    <div id="briefing-sections" class="space-y-2 max-h-[380px] overflow-y-auto pr-1"></div>
+                </div>
+            </div>
+
+            <!-- TAB 4: CAD -->
+            <div id="tab-cad" class="tab-content hidden flex flex-col gap-2.5">
+                <div class="scada-card p-3">
+                    <div class="flex items-center gap-1.5 mb-3">
+                        <div class="w-1 h-3.5 rounded-full" style="background: var(--status-cyan)"></div>
+                        <span class="text-[9.5px] font-sans font-semibold uppercase tracking-wider" style="color: var(--text-muted)">IRC:SP:41 Micro-Simulation</span>
+                    </div>
+                    <div class="grid grid-cols-2 gap-1 mb-3 p-1 rounded-lg" style="background: var(--surface-inset); border: 1px solid var(--border-subtle)">
+                        <button id="cad-toggle-before" onclick="window.scadaApp.setCadMode('before')" class="btn-scada text-[11px] py-1 justify-center">
+                            Baseline
+                        </button>
+                        <button id="cad-toggle-after" onclick="window.scadaApp.setCadMode('after')" class="btn-scada btn-scada-primary text-[11px] py-1 justify-center">
+                            Proposed
+                        </button>
+                    </div>
+                    <div id="cad-metrics-grid" class="grid grid-cols-2 gap-2 mb-3"></div>
+                    <div class="p-2.5 rounded-lg text-[10px] font-sans space-y-1" style="background: var(--surface-inset); border: 1px solid var(--border-subtle); color: var(--text-secondary)">
+                        <div class="font-semibold mb-1" style="color: var(--accent-text)">Proposed CAD Modifications:</div>
+                        <div>&bull; Grade-Separated U-Turn at Mindspace</div>
+                        <div>&bull; Dedicated Slip Road &amp; Bus Bay at Bio-Diversity</div>
+                        <div class="pt-1" style="border-top: 1px solid var(--border-subtle); color: var(--status-green); font-weight: 600">
+                            Total Capex: &#8377;42.5 Cr | Payback: 2.31 Years
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="px-4 py-1.5 text-[9.5px] font-sans flex flex-wrap justify-between items-center gap-2" style="color: var(--text-muted)">
+        <div class="flex items-center gap-4">
+            <span style="color: var(--text-tertiary)">
+                <i class="fa-solid fa-server mr-1" style="color: var(--status-cyan)"></i>SCADA Core: Online
+            </span>
+            <span>NTCIP-1202 &bull; IRC:106 &bull; LWR PDE &bull; Kalman Filter</span>
+        </div>
+        <div>NexraFlow AI &bull; NeuraX 3.0 &bull; Smart Cities Mission &bull; Autonomous Digital Twin</div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/telemetry-bus.js"></script>
+    <script src="js/traffic-math.js"></script>
+    <script src="js/corridor-data.js"></script>
+    <script src="js/audio-engine.js"></script>
+    <script src="js/signal-controller.js"></script>
+    <script src="js/cad-planner.js"></script>
+    <script src="js/gemini-core.js"></script>
+    <script src="js/map-particles.js"></script>
+    <script src="js/autopilot.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

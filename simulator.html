@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXRAFLOW IoT Edge Simulator &amp; Telemetry Generator (App 2)</title>
+
+    <script>
+        (function() {
+            const saved = localStorage.getItem('nexraflow_theme_app2');
+            if (saved === 'light') {
+                document.documentElement.classList.remove('dark');
+                document.documentElement.classList.add('light');
+            } else {
+                document.documentElement.classList.add('dark');
+                document.documentElement.classList.remove('light');
+                localStorage.setItem('nexraflow_theme_app2', 'dark');
+            }
+        })();
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: { extend: { fontFamily: { sans: ['Inter', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] } } }
+        };
+    </script>
+    <link rel="stylesheet" href="css/styles.css">
+
+    <style>
+        body {
+            background-color: var(--surface-base, #090d14);
+            color: var(--text-primary, #f1f5f9);
+            font-family: 'Inter', sans-serif;
+            transition: background-color 0.2s ease, color 0.2s ease;
+            min-height: 100vh;
+            overflow-y: auto;
+        }
+        html.dark body::before { display: none; }
+        .hud-card {
+            background: var(--surface-raised) !important;
+            backdrop-filter: var(--glass-blur) !important;
+            -webkit-backdrop-filter: var(--glass-blur) !important;
+            border: 1px solid var(--border-default) !important;
+            border-radius: var(--radius-lg, 12px) !important;
+            box-shadow: var(--shadow-card) !important;
+            transition: border-color 0.15s ease, box-shadow 0.15s ease;
+        }
+        .hud-card:hover {
+            border-color: var(--border-strong) !important;
+            box-shadow: var(--shadow-raised) !important;
+        }
+        .live-pulse {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            display: inline-block;
+            position: relative;
+            flex-shrink: 0;
+        }
+        .live-pulse::after {
+            content: '';
+            position: absolute;
+            inset: -3px;
+            border-radius: 50%;
+            background: inherit;
+            opacity: 0;
+            animation: pulse-ring 2s ease-out infinite;
+        }
+        @keyframes pulse-ring {
+            0%  { transform: scale(1);   opacity: 0.6; }
+            70% { transform: scale(2.4); opacity: 0; }
+            100%{ transform: scale(1);   opacity: 0; }
+        }
+        .scen-btn {
+            font-family: 'Inter', sans-serif;
+            font-size: 11.5px;
+            font-weight: 500;
+            padding: 7px 12px;
+            border-radius: 6px;
+            border: 1px solid var(--border-default);
+            background: var(--surface-inset);
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+        .scen-btn:hover { background: var(--surface-hover); border-color: var(--border-strong); color: var(--text-primary); transform: translateY(-1px); }
+        table th { font-family: 'Inter', sans-serif; font-size: 9.5px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-muted); padding-bottom: 8px; }
+        table td { font-size: 11.5px; padding: 7px 0; }
+        table tr:hover { background: var(--surface-inset); }
+        table tbody { border-color: var(--border-subtle); }
+        pre { font-family: 'JetBrains Mono', monospace !important; }
+    </style>
+</head>
+<body class="p-4 min-h-screen flex flex-col gap-4">
+
+    <!-- Header -->
+    <header class="hud-card p-3 flex flex-wrap items-center justify-between gap-3">
+        <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-lg flex items-center justify-center" style="background: var(--status-cyan-bg); border: 1px solid var(--status-cyan-border)">
+                <i class="fa-solid fa-tower-broadcast text-base animate-pulse" style="color: var(--status-cyan)"></i>
+            </div>
+            <div>
+                <div class="flex items-center gap-2">
+                    <h1 class="text-sm font-sans font-semibold" style="color: var(--text-primary)">NEXRAFLOW IoT Edge Simulator</h1>
+                    <span class="badge-scada badge-green text-[9px]">100% Hands-Free</span>
+                </div>
+                <div class="text-[9.5px] font-sans mt-0.5" style="color: var(--text-muted)">
+                    Autonomous 2.0s Telemetry Transmitter &bull; Road-Side Edge Hardware Mock
+                </div>
+            </div>
+        </div>
+
+        <div class="flex items-center gap-2">
+            <div class="flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-sans" style="background: var(--surface-inset); border: 1px solid var(--border-subtle)">
+                <span class="live-pulse bg-cyan-400"></span>
+                <span style="color: var(--text-secondary)">TX Heartbeat: <strong class="font-mono" style="color: var(--status-cyan)">2.0s</strong></span>
+                <span style="color: var(--border-strong)">|</span>
+                <span style="color: var(--text-secondary)">Packets: <strong id="tx-counter" class="font-mono" style="color: var(--status-green)">0</strong></span>
+            </div>
+
+            <button id="btn-theme-toggle" onclick="toggleSimTheme()" class="btn-scada text-xs px-3 py-1.5" title="Toggle Light / Dark [L]">
+                <i id="theme-toggle-icon" class="fa-solid fa-sun text-amber-400"></i>
+                <span id="theme-toggle-text">Light Mode</span>
+            </button>
+
+            <button onclick="window.open('index.html', '_blank')" class="btn-scada text-xs px-3 py-1.5" style="background: var(--accent) !important; color: #fff !important; border-color: var(--accent-hover) !important">
+                <i class="fa-solid fa-desktop"></i><span>Main SCADA</span>
+            </button>
+
+            <button onclick="window.open('twin3d.html', '_blank')" class="btn-scada text-xs px-3 py-1.5" style="background: #3b5bdb !important; color: #fff !important; border-color: #364fc7 !important">
+                <i class="fa-solid fa-cube"></i><span>3D Twin</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 flex-1">
+
+        <!-- Left: Sensor Table (Col 7) -->
+        <div class="lg:col-span-7 flex flex-col gap-4">
+            <div class="hud-card p-4 flex-1 flex flex-col">
+                <div class="flex justify-between items-center mb-4">
+                    <div class="flex items-center gap-1.5">
+                        <div class="w-1 h-4 rounded-full" style="background: var(--status-cyan)"></div>
+                        <span class="text-[10px] font-sans font-semibold uppercase tracking-wider" style="color: var(--text-muted)">
+                            14 Roadside IoT Node Sensors
+                        </span>
+                    </div>
+                    <span class="badge-scada badge-green text-[9px]">Broadcasting Live</span>
+                </div>
+
+                <div class="overflow-x-auto flex-1">
+                    <table class="w-full text-left">
+                        <thead>
+                            <tr style="border-bottom: 1px solid var(--border-subtle)">
+                                <th>Sensor Node</th>
+                                <th>Hardware Type</th>
+                                <th>Location</th>
+                                <th>Speed</th>
+                                <th>Volume (PCU)</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="sensor-table-body" style="divide-color: var(--border-subtle)">
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Scenario Controls -->
+                <div class="mt-4 pt-3" style="border-top: 1px solid var(--border-subtle)">
+                    <div class="flex justify-between items-center text-[9.5px] font-sans mb-2" style="color: var(--text-muted)">
+                        <span class="font-medium uppercase tracking-wide">Hands-Free Scenario Engine (Auto-cycles every 3 min):</span>
+                        <span id="active-scenario-tag" class="font-semibold" style="color: var(--status-cyan)">NOMINAL EQUILIBRIUM</span>
+                    </div>
+                    <div class="grid grid-cols-2 sm:grid-cols-5 gap-2">
+                        <button onclick="setScenario('nominal')" class="scen-btn" style="color: var(--status-green); border-color: var(--status-green-border)">1. Nominal Flow</button>
+                        <button onclick="setScenario('tsrtcBreakdown')" class="scen-btn" style="color: var(--status-red); border-color: var(--status-red-border)">2. TSRTC Stall</button>
+                        <button onclick="setScenario('monsoonFlood')" class="scen-btn" style="color: #60a5fa; border-color: rgba(96,165,250,0.3)">3. Monsoon</button>
+                        <button onclick="setScenario('flyoverCollision')" class="scen-btn" style="color: var(--status-amber); border-color: var(--status-amber-border)">4. Flyover Crash</button>
+                        <button onclick="setScenario('ambulanceCorridor')" class="scen-btn" style="color: var(--status-green); border-color: var(--status-green-border)">5. 108 Corridor</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right: Stats + JSON Inspector (Col 5) -->
+        <div class="lg:col-span-5 flex flex-col gap-4">
+            <!-- Transmission Stats -->
+            <div class="hud-card p-4">
+                <div class="flex items-center justify-between mb-3">
+                    <div class="flex items-center gap-1.5">
+                        <div class="w-1 h-4 rounded-full" style="background: var(--accent)"></div>
+                        <span class="text-[10px] font-sans font-semibold uppercase tracking-wider" style="color: var(--text-muted)">Transmission Telemetry</span>
+                    </div>
+                    <span class="text-[9.5px] font-sans" style="color: var(--accent-text)">Pub-Sub Bus</span>
+                </div>
+                <div class="grid grid-cols-3 gap-2 text-center">
+                    <div class="p-2.5 rounded-lg" style="background: var(--surface-inset); border: 1px solid var(--border-subtle)">
+                        <div class="text-[9px] font-sans uppercase tracking-wide mb-1" style="color: var(--text-muted)">Interval</div>
+                        <div class="font-mono font-semibold text-base" style="color: var(--status-cyan)">2000 ms</div>
+                    </div>
+                    <div class="p-2.5 rounded-lg" style="background: var(--surface-inset); border: 1px solid var(--border-subtle)">
+                        <div class="text-[9px] font-sans uppercase tracking-wide mb-1" style="color: var(--text-muted)">Payload Size</div>
+                        <div class="font-mono font-semibold text-base" style="color: var(--status-green)">1.42 KB</div>
+                    </div>
+                    <div class="p-2.5 rounded-lg" style="background: var(--surface-inset); border: 1px solid var(--border-subtle)">
+                        <div class="text-[9px] font-sans uppercase tracking-wide mb-1" style="color: var(--text-muted)">Jitter</div>
+                        <div class="font-mono font-semibold text-base" style="color: var(--status-amber)">2.8% Sim</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- JSON Frame Inspector -->
+            <div class="hud-card p-4 flex-1 flex flex-col">
+                <div class="flex justify-between items-center mb-3">
+                    <div class="flex items-center gap-1.5">
+                        <div class="w-1 h-4 rounded-full" style="background: var(--status-green)"></div>
+                        <span class="text-[10px] font-sans font-semibold uppercase tracking-wider" style="color: var(--text-muted)">
+                            <i class="fa-solid fa-code mr-1.5"></i>Live Broadcast JSON Frame
+                        </span>
+                    </div>
+                    <span id="tx-timestamp" class="text-[9.5px] font-mono" style="color: var(--text-muted)">16:05:00 IST</span>
+                </div>
+                <pre id="json-preview" class="flex-1 p-3 rounded-lg text-[10.5px] font-mono overflow-y-auto leading-relaxed select-all" style="background: var(--surface-inset); border: 1px solid var(--border-subtle); color: var(--status-green); min-height: 200px">
+{
+  "status": "Transmitting..."
+}
+                </pre>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/telemetry-bus.js"></script>
+    <script src="js/traffic-math.js"></script>
+    <script src="js/corridor-data.js"></script>
+
+    <script>
+        let txCount = 0;
+        let activeScenario = 'nominal';
+        const scenarios = ['nominal', 'tsrtcBreakdown', 'monsoonFlood', 'nominal'];
+        let scenarioIndex = 0;
+
+        setInterval(() => {
+            scenarioIndex = (scenarioIndex + 1) % scenarios.length;
+            setScenario(scenarios[scenarioIndex]);
+        }, 180000);
+
+        function setScenario(scen) {
+            activeScenario = scen;
+            const tag = document.getElementById('active-scenario-tag');
+            if (tag) {
+                tag.textContent = scen.toUpperCase();
+                tag.style.color = scen === 'nominal' ? 'var(--status-green)' : 'var(--status-red)';
+            }
+            sendTelemetryPacket();
+        }
+
+        function setSimTheme(theme) {
+            const isDark = (theme === 'dark');
+            const root = document.documentElement;
+            if (isDark) { root.classList.add('dark'); root.classList.remove('light'); }
+            else { root.classList.remove('dark'); root.classList.add('light'); }
+            const icon = document.getElementById('theme-toggle-icon');
+            const text = document.getElementById('theme-toggle-text');
+            if (icon) icon.className = isDark ? 'fa-solid fa-sun text-amber-400' : 'fa-solid fa-moon';
+            if (text) text.textContent = isDark ? 'Light Mode' : 'Dark Mode';
+            try { localStorage.setItem('nexraflow_theme_app2', theme); } catch(e) {}
+        }
+
+        function toggleSimTheme() {
+            const isDark = document.documentElement.classList.contains('dark');
+            setSimTheme(isDark ? 'light' : 'dark');
+        }
+
+        const savedSimTheme = localStorage.getItem('nexraflow_theme_app2') || 'dark';
+        setSimTheme(savedSimTheme);
+
+        window.addEventListener('keydown', (e) => {
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+            if (e.key.toLowerCase() === 'l') toggleSimTheme();
+        });
+
+        if (window.telemetryBus) {
+            window.telemetryBus.subscribe((packet) => {
+                if (!packet) return;
+                if (packet.source !== 'iot_simulator_app_2' && packet.scenarioId && packet.scenarioId !== activeScenario) {
+                    activeScenario = packet.scenarioId;
+                    const tag = document.getElementById('active-scenario-tag');
+                    if (tag) {
+                        tag.textContent = activeScenario.toUpperCase();
+                        tag.style.color = activeScenario === 'nominal' ? 'var(--status-green)' : 'var(--status-red)';
+                    }
+                    sendTelemetryPacket();
+                }
+            });
+        }
+
+        const sensors = [
+            { id: 'ANPR-01',  type: '4K ANPR Cam',       loc: 'Cyber Towers Flyover' },
+            { id: 'RADAR-01', type: 'Doppler Radar',      loc: 'Shilparamam Junction' },
+            { id: 'LOOP-03',  type: 'Inductive Loop',     loc: 'Mindspace Incline' },
+            { id: 'ANPR-02',  type: '4K ANPR Cam',        loc: 'Mindspace Underpass' },
+            { id: 'RADAR-02', type: 'Doppler Radar',      loc: 'Inorbit Crossing' },
+            { id: 'LOOP-06',  type: 'Inductive Loop',     loc: 'Bio-Diversity Flyover' },
+            { id: 'ANPR-03',  type: 'Flood Cam + ANPR',   loc: 'Bio-Diversity Underpass' },
+            { id: 'RADAR-03', type: 'Doppler Radar',      loc: 'Gachibowli Gateway' }
+        ];
+
+        function renderTable(speeds) {
+            const tbody = document.getElementById('sensor-table-body');
+            if (!tbody) return;
+            tbody.innerHTML = sensors.map((s, idx) => {
+                const spd = speeds[idx] || 45;
+                const flow = Math.round((spd / 50) * 1800 + (Math.random() * 80));
+                const isSlow = spd < 20;
+                const statusColor = isSlow ? 'var(--status-red)' : 'var(--status-green)';
+                const statusBg = isSlow ? 'var(--status-red-bg)' : 'var(--status-green-bg)';
+                const statusBorder = isSlow ? 'var(--status-red-border)' : 'var(--status-green-border)';
+                return `
+                    <tr style="border-bottom: 1px solid var(--border-subtle)">
+                        <td class="font-mono font-semibold" style="color: var(--status-cyan)">${s.id}</td>
+                        <td class="font-sans" style="color: var(--text-muted)">${s.type}</td>
+                        <td class="font-sans" style="color: var(--text-secondary)">${s.loc}</td>
+                        <td class="font-mono font-semibold" style="color: ${statusColor}">${spd} km/h</td>
+                        <td class="font-mono" style="color: var(--text-primary)">${flow} PCU/h</td>
+                        <td><span class="badge-scada text-[9px] px-1.5 py-0.5" style="color:${statusColor}; background:${statusBg}; border-color:${statusBorder}">ACTIVE</span></td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function sendTelemetryPacket() {
+            txCount++;
+            document.getElementById('tx-counter').textContent = txCount;
+
+            const baseSpeed = activeScenario === 'nominal' ? 46.5 : (activeScenario === 'tsrtcBreakdown' ? 11.2 : (activeScenario === 'monsoonFlood' ? 8.5 : (activeScenario === 'ambulanceCorridor' ? 68.0 : 7.2)));
+            const baseFlow  = activeScenario === 'nominal' ? 1820 : (activeScenario === 'tsrtcBreakdown' ? 3240 : (activeScenario === 'ambulanceCorridor' ? 1600 : 2980));
+            const baseQueue = activeScenario === 'nominal' ? 45  : (activeScenario === 'tsrtcBreakdown' ? 420  : (activeScenario === 'ambulanceCorridor' ? 10   : 510));
+
+            const spotSpeeds = sensors.map(() => {
+                const jitter = (Math.random() - 0.5) * 3.5;
+                return parseFloat(Math.max(5, baseSpeed + jitter).toFixed(1));
+            });
+
+            const rawSpeed = parseFloat((spotSpeeds.reduce((a, b) => a + b, 0) / spotSpeeds.length).toFixed(1));
+
+            const payload = {
+                source: 'iot_simulator_app_2',
+                timestamp: new Date().toISOString(),
+                packetIndex: txCount,
+                scenarioId: activeScenario,
+                rawSpeedKmh: rawSpeed,
+                flowPCU: Math.round(baseFlow + (Math.random() - 0.5) * 90),
+                queuePCU: Math.round(baseQueue + (Math.random() - 0.5) * 30),
+                composition: { twoWheelerPct: 45.0, autoRickshawPct: 18.0, carPct: 25.0, busPct: 12.0 },
+                sensorFeedSummary: spotSpeeds.map((spd, i) => ({ sensorId: sensors[i].id, spotSpeedKmh: spd, status: 'OK' }))
+            };
+
+            if (window.telemetryBus) window.telemetryBus.publish(payload);
+
+            renderTable(spotSpeeds);
+            const previewEl = document.getElementById('json-preview');
+            const timeEl    = document.getElementById('tx-timestamp');
+            if (previewEl) previewEl.textContent = JSON.stringify(payload, null, 2);
+            if (timeEl)    timeEl.textContent = new Date().toLocaleTimeString('en-IN', { hour12: false }) + ' IST';
+        }
+
+        setInterval(sendTelemetryPacket, 2000);
+        window.addEventListener('DOMContentLoaded', sendTelemetryPacket);
+    </script>
+</body>
+</html>

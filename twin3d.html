@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXRAFLOW — 3D Arterial Corridor Digital Twin | Cyberabad Traffic Police</title>
+
+    <script>
+        (function() {
+            const saved = localStorage.getItem('nexraflow_theme_app3');
+            if (saved === 'light') {
+                document.documentElement.classList.remove('dark');
+                document.documentElement.classList.add('light');
+            } else {
+                document.documentElement.classList.add('dark');
+                document.documentElement.classList.remove('light');
+                localStorage.setItem('nexraflow_theme_app3', 'dark');
+            }
+        })();
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: { extend: { fontFamily: { sans: ['Inter', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] } } }
+        };
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <link rel="stylesheet" href="css/styles.css">
+
+    <style>
+        body, html {
+            margin: 0; padding: 0;
+            width: 100%; height: 100%;
+            overflow: hidden;
+            background-color: #090d14;
+            user-select: none;
+            font-family: 'Inter', sans-serif;
+        }
+        body::before { display: none !important; }
+        #webgl-canvas-container {
+            width: 100vw; height: 100vh;
+            position: absolute; top: 0; left: 0; z-index: 1;
+        }
+        .hud-overlay {
+            position: absolute;
+            z-index: 10;
+            pointer-events: auto;
+        }
+        .hud-glass {
+            background: rgba(9, 14, 24, 0.82) !important;
+            backdrop-filter: blur(14px) saturate(180%) !important;
+            -webkit-backdrop-filter: blur(14px) saturate(180%) !important;
+            border: 1px solid rgba(255, 255, 255, 0.09) !important;
+            border-radius: 10px !important;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.07) !important;
+            transition: border-color 0.15s ease;
+        }
+        html:not(.dark) .hud-glass {
+            background: rgba(255, 255, 255, 0.85) !important;
+            border-color: rgba(203, 213, 225, 0.7) !important;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.95) !important;
+        }
+        .gov-btn {
+            font-family: 'Inter', sans-serif;
+            font-size: 11.5px;
+            font-weight: 500;
+            padding: 5px 11px;
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.09);
+            background: rgba(15, 22, 38, 0.75);
+            backdrop-filter: blur(8px);
+            color: #cbd5e1;
+            display: flex; align-items: center; gap: 5px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            white-space: nowrap;
+        }
+        .gov-btn:hover {
+            color: #fff;
+            border-color: rgba(56, 189, 248, 0.5);
+            background: rgba(22, 36, 64, 0.88);
+            transform: translateY(-1px);
+            box-shadow: 0 3px 10px rgba(56,189,248,0.15);
+        }
+        .gov-btn:active { transform: translateY(0); }
+        .gov-btn.active {
+            color: #fff;
+            border-color: rgba(59, 130, 246, 0.7);
+            background: linear-gradient(135deg, rgba(29,78,216,0.9), rgba(37,99,235,0.9));
+            box-shadow: 0 3px 12px rgba(37,99,235,0.35);
+        }
+        html:not(.dark) .gov-btn {
+            background: rgba(255,255,255,0.88);
+            border-color: rgba(203,213,225,0.75);
+            color: #1e293b;
+        }
+        html:not(.dark) .gov-btn:hover {
+            background: rgba(241,245,249,0.96);
+            border-color: #2563eb;
+            color: #0f172a;
+        }
+        html:not(.dark) .gov-btn.active {
+            background: #1d4ed8;
+            color: #fff;
+            border-color: #1e40af;
+        }
+        .hud-label {
+            font-size: 9px;
+            font-weight: 600;
+            letter-spacing: 0.07em;
+            text-transform: uppercase;
+            color: rgba(148, 163, 184, 0.9);
+            font-family: 'Inter', sans-serif;
+        }
+        .hud-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            font-weight: 600;
+            color: #f1f5f9;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="webgl-canvas-container"></div>
+
+    <!-- HEADER HUD -->
+    <header class="hud-overlay top-3 left-3 right-3 flex flex-wrap items-center justify-between gap-3 pointer-events-none">
+        <!-- Government Identity -->
+        <div class="pointer-events-auto hud-glass p-2.5 flex items-center gap-3">
+            <div class="w-8 h-8 rounded-lg flex items-center justify-center text-white" style="background: #1d4ed8">
+                <i class="fa-solid fa-shield-halved text-sm"></i>
+            </div>
+            <div>
+                <div class="flex items-center gap-2">
+                    <span class="font-sans font-semibold text-sm text-white">Govt. of Telangana</span>
+                    <span class="text-[9px] font-sans font-semibold px-1.5 py-0.5 rounded" style="background: rgba(37,99,235,0.15); color: #60a5fa; border: 1px solid rgba(59,130,246,0.3)">ICCC Digital Twin</span>
+                </div>
+                <div class="text-[9.5px] font-sans mt-0.5" style="color: rgba(148,163,184,0.85)">
+                    Cyberabad Traffic Police &bull; HiTec Arterial Corridor 3D
+                </div>
+            </div>
+        </div>
+
+        <!-- Live Telemetry Bar + Actions -->
+        <div class="pointer-events-auto flex items-center gap-2">
+            <div class="hud-glass px-3 py-2 flex items-center gap-3 text-xs">
+                <div class="flex items-center gap-1.5">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                    <span class="hud-label">Speed:</span>
+                    <span id="hud-speed" class="hud-value text-emerald-400">46.5 km/h</span>
+                </div>
+                <div class="w-px h-4 bg-white opacity-10"></div>
+                <div class="flex items-center gap-1.5">
+                    <span class="hud-label">Volume:</span>
+                    <span id="hud-flow" class="hud-value">1,820 PCU/h</span>
+                </div>
+                <div class="w-px h-4 bg-white opacity-10"></div>
+                <div class="flex items-center gap-1.5">
+                    <span class="hud-label">Signal:</span>
+                    <span id="hud-signal-timer" class="hud-value text-emerald-400">GREEN (45s)</span>
+                </div>
+                <div class="w-px h-4 bg-white opacity-10"></div>
+                <span id="hud-scenario-name" class="text-[9.5px] font-sans font-semibold px-2 py-0.5 rounded" style="background: rgba(22,163,74,0.15); color: #4ade80; border: 1px solid rgba(74,222,128,0.25)">NOMINAL</span>
+            </div>
+
+            <button id="btn-theme-toggle" onclick="toggleTwinTheme()" class="gov-btn" title="Toggle Day/Night [L]">
+                <i id="theme-toggle-icon" class="fa-solid fa-sun text-amber-400"></i>
+                <span id="theme-toggle-text">Day Mode</span>
+            </button>
+
+            <a href="index.html" class="gov-btn" style="background: rgba(29,78,216,0.85); border-color: rgba(37,99,235,0.6); color: #fff" title="Operations Cockpit">
+                <i class="fa-solid fa-table-columns text-xs"></i>
+                <span>Operations Cockpit</span>
+            </a>
+
+            <button onclick="toggleFullscreen()" class="gov-btn" title="Fullscreen [F]">
+                <i class="fa-solid fa-expand text-xs"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- CAMERA CONTROLS (Top Right) -->
+    <div class="hud-overlay top-20 right-3 hud-glass p-2.5 w-56 space-y-1">
+        <div class="flex items-center justify-between mb-2 pb-1.5" style="border-bottom: 1px solid rgba(255,255,255,0.07)">
+            <span class="hud-label">Camera Perspective</span>
+            <i class="fa-solid fa-camera text-[10px]" style="color: rgba(148,163,184,0.5)"></i>
+        </div>
+
+        <button id="cam-aerial"      onclick="setCam('aerial')"      class="gov-btn w-full active">
+            <i class="fa-solid fa-layer-group text-blue-400"></i> Overhead Arterial
+        </button>
+        <button id="cam-cybertowers" onclick="setCam('cybertowers')" class="gov-btn w-full">
+            <i class="fa-solid fa-building text-blue-400"></i> Cyber Towers
+        </button>
+        <button id="cam-flyover"     onclick="setCam('flyover')"     class="gov-btn w-full">
+            <i class="fa-solid fa-bridge text-blue-400"></i> Mindspace Flyover
+        </button>
+        <button id="cam-ambulance"   onclick="setCam('ambulance')"   class="gov-btn w-full">
+            <i class="fa-solid fa-truck-medical text-emerald-400"></i> 108 Emergency
+        </button>
+
+        <div class="pt-1" style="border-top: 1px solid rgba(255,255,255,0.07)">
+            <button id="cam-autorotate" onclick="toggleAutoRotate()" class="gov-btn w-full justify-between">
+                <span class="flex items-center gap-1.5"><i class="fa-solid fa-rotate text-blue-400"></i> Continuous Orbit</span>
+                <span id="autorotate-status" class="text-[9.5px]" style="color: rgba(148,163,184,0.7)">OFF</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- VEHICLE INSPECT CARD -->
+    <div id="card-inspect" class="hud-overlay top-24 left-3 hud-glass p-3 w-72 hidden">
+        <div class="flex items-center justify-between pb-2 mb-2" style="border-bottom: 1px solid rgba(255,255,255,0.07)">
+            <div class="flex items-center gap-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-blue-400"></span>
+                <span id="inspect-title" class="font-sans font-semibold text-xs text-white uppercase tracking-wide">Vehicle Telemetry</span>
+            </div>
+            <button onclick="closeInspectCard()" class="gov-btn !p-1 !px-1.5" title="Close">
+                <i class="fa-solid fa-xmark text-[10px]"></i>
+            </button>
+        </div>
+
+        <div id="inspect-badge" class="mb-2.5 inline-block text-[9.5px] font-sans font-semibold px-2 py-0.5 rounded" style="background: rgba(37,99,235,0.15); color: #60a5fa; border: 1px solid rgba(59,130,246,0.3)">
+            SEDAN / CAB (1.0 PCU)
+        </div>
+
+        <div id="inspect-fields" class="space-y-1"></div>
+
+        <div class="mt-3 pt-2 flex justify-between text-[9px] font-sans" style="border-top: 1px solid rgba(255,255,255,0.07); color: rgba(148,163,184,0.7)">
+            <span>Official ICCC Monitoring</span>
+            <span style="color: #4ade80; font-weight: 600">Verified</span>
+        </div>
+    </div>
+
+    <!-- SCENARIO BAR (Bottom Center) -->
+    <div class="hud-overlay bottom-4 left-1/2 -translate-x-1/2 hud-glass px-2.5 py-2 flex flex-wrap items-center gap-2">
+        <div class="hud-label px-2 hidden md:block">Operations Scenario:</div>
+
+        <button onclick="triggerScenario('nominal')"          class="scenario-btn-3d gov-btn active" id="btn-3d-nominal">
+            <i class="fa-solid fa-circle-check text-emerald-400"></i> Standard Flow
+        </button>
+        <button onclick="triggerScenario('tsrtcBreakdown')"   class="scenario-btn-3d gov-btn" id="btn-3d-tsrtcBreakdown">
+            <i class="fa-solid fa-bus" style="color: var(--status-red, #f87171)"></i> TSRTC Stoppage
+        </button>
+        <button onclick="triggerScenario('monsoonFlood')"     class="scenario-btn-3d gov-btn" id="btn-3d-monsoonFlood">
+            <i class="fa-solid fa-cloud-showers-heavy text-blue-400"></i> Monsoon
+        </button>
+        <button onclick="triggerScenario('flyoverCollision')" class="scenario-btn-3d gov-btn" id="btn-3d-flyoverCollision">
+            <i class="fa-solid fa-triangle-exclamation text-amber-400"></i> Collision Alert
+        </button>
+        <button onclick="triggerScenario('ambulanceCorridor')" class="scenario-btn-3d gov-btn" id="btn-3d-ambulanceCorridor">
+            <i class="fa-solid fa-truck-medical text-emerald-400"></i> 108 Green Corridor
+        </button>
+    </div>
+
+    <!-- Navigation Help -->
+    <div class="hud-overlay bottom-4 left-4 hud-glass px-3 py-1.5 text-[10px] font-sans pointer-events-none hidden sm:block" style="color: rgba(148,163,184,0.8)">
+        <i class="fa-solid fa-mouse mr-1.5"></i>
+        <span class="font-medium text-white">Controls:</span> Drag to Rotate &bull; Scroll to Zoom &bull; Click to Inspect
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/telemetry-bus.js"></script>
+    <script src="js/twin-3d.js"></script>
+    <script>
+        window.twin3D = new NexraFlow3D('webgl-canvas-container');
+
+        function setCam(mode) {
+            window.twin3D.setCameraMode(mode);
+            document.querySelectorAll('.gov-btn').forEach(b => {
+                if (b.id && b.id.startsWith('cam-') && b.id !== 'cam-autorotate') b.classList.remove('active');
+            });
+            const activeBtn = document.getElementById(`cam-${mode}`);
+            if (activeBtn) activeBtn.classList.add('active');
+        }
+
+        function toggleAutoRotate() {
+            window.twin3D.autoRotate = !window.twin3D.autoRotate;
+            const statusEl = document.getElementById('autorotate-status');
+            const btn = document.getElementById('cam-autorotate');
+            if (statusEl && btn) {
+                if (window.twin3D.autoRotate) {
+                    statusEl.textContent = 'ON';
+                    statusEl.style.color = '#60a5fa';
+                    statusEl.style.fontWeight = '600';
+                    btn.classList.add('active');
+                } else {
+                    statusEl.textContent = 'OFF';
+                    statusEl.style.color = 'rgba(148,163,184,0.7)';
+                    statusEl.style.fontWeight = '400';
+                    btn.classList.remove('active');
+                }
+            }
+        }
+
+        function triggerScenario(scenarioId) {
+            window.twin3D.applyScenario(scenarioId);
+            document.querySelectorAll('.scenario-btn-3d').forEach(b => b.classList.remove('active'));
+            const activeBtn = document.getElementById(`btn-3d-${scenarioId}`);
+            if (activeBtn) activeBtn.classList.add('active');
+            if (scenarioId === 'ambulanceCorridor') setTimeout(() => setCam('ambulance'), 300);
+            if (window.telemetryBus) {
+                window.telemetryBus.publish({ source: 'twin3d', scenarioId: scenarioId, action: 'scenario_change' });
+            }
+        }
+
+        window.addEventListener('nexraflow:3d_inspect', (e) => {
+            const d = e.detail;
+            const card = document.getElementById('card-inspect');
+            const title = document.getElementById('inspect-title');
+            const badge = document.getElementById('inspect-badge');
+            const fieldsContainer = document.getElementById('inspect-fields');
+            if (!card || !title || !badge || !fieldsContainer) return;
+            title.textContent = d.title;
+            badge.textContent = d.badge;
+            fieldsContainer.innerHTML = d.fields.map(f => `
+                <div class="flex justify-between items-center px-2 py-1.5 rounded" style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06)">
+                    <span class="text-[10px] font-sans" style="color: rgba(148,163,184,0.85)">${f.label}:</span>
+                    <span class="font-mono font-semibold text-[11px] text-white">${f.value}</span>
+                </div>
+            `).join('');
+            card.classList.remove('hidden');
+        });
+
+        function closeInspectCard() {
+            const card = document.getElementById('card-inspect');
+            if (card) card.classList.add('hidden');
+        }
+
+        function toggleTwinTheme() {
+            if (window.twin3D) window.twin3D.toggleTheme();
+        }
+
+        window.addEventListener('keydown', (e) => {
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+            if (e.key === '1') triggerScenario('nominal');
+            else if (e.key === '2') triggerScenario('tsrtcBreakdown');
+            else if (e.key === '3') triggerScenario('monsoonFlood');
+            else if (e.key === '4') triggerScenario('flyoverCollision');
+            else if (e.key === '5') triggerScenario('ambulanceCorridor');
+            else if (e.key.toLowerCase() === 'a') setCam('aerial');
+            else if (e.key.toLowerCase() === 'c') setCam('cybertowers');
+            else if (e.key.toLowerCase() === 'f') setCam('flyover');
+            else if (e.key.toLowerCase() === 'e') setCam('ambulance');
+            else if (e.key.toLowerCase() === 'l') toggleTwinTheme();
+            else if (e.code === 'Space') { e.preventDefault(); toggleAutoRotate(); }
+        });
+
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) document.documentElement.requestFullscreen().catch(() => {});
+            else if (document.exitFullscreen) document.exitFullscreen();
+        }
+    </script>
+</body>
+</html>

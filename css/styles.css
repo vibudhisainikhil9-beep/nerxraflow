@@ -1,0 +1,501 @@
+/* ==========================================================================
+   NEXRAFLOW AI - GOVERNMENT ICCC
+   Design: Minimal Editorial Glassmorphism (2025 Market Standard)
+   Themes: App 1 = Light Default | App 2 and 3 = Dark Default
+   ========================================================================== */
+
+:root {
+    --surface-base:    #f4f6f9;
+    --surface-raised:  rgba(255, 255, 255, 0.80);
+    --surface-overlay: rgba(255, 255, 255, 0.74);
+    --surface-inset:   rgba(243, 246, 250, 0.82);
+    --surface-hover:   rgba(248, 250, 252, 0.98);
+
+    --border-subtle:   rgba(209, 213, 219, 0.50);
+    --border-default:  rgba(203, 213, 225, 0.65);
+    --border-focus:    #2563eb;
+    --border-strong:   rgba(148, 163, 184, 0.50);
+
+    --text-primary:    #0f172a;
+    --text-secondary:  #374151;
+    --text-tertiary:   #6b7280;
+    --text-muted:      #9ca3af;
+    --text-inverse:    #ffffff;
+
+    --accent:          #2563eb;
+    --accent-hover:    #1d4ed8;
+    --accent-subtle:   rgba(37, 99, 235, 0.09);
+    --accent-text:     #1d4ed8;
+
+    --status-green:        #16a34a;
+    --status-green-bg:     rgba(22, 163, 74, 0.09);
+    --status-green-border: rgba(34, 197, 94, 0.35);
+    --status-amber:        #b45309;
+    --status-amber-bg:     rgba(217, 119, 6, 0.09);
+    --status-amber-border: rgba(245, 158, 11, 0.35);
+    --status-red:          #dc2626;
+    --status-red-bg:       rgba(220, 38, 38, 0.09);
+    --status-red-border:   rgba(239, 68, 68, 0.35);
+    --status-cyan:         #0284c7;
+    --status-cyan-bg:      rgba(2, 132, 199, 0.09);
+    --status-cyan-border:  rgba(56, 189, 248, 0.35);
+
+    --glass-blur:    blur(14px) saturate(180%);
+    --glass-blur-sm: blur(8px)  saturate(160%);
+    --glass-blur-lg: blur(20px) saturate(190%);
+
+    --shadow-card:   0 1px 3px rgba(0,0,0,0.05), 0 4px 16px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.9);
+    --shadow-raised: 0 4px 24px rgba(0,0,0,0.07), 0 1px 4px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,1);
+    --shadow-focus:  0 0 0 3px rgba(37, 99, 235, 0.15);
+
+    --radius-sm: 6px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --radius-xl: 16px;
+
+    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --font-mono: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+
+    --bg-main:     var(--surface-base);
+    --bg-header:   var(--surface-raised);
+    --bg-card:     var(--surface-raised);
+    --bg-card-sub: var(--surface-inset);
+    --bg-footer:   var(--surface-raised);
+    --border-card: var(--border-default);
+    --card-shadow: var(--shadow-card);
+    --card-radius: var(--radius-lg);
+    --glass-blur-old: var(--glass-blur);
+}
+
+html.dark {
+    --surface-base:    #090d14;
+    --surface-raised:  rgba(13, 19, 31, 0.84);
+    --surface-overlay: rgba(17, 24, 39, 0.74);
+    --surface-inset:   rgba(8, 13, 22, 0.86);
+    --surface-hover:   rgba(20, 28, 44, 0.94);
+
+    --border-subtle:   rgba(255, 255, 255, 0.05);
+    --border-default:  rgba(255, 255, 255, 0.09);
+    --border-focus:    #38bdf8;
+    --border-strong:   rgba(255, 255, 255, 0.16);
+
+    --text-primary:    #f1f5f9;
+    --text-secondary:  #cbd5e1;
+    --text-tertiary:   #94a3b8;
+    --text-muted:      #64748b;
+    --text-inverse:    #0f172a;
+
+    --accent:          #3b82f6;
+    --accent-hover:    #2563eb;
+    --accent-subtle:   rgba(59, 130, 246, 0.12);
+    --accent-text:     #60a5fa;
+
+    --status-green:        #4ade80;
+    --status-green-bg:     rgba(22, 163, 74, 0.14);
+    --status-green-border: rgba(74, 222, 128, 0.28);
+    --status-amber:        #fbbf24;
+    --status-amber-bg:     rgba(217, 119, 6, 0.14);
+    --status-amber-border: rgba(251, 191, 36, 0.28);
+    --status-red:          #f87171;
+    --status-red-bg:       rgba(239, 68, 68, 0.14);
+    --status-red-border:   rgba(248, 113, 113, 0.28);
+    --status-cyan:         #38bdf8;
+    --status-cyan-bg:      rgba(56, 189, 248, 0.12);
+    --status-cyan-border:  rgba(56, 189, 248, 0.28);
+
+    --glass-blur:    blur(14px) saturate(190%);
+    --glass-blur-sm: blur(8px)  saturate(170%);
+    --glass-blur-lg: blur(22px) saturate(200%);
+
+    --shadow-card:   0 1px 2px rgba(0,0,0,0.32), 0 4px 20px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.06);
+    --shadow-raised: 0 4px 28px rgba(0,0,0,0.42), 0 1px 4px rgba(0,0,0,0.30), inset 0 1px 0 rgba(255,255,255,0.10);
+    --shadow-focus:  0 0 0 3px rgba(56, 189, 248, 0.18);
+
+    --bg-main:     var(--surface-base);
+    --bg-header:   var(--surface-raised);
+    --bg-card:     var(--surface-raised);
+    --bg-card-sub: var(--surface-inset);
+    --bg-footer:   var(--surface-raised);
+    --border-card: var(--border-default);
+    --card-shadow: var(--shadow-card);
+    --card-radius: var(--radius-lg);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { height: 100%; }
+
+body {
+    background-color: var(--surface-base);
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow: hidden;
+    height: 100%;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background:
+        radial-gradient(ellipse 80% 50% at 10% 0%,  rgba(219, 234, 254, 0.50) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 90% 0%,  rgba(233, 213, 255, 0.30) 0%, transparent 60%),
+        radial-gradient(ellipse 80% 60% at 50% 110%, rgba(224, 231, 255, 0.25) 0%, transparent 50%);
+}
+
+html.dark body::before {
+    background:
+        radial-gradient(ellipse 70% 50% at 5%  0%,  rgba(30, 58, 138, 0.18) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 95% 0%,  rgba(67, 56, 202, 0.10) 0%, transparent 60%),
+        radial-gradient(ellipse 80% 60% at 50% 110%, rgba(3, 5, 14, 0.96)   0%, transparent 50%);
+}
+
+.scada-card, .glass-card, .hud-card {
+    position: relative;
+    background: var(--surface-raised);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.scada-card:hover, .glass-card:hover {
+    border-color: var(--border-strong);
+    box-shadow: var(--shadow-raised);
+}
+
+.scada-subcard,
+div[class*="bg-slate-900/60"],
+div[class*="bg-slate-900/70"],
+div[class*="bg-slate-900/80"],
+div[class*="bg-slate-950/80"] {
+    background: var(--surface-inset) !important;
+    backdrop-filter: var(--glass-blur-sm) !important;
+    -webkit-backdrop-filter: var(--glass-blur-sm) !important;
+    border: 1px solid var(--border-subtle) !important;
+    border-radius: var(--radius-md) !important;
+}
+
+header {
+    background: var(--surface-raised) !important;
+    backdrop-filter: var(--glass-blur-lg) !important;
+    -webkit-backdrop-filter: var(--glass-blur-lg) !important;
+    border-bottom: 1px solid var(--border-default) !important;
+    box-shadow: 0 1px 0 var(--border-subtle) !important;
+    position: relative;
+    z-index: 30;
+}
+
+footer {
+    background: var(--surface-raised) !important;
+    backdrop-filter: var(--glass-blur) !important;
+    -webkit-backdrop-filter: var(--glass-blur) !important;
+    border-top: 1px solid var(--border-default) !important;
+}
+
+.hud-banner, #autopilot-hud {
+    background: var(--surface-overlay) !important;
+    backdrop-filter: var(--glass-blur-lg) !important;
+    -webkit-backdrop-filter: var(--glass-blur-lg) !important;
+    border-bottom: 1px solid var(--border-subtle) !important;
+}
+
+.badge-scada {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 2px 8px;
+    font-family: var(--font-sans);
+    font-size: 0.67rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    border-radius: var(--radius-sm);
+    border: 1px solid transparent;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+}
+
+.badge-green  { color: var(--status-green); background: var(--status-green-bg); border-color: var(--status-green-border); }
+.badge-amber  { color: var(--status-amber); background: var(--status-amber-bg); border-color: var(--status-amber-border); }
+.badge-red    { color: var(--status-red);   background: var(--status-red-bg);   border-color: var(--status-red-border); }
+.badge-cyan   { color: var(--status-cyan);  background: var(--status-cyan-bg);  border-color: var(--status-cyan-border); }
+
+.live-pulse {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    display: inline-block;
+    flex-shrink: 0;
+    position: relative;
+}
+
+.live-pulse::after {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border-radius: 50%;
+    background: inherit;
+    opacity: 0;
+    animation: pulse-ring 2s ease-out infinite;
+}
+
+@keyframes pulse-ring {
+    0%  { transform: scale(1);   opacity: 0.6; }
+    70% { transform: scale(2.4); opacity: 0; }
+    100%{ transform: scale(1);   opacity: 0; }
+}
+
+.btn-scada {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    font-family: var(--font-sans);
+    font-size: 0.72rem;
+    font-weight: 500;
+    padding: 5px 11px;
+    border-radius: var(--radius-sm);
+    background: var(--surface-raised);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-default);
+    backdrop-filter: var(--glass-blur-sm);
+    -webkit-backdrop-filter: var(--glass-blur-sm);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.15);
+    cursor: pointer;
+    transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+    white-space: nowrap;
+}
+
+.btn-scada:hover {
+    background: var(--surface-hover);
+    color: var(--text-primary);
+    border-color: var(--border-strong);
+    transform: translateY(-1px);
+    box-shadow: 0 3px 10px rgba(0,0,0,0.10), inset 0 1px 0 rgba(255,255,255,0.20);
+}
+
+.btn-scada:active { transform: translateY(0); box-shadow: 0 1px 2px rgba(0,0,0,0.08); }
+
+.btn-scada-primary {
+    background: var(--accent) !important;
+    color: #fff !important;
+    border-color: var(--accent-hover) !important;
+    box-shadow: 0 2px 8px rgba(37,99,235,0.30), inset 0 1px 0 rgba(255,255,255,0.20) !important;
+}
+.btn-scada-primary:hover {
+    background: var(--accent-hover) !important;
+    box-shadow: 0 4px 14px rgba(37,99,235,0.45), inset 0 1px 0 rgba(255,255,255,0.25) !important;
+}
+
+.btn-scada-danger {
+    background: var(--status-red-bg) !important;
+    color: var(--status-red) !important;
+    border-color: var(--status-red-border) !important;
+}
+.btn-scada-danger:hover { background: rgba(239, 68, 68, 0.18) !important; }
+
+.scenario-bar {
+    background: var(--surface-inset) !important;
+    backdrop-filter: var(--glass-blur-sm) !important;
+    -webkit-backdrop-filter: var(--glass-blur-sm) !important;
+    border: 1px solid var(--border-subtle) !important;
+    border-radius: var(--radius-md) !important;
+    padding: 3px !important;
+}
+
+.scenario-btn {
+    padding: 4px 9px;
+    border-radius: var(--radius-sm);
+    font-size: 11px;
+    font-weight: 500;
+    transition: all 0.15s ease;
+}
+
+.scenario-btn:hover { background: var(--surface-hover); }
+
+.scada-tab-btn {
+    font-size: 0.68rem;
+    font-weight: 500;
+    color: var(--text-tertiary);
+    border-bottom: 2px solid transparent !important;
+    padding: 6px 4px;
+    transition: color 0.15s ease, border-color 0.15s ease;
+    background: transparent;
+}
+
+.scada-tab-btn:hover { color: var(--text-secondary); }
+
+.scada-tab-btn.active-tab {
+    color: var(--accent-text);
+    border-bottom-color: var(--accent) !important;
+    font-weight: 600;
+}
+
+#scada-map {
+    position: absolute;
+    inset: 0;
+    border-radius: calc(var(--radius-lg) - 4px);
+    overflow: hidden;
+    z-index: 1;
+}
+
+.leaflet-container {
+    background: var(--surface-base) !important;
+    font-family: var(--font-sans) !important;
+}
+
+.map-toolbar {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    pointer-events: auto;
+}
+
+.map-toolbar-btn {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-weight: 500;
+    padding: 5px 9px;
+    border-radius: var(--radius-sm);
+    background: var(--surface-raised);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-default);
+    backdrop-filter: var(--glass-blur-sm);
+    -webkit-backdrop-filter: var(--glass-blur-sm);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    cursor: pointer;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+    min-width: 86px;
+}
+
+.map-toolbar-btn:hover {
+    background: var(--surface-hover);
+    border-color: var(--border-strong);
+    color: var(--text-primary);
+}
+
+.map-toolbar-btn.active {
+    background: var(--accent-subtle);
+    border-color: var(--accent);
+    color: var(--accent-text);
+}
+
+.map-legend-card {
+    background: var(--surface-raised) !important;
+    backdrop-filter: var(--glass-blur) !important;
+    -webkit-backdrop-filter: var(--glass-blur) !important;
+    border: 1px solid var(--border-default) !important;
+    border-radius: var(--radius-md) !important;
+    box-shadow: var(--shadow-card) !important;
+}
+
+.traffic-light-housing {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    background: #111827;
+    border-radius: 8px;
+    padding: 8px 7px;
+    border: 1px solid rgba(255,255,255,0.07);
+    box-shadow: inset 0 2px 6px rgba(0,0,0,0.5), 0 2px 8px rgba(0,0,0,0.3);
+}
+
+.traffic-light-visor {
+    background: #0d1117;
+    border-radius: 5px;
+    padding: 3px;
+    border: 1px solid rgba(255,255,255,0.04);
+}
+
+.traffic-lens {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.6);
+}
+
+.traffic-lens.red   { background: #1f0505; }
+.traffic-lens.amber { background: #1a1000; }
+.traffic-lens.green { background: #021a06; }
+
+.traffic-lens.red.active   { background: #ef4444; box-shadow: 0 0 14px rgba(239,68,68,0.7),  inset 0 1px 2px rgba(255,255,255,0.2); }
+.traffic-lens.amber.active { background: #f59e0b; box-shadow: 0 0 14px rgba(245,158,11,0.7), inset 0 1px 2px rgba(255,255,255,0.2); }
+.traffic-lens.green.active { background: #22c55e; box-shadow: 0 0 14px rgba(34,197,94,0.7),  inset 0 1px 2px rgba(255,255,255,0.2); }
+
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+
+.scada-tooltip {
+    background: var(--surface-overlay) !important;
+    backdrop-filter: var(--glass-blur) !important;
+    -webkit-backdrop-filter: var(--glass-blur) !important;
+    border: 1px solid var(--border-default) !important;
+    border-radius: var(--radius-md) !important;
+    color: var(--text-primary) !important;
+    font-family: var(--font-sans) !important;
+    font-size: 11.5px !important;
+    box-shadow: var(--shadow-raised) !important;
+    padding: 8px 12px !important;
+    max-width: 280px;
+}
+
+@keyframes flow-anim {
+    from { stroke-dashoffset: 24; }
+    to   { stroke-dashoffset: 0; }
+}
+
+.flow-dash-green path, .flow-dash-green polyline { stroke-dasharray: 8, 8; animation: flow-anim 1.2s linear infinite; }
+.flow-dash-amber path, .flow-dash-amber polyline { stroke-dasharray: 6, 8; animation: flow-anim 1.6s linear infinite; }
+.flow-dash-red path,   .flow-dash-red polyline   { stroke-dasharray: 4, 8; animation: flow-anim 2.2s linear infinite; }
+.flow-dash-cyan path,  .flow-dash-cyan polyline  { stroke-dasharray: 10,6; animation: flow-anim 1.0s linear infinite; }
+
+.tab-content { display: none; }
+.tab-content:not(.hidden) { display: flex; flex-direction: column; gap: 10px; }
+
+textarea {
+    background: var(--surface-inset) !important;
+    border: 1px solid var(--border-default) !important;
+    border-radius: var(--radius-md) !important;
+    color: var(--text-primary) !important;
+    font-family: var(--font-mono) !important;
+    resize: none;
+    transition: border-color 0.15s ease;
+}
+
+textarea:focus {
+    outline: none !important;
+    border-color: var(--border-focus) !important;
+    box-shadow: var(--shadow-focus) !important;
+}
+
+::selection { background: var(--accent-subtle); color: var(--accent-text); }
+
+.leaflet-popup-content-wrapper {
+    background: var(--surface-overlay) !important;
+    border: 1px solid var(--border-default) !important;
+    border-radius: var(--radius-md) !important;
+    box-shadow: var(--shadow-raised) !important;
+    color: var(--text-primary) !important;
+}
+.leaflet-popup-tip { background: var(--surface-overlay) !important; }
+
+.font-mono { font-family: var(--font-mono); }
+.font-sans  { font-family: var(--font-sans); }
