@@ -660,7 +660,11 @@ class ScadaApp {
         this._recalculateTrafficScience();
         this._renderTelemetryUi();
 
-        // Broadcast scenario to TelemetryBus so App 2 knows if user triggered here
+        // Broadcast scenario to TelemetryBus and NeuraX AI Engine
+        if (window.neuraxEngine) {
+            window.neuraxEngine.setScenario(scenarioId);
+        }
+
         if (window.telemetryBus) {
             window.telemetryBus.publish({
                 source: 'scada_cockpit',

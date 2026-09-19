@@ -1086,6 +1086,15 @@ class NexraFlow3D {
         this.scene.fog.color.setHex(0x040812);
         this.scene.fog.density = 0.002;
 
+        // Reset and unlock all vehicles
+        if (this.vehicles && this.vehicles.length > 0) {
+            this.vehicles.forEach(v => {
+                v.isQueueLocked = false;
+                v.turnSignal = 'none';
+                v.targetLaneX = v.baseLaneX;
+            });
+        }
+
         if (scenarioId === 'nominal') {
             this.corridorSpeed = 46.5;
             this.setSignalPhase('GREEN');
@@ -1107,9 +1116,35 @@ class NexraFlow3D {
 
         const badge = document.getElementById('hud-scenario-name');
         if (badge) badge.textContent = scenarioId.toUpperCase();
+
+        // Highlight scenario button in 3D HUD if present
+        document.querySelectorAll('.scenario-btn-3d').forEach(b => b.classList.remove('active'));
+        const activeBtn = document.getElementById(`btn-3d-${scenarioId}`);
+        if (activeBtn) activeBtn.classList.add('active');
+
+        if (scenarioId === 'ambulanceCorridor') {
+            setTimeout(() => {
+                if (typeof this.setCameraMode === 'function') this.setCameraMode('ambulance');
+            }, 300);
+        } else if (scenarioId === 'tsrtcBreakdown') {
+            setTimeout(() => {
+                if (typeof this.setCameraMode === 'function') this.setCameraMode('flyover');
+            }, 300);
+        }
     }
 
     _spawnStalledTSRTCBus() {
+        // Clear any vehicle currently located inside the breakdown zone
+        if (this.vehicles) {
+            this.vehicles.forEach(v => {
+                if (v.useFlyover && v.currentLaneX > 0 && v.z >= -22 && v.z <= 26) {
+                    v.z = 28; // Push ahead past the breakdown
+                    v.targetLaneX = v.baseLaneX;
+                    v.currentLaneX = v.baseLaneX;
+                }
+            });
+        }
+
         const stalledBusData = this._createVehicleModel('bus', 999);
         const stalledBus = stalledBusData.mesh;
         stalledBus.position.set(4.5, 18.2, 10);
@@ -1177,6 +1212,17 @@ class NexraFlow3D {
     }
 
     _spawnFlyoverCrash() {
+        // Clear any vehicle currently in the crash zone
+        if (this.vehicles) {
+            this.vehicles.forEach(v => {
+                if (v.useFlyover && v.currentLaneX < 0 && v.z >= -62 && v.z <= -25) {
+                    v.z = -20; // Push ahead past the crash
+                    v.targetLaneX = v.baseLaneX;
+                    v.currentLaneX = v.baseLaneX;
+                }
+            });
+        }
+
         const crashCar1Data = this._createVehicleModel('car', 888);
         const crashCar1 = crashCar1Data.mesh;
         crashCar1.position.set(-4.5, 15.2, -40);
@@ -1493,6 +1539,26 @@ class NexraFlow3D {
         // -------------------------------------------------------------
         // CAR-FOLLOWING & DETERMINISTIC TRAFFIC PHYSICS
         // -------------------------------------------------------------
+        let barrierActive = false;
+        let barrierLaneX = 0;
+        let barrierMinZ = 0;
+        let barrierMaxZ = 0;
+        let barrierStopZ = 0; // Hard clamp Z for blocked lane
+
+        if (this.scenarioId === 'tsrtcBreakdown') {
+            barrierActive = true;
+            barrierLaneX = 4.5;
+            barrierStopZ = -18; // Cones start at z = -15, absolute hard stop before cones
+            barrierMinZ = -18;
+            barrierMaxZ = 24;
+        } else if (this.scenarioId === 'flyoverCollision') {
+            barrierActive = true;
+            barrierLaneX = -4.5;
+            barrierStopZ = -55; // Flares start at z = -50, absolute hard stop before flares
+            barrierMinZ = -55;
+            barrierMaxZ = -15;
+        }
+
         this.vehicles.forEach(v => {
             const onFlyover = (v.useFlyover && v.z >= -132 && v.z <= 132);
             let targetSpeed = baseStep * v.cruiseSpeedMultiplier;
@@ -1503,15 +1569,19 @@ class NexraFlow3D {
                 for (let i = 0; i < signalGantriesZ.length; i++) {
                     const gZ = signalGantriesZ[i];
                     const distToGantry = gZ - v.z;
-                    if (distToGantry > 0 && distToGantry < 45) {
+                    if (distToGantry > 0 && distToGantry < 50) {
                         const sig = this.signals[i];
                         if (sig && (sig.phase === 'red' || sig.phase === 'amber')) {
                             const stopLineZ = gZ - 8;
                             const distToStop = stopLineZ - v.z;
-                            if (distToStop > 0 && distToStop < 38) {
+                            if (distToStop > 0 && distToStop < 42) {
                                 isBraking = true;
-                                targetSpeed = Math.min(targetSpeed, baseStep * (distToStop / 30) * 0.45);
-                                if (distToStop <= 3.8) targetSpeed = 0;
+                                targetSpeed = Math.min(targetSpeed, baseStep * (distToStop / 28) * 0.4);
+                                if (distToStop <= 2.5) {
+                                    targetSpeed = 0;
+                                    v.currentSpeed = 0;
+                                    v.z = Math.min(v.z, stopLineZ);
+                                }
                             }
                         }
                         break;
@@ -1519,89 +1589,62 @@ class NexraFlow3D {
                 }
             }
 
-            // 2. SCENARIO A: TSRTC BUS BREAKDOWN (Flyover Lane 2, x = 4.5, z = 10)
-            if (this.scenarioId === 'tsrtcBreakdown') {
-                if (onFlyover) {
-                    // Vehicles approaching in the blocked right lane (x = 4.5)
-                    if (v.currentLaneX > 0 && v.z < 10) {
-                        const distToStall = 10 - v.z;
-                        if (distToStall < 115) {
-                            // Upstream vehicles can change to the open left lane (x = -4.5)
-                            const canChangeLane = distToStall > 36 && !v.isQueueLocked;
-                            const leftLaneClear = !this._isLaneOccupiedAround(-4.5, v.z - 9, v.z + 14, v);
+            // 2. INCIDENT & OBSTACLE PHYSICAL LANE LOGIC (TSRTC Breakdown & Flyover Crash)
+            if (barrierActive && onFlyover) {
+                const inBlockedCorridor = Math.abs(v.currentLaneX - barrierLaneX) < 2.5 || Math.abs(v.targetLaneX - barrierLaneX) < 1.0;
 
-                            if (canChangeLane && leftLaneClear) {
-                                v.targetLaneX = -4.5;
-                                v.turnSignal = 'left';
-                                targetSpeed = Math.min(targetSpeed, baseStep * 0.5);
-                            } else {
-                                // Must queue up safely behind the emergency cones & bus!
-                                v.isQueueLocked = true;
-                                v.turnSignal = 'none';
-                                const stopZ = -6; // Cones start at z = -3
-                                const distToStop = stopZ - v.z;
-                                isBraking = true;
-                                if (distToStop > 0) {
-                                    targetSpeed = Math.min(targetSpeed, baseStep * (distToStop / 24) * 0.45);
-                                    if (distToStop <= 3.6) targetSpeed = 0;
-                                } else {
-                                    targetSpeed = 0;
-                                }
-                            }
-                        }
-                    }
+                if (inBlockedCorridor) {
+                    const distToBarrier = barrierStopZ - v.z;
+                    const openLaneX = (barrierLaneX > 0) ? -4.5 : 4.5;
+                    const canMerge = (distToBarrier > 45 && !v.isQueueLocked);
 
-                    // Vehicles passing the incident in the open left lane (x = -4.5) crawl at safe bottleneck speed
-                    if (v.currentLaneX < 0 && v.z >= -35 && v.z <= 35) {
-                        targetSpeed = Math.min(targetSpeed, baseStep * 0.35);
-                    }
-
-                    // Once vehicle passes the breakdown, unlock and resume cruise
-                    if (v.z > 25 && v.isQueueLocked) {
-                        v.isQueueLocked = false;
+                    if (canMerge && !this._isLaneOccupiedAround(openLaneX, v.z - 14, v.z + 18, v)) {
+                        // Clear to merge to open lane!
+                        v.targetLaneX = openLaneX;
+                        v.turnSignal = (openLaneX < 0) ? 'left' : 'right';
+                        targetSpeed = Math.min(targetSpeed, baseStep * 0.55);
+                    } else {
+                        // Cannot merge: MUST queue behind obstacle or lead vehicle!
+                        v.isQueueLocked = true;
+                        v.targetLaneX = barrierLaneX;
                         v.turnSignal = 'none';
-                    }
-                }
-            }
 
-            // 3. SCENARIO B: FLYOVER COLLISION (Flyover Lane 1, x = -4.5, z = -36)
-            if (this.scenarioId === 'flyoverCollision') {
-                if (onFlyover && v.currentLaneX < 0 && v.z < -36) {
-                    const distToCrash = -36 - v.z;
-                    if (distToCrash < 95) {
-                        const canMergeRight = distToCrash > 32 && !v.isQueueLocked;
-                        const rightLaneClear = !this._isLaneOccupiedAround(4.5, v.z - 9, v.z + 14, v);
-                        if (canMergeRight && rightLaneClear) {
-                            v.targetLaneX = 4.5;
-                            v.turnSignal = 'right';
-                            targetSpeed = Math.min(targetSpeed, baseStep * 0.5);
-                        } else {
-                            v.isQueueLocked = true;
-                            v.turnSignal = 'none';
-                            const distToStop = (-50) - v.z;
+                        if (distToBarrier > 0) {
                             isBraking = true;
-                            if (distToStop > 0) {
-                                targetSpeed = Math.min(targetSpeed, baseStep * (distToStop / 20) * 0.45);
-                                if (distToStop <= 3.5) targetSpeed = 0;
-                            } else {
+                            targetSpeed = Math.min(targetSpeed, baseStep * Math.min(1.0, distToBarrier / 25) * 0.5);
+                            if (distToBarrier <= 2.5) {
                                 targetSpeed = 0;
+                                v.currentSpeed = 0;
+                                v.z = Math.min(v.z, barrierStopZ);
                             }
+                        } else {
+                            // ABSOLUTE HARD STOP CLAMP: Zero speed, strictly clamped before obstacle!
+                            targetSpeed = 0;
+                            v.currentSpeed = 0;
+                            v.z = Math.min(v.z, barrierStopZ);
+                            isBraking = true;
                         }
                     }
+                } else {
+                    // In the open passing lane: crawl at safe bottleneck speed
+                    if (v.z >= (barrierMinZ - 20) && v.z <= (barrierMaxZ + 15)) {
+                        targetSpeed = Math.min(targetSpeed, baseStep * 0.38);
+                        v.targetLaneX = (barrierLaneX > 0) ? -4.5 : 4.5; // Disallow entering blocked lane!
+                    }
                 }
             }
 
-            // 4. SCENARIO C: 108 EMERGENCY GREEN WAVE PREEMPTION (Yield Center to Ambulance)
+            // 3. 108 EMERGENCY AMBULANCE PREEMPTION (Yield Center to Ambulance)
             if (this.scenarioId === 'ambulanceCorridor' && this.ambulance && !onFlyover) {
                 const ambZ = this.ambulance.position.z;
-                if (v.z > ambZ && v.z - ambZ < 75 && Math.abs(v.currentLaneX) < 8.0) {
+                if (v.z > (ambZ - 10) && (v.z - ambZ) < 85 && Math.abs(v.currentLaneX) < 8.0) {
                     v.targetLaneX = (v.baseLaneX < 0) ? -13.5 : 13.5;
                     v.turnSignal = (v.baseLaneX < 0) ? 'left' : 'right';
                     targetSpeed = Math.max(targetSpeed, baseStep * 1.15);
                 }
             }
 
-            // 5. INTELLIGENT DRIVER MODEL (IDM) CAR-FOLLOWING GAP CONTROL
+            // 4. INTELLIGENT DRIVER MODEL (IDM) & GAP REGULATION
             let nearestLeadGap = 9999;
             let leadSpeed = 9999;
 
@@ -1612,7 +1655,8 @@ class NexraFlow3D {
                 if (otherOnFlyover !== onFlyover) continue; // Different road levels
 
                 // Check if in the same lane corridor
-                if (Math.abs(other.currentLaneX - v.currentLaneX) < 3.2) {
+                const lateralDistance = Math.abs(other.currentLaneX - v.currentLaneX);
+                if (lateralDistance < 2.8) {
                     const gap = other.z - v.z;
                     if (gap > 0 && gap < nearestLeadGap) {
                         nearestLeadGap = gap;
@@ -1621,38 +1665,53 @@ class NexraFlow3D {
                 }
             }
 
-            const minSafeGap = (v.type === 'bus' ? 14.5 : 10.0);
-            if (nearestLeadGap < minSafeGap * 2.6) {
+            const minSafeGap = (v.type === 'bus' ? 14.0 : 10.0);
+            if (nearestLeadGap < minSafeGap * 2.5) {
                 isBraking = true;
                 if (nearestLeadGap <= minSafeGap) {
-                    targetSpeed = 0; // HARD STOP: Guarantees zero clipping/ramming!
+                    targetSpeed = 0; // HARD STOP: Guarantees zero ramming!
+                    if (nearestLeadGap < (minSafeGap - 1.5)) {
+                        v.currentSpeed = 0;
+                    }
                 } else {
-                    const ratio = (nearestLeadGap - minSafeGap) / (minSafeGap * 1.6);
-                    targetSpeed = Math.min(targetSpeed, leadSpeed * ratio);
+                    const ratio = (nearestLeadGap - minSafeGap) / (minSafeGap * 1.5);
+                    targetSpeed = Math.min(targetSpeed, Math.max(0, leadSpeed * ratio));
                 }
             }
 
-            // 6. SMOOTH ACCELERATION / DECELERATION
-            const rate = (targetSpeed < v.currentSpeed) ? 0.14 : 0.05;
+            // 5. SMOOTH ACCELERATION / DECELERATION
+            const rate = (targetSpeed < v.currentSpeed) ? 0.18 : 0.06;
             v.currentSpeed += (targetSpeed - v.currentSpeed) * rate;
-            if (v.currentSpeed < 0.005) v.currentSpeed = 0;
+            if (v.currentSpeed < 0.003) v.currentSpeed = 0;
 
-            // 7. POSITION & SEAMLESS RECYCLING
+            // 6. POSITION & SEAMLESS RECYCLING
             v.z += v.currentSpeed;
+
             if (v.z > 410) {
-                v.z = -410;
+                const laneVehicles = this.vehicles.filter(o => o !== v && Math.abs(o.baseLaneX - v.baseLaneX) < 1.0);
+                const minZInLane = laneVehicles.reduce((min, o) => Math.min(min, o.z), -380);
+                v.z = Math.min(-410, minZInLane - 35);
                 v.targetLaneX = v.baseLaneX;
                 v.currentLaneX = v.baseLaneX;
                 v.isQueueLocked = false;
                 v.turnSignal = 'none';
+                v.currentSpeed = baseStep * v.cruiseSpeedMultiplier;
             }
 
-            // 8. LATERAL LANE CHANGE & STEERING YAW ANGLE
+            // 7. LATERAL LANE CHANGE & STEERING YAW ANGLE
             const lateralDelta = (v.targetLaneX - v.currentLaneX);
-            v.currentLaneX += lateralDelta * 0.055;
-            v.mesh.rotation.y = lateralDelta * 0.22;
+            if (Math.abs(lateralDelta) > 0.02) {
+                v.currentLaneX += lateralDelta * 0.065;
+                v.mesh.rotation.y = lateralDelta * 0.20;
+            } else {
+                v.currentLaneX = v.targetLaneX;
+                v.mesh.rotation.y = 0;
+                if (v.turnSignal !== 'none' && Math.abs(v.currentLaneX - v.targetLaneX) < 0.05) {
+                    v.turnSignal = 'none';
+                }
+            }
 
-            // 9. FLYOVER VERTICAL ELEVATION & REALISTIC ROAD PITCH
+            // 8. FLYOVER VERTICAL ELEVATION & REALISTIC ROAD PITCH
             let y = 0.2;
             let pitch = 0;
             if (v.useFlyover && v.z >= -130 && v.z <= 130) {
@@ -1663,8 +1722,8 @@ class NexraFlow3D {
             v.mesh.rotation.x = -pitch;
             v.mesh.position.set(v.currentLaneX, y, v.z);
 
-            // 10. DYNAMIC BRAKE LIGHTS & TURN BLINKERS
-            const isStoppedOrBraking = (v.currentSpeed < 0.08 || isBraking);
+            // 9. DYNAMIC BRAKE LIGHTS & TURN BLINKERS
+            const isStoppedOrBraking = (v.currentSpeed < 0.06 || isBraking);
             if (v.tailLights) {
                 v.tailLights.forEach(tl => {
                     tl.material.color.setHex(isStoppedOrBraking ? 0xff1111 : 0x4a0404);

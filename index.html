@@ -279,12 +279,24 @@
                     <button id="map-btn-bypass" class="map-toolbar-btn" onclick="window.scadaApp.showBypassRoute(!window.scadaApp.state.bypassActive)" title="Bypass Route">
                         <i class="fa-solid fa-route" style="color: var(--status-cyan)"></i> <span>Bypass</span>
                     </button>
-                    <button onclick="window.open('twin3d.html', 'NexraFlow3D', 'width=1366,height=820')" class="map-toolbar-btn" title="3D Twin">
-                        <i class="fa-solid fa-cube" style="color: var(--accent-text)"></i> <span>3D Twin</span>
+                    <div class="h-4 w-[1px] bg-slate-700/50 mx-0.5"></div>
+                    <button id="map-btn-view-2d" class="map-toolbar-btn active" onclick="window.switchMapMode('2d')" title="2D Leaflet GIS Map">
+                        <i class="fa-solid fa-map text-emerald-400"></i> <span>2D Map</span>
+                    </button>
+                    <button id="map-btn-view-3d" class="map-toolbar-btn" onclick="window.switchMapMode('3d')" title="Interactive 3D WebGL Digital Twin">
+                        <i class="fa-solid fa-cube text-cyan-400"></i> <span>3D Twin View</span>
+                    </button>
+                    <button onclick="window.open('twin3d.html', 'NexraFlow3D', 'width=1366,height=820')" class="map-toolbar-btn" title="Open Fullscreen 3D Twin in New Window">
+                        <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
                     </button>
                 </div>
 
                 <div id="scada-map"></div>
+
+                <!-- Embedded 3D Digital Twin Viewport -->
+                <div id="twin-3d-embed-container" class="hidden w-full h-full absolute inset-0 z-[500] rounded-lg overflow-hidden bg-slate-950">
+                    <iframe id="twin-3d-iframe" src="twin3d.html" class="w-full h-full border-0" allow="fullscreen"></iframe>
+                </div>
 
                 <!-- Map Legend -->
                 <div class="map-legend-card absolute bottom-3 left-3 z-[1000] p-2.5 rounded-lg text-[10px] font-sans space-y-1">
@@ -770,6 +782,40 @@
                     </div>
                 </div>
             `).join('');
+        };
+
+        window.switchMapMode = function(mode) {
+            const mapEl = document.getElementById('scada-map');
+            const twinEl = document.getElementById('twin-3d-embed-container');
+            const legendEl = document.querySelector('.map-legend-card');
+            const btn2d = document.getElementById('map-btn-view-2d');
+            const btn3d = document.getElementById('map-btn-view-3d');
+
+            if (mode === '3d') {
+                if (mapEl) mapEl.style.display = 'none';
+                if (twinEl) twinEl.classList.remove('hidden');
+                if (legendEl) legendEl.classList.add('hidden');
+                if (btn2d) btn2d.classList.remove('active');
+                if (btn3d) btn3d.classList.add('active');
+
+                // Broadcast active scenario to 3D twin immediately
+                if (window.scadaApp && window.telemetryBus) {
+                    window.telemetryBus.publish({
+                        source: 'scada_cockpit',
+                        scenarioId: window.scadaApp.currentScenario,
+                        action: 'scenario_change'
+                    });
+                }
+            } else {
+                if (mapEl) mapEl.style.display = 'block';
+                if (twinEl) twinEl.classList.add('hidden');
+                if (legendEl) legendEl.classList.remove('hidden');
+                if (btn2d) btn2d.classList.add('active');
+                if (btn3d) btn3d.classList.remove('active');
+                if (window.scadaApp && window.scadaApp.map) {
+                    window.scadaApp.map.invalidateSize();
+                }
+            }
         };
 
         document.addEventListener('keydown', (e) => {
