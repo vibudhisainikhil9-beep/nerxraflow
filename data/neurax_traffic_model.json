@@ -1,0 +1,1330 @@
+{
+  "model_name": "NeuraX-TrafficFlow-v2.0",
+  "trained_at": "2026-09-20T00:24:57.970223",
+  "dataset_version": "NeuraX Smart Cities Training Dataset v2",
+  "total_training_observations": 200000,
+  "evaluated_observations": 30000,
+  "features": [
+    "lanes",
+    "free_flow_speed_kmh",
+    "capacity_vph",
+    "length_km",
+    "importance",
+    "hour",
+    "is_peak",
+    "incident_active",
+    "incident_severity",
+    "lanes_blocked"
+  ],
+  "targets": [
+    "speed_kmh",
+    "flow_vph",
+    "occupancy_pct",
+    "delay_min",
+    "queue_length_veh",
+    "congestion_index"
+  ],
+  "metrics": {
+    "speed_kmh": {
+      "r2": 0.8216,
+      "mae": 3.2743,
+      "rmse": 4.7284
+    },
+    "flow_vph": {
+      "r2": 0.8623,
+      "mae": 153.7264,
+      "rmse": 213.816
+    },
+    "occupancy_pct": {
+      "r2": 0.8113,
+      "mae": 4.9849,
+      "rmse": 6.4817
+    },
+    "delay_min": {
+      "r2": 0.5076,
+      "mae": 0.0258,
+      "rmse": 0.0809
+    },
+    "queue_length_veh": {
+      "r2": 0.3747,
+      "mae": 4.0426,
+      "rmse": 28.7494
+    },
+    "congestion_index": {
+      "r2": 0.6072,
+      "mae": 0.0108,
+      "rmse": 0.0268
+    }
+  },
+  "feature_importances": {
+    "lanes": 0.0006,
+    "free_flow_speed_kmh": 0.0018,
+    "capacity_vph": 0.4639,
+    "length_km": 0.0052,
+    "importance": 0.0668,
+    "hour": 0.3712,
+    "is_peak": 0.0901,
+    "incident_active": 0.0002,
+    "incident_severity": 0.0002,
+    "lanes_blocked": 0.0002
+  },
+  "segment_profiles": {
+    "R0001": {
+      "segment_id": "R0001",
+      "road_class": "collector",
+      "lanes": 3,
+      "capacity_vph": 2700,
+      "free_flow_speed_kmh": 60.0,
+      "length_km": 1.69,
+      "importance": 0.7305336154401664,
+      "nominal": {
+        "speed_kmh": 44.7,
+        "flow_vph": 1615,
+        "occupancy_pct": 47.7,
+        "delay_min": 0.09,
+        "queue_veh": 0,
+        "congestion_index": 0.046
+      },
+      "incident": {
+        "speed_kmh": 43.6,
+        "flow_vph": 1618,
+        "occupancy_pct": 47.6,
+        "delay_min": 0.09,
+        "queue_veh": 0,
+        "congestion_index": 0.045
+      }
+    },
+    "R0002": {
+      "segment_id": "R0002",
+      "road_class": "collector",
+      "lanes": 3,
+      "capacity_vph": 2700,
+      "free_flow_speed_kmh": 30.0,
+      "length_km": 1.78,
+      "importance": 0.8619939550461722,
+      "nominal": {
+        "speed_kmh": 41.0,
+        "flow_vph": 1673,
+        "occupancy_pct": 50.6,
+        "delay_min": 0.12,
+        "queue_veh": 0,
+        "congestion_index": 0.055
+      },
+      "incident": {
+        "speed_kmh": 40.2,
+        "flow_vph": 1654,
+        "occupancy_pct": 50.2,
+        "delay_min": 0.12,
+        "queue_veh": 0,
+        "congestion_index": 0.054
+      }
+    },
+    "R0003": {
+      "segment_id": "R0003",
+      "road_class": "collector",
+      "lanes": 2,
+      "capacity_vph": 1800,
+      "free_flow_speed_kmh": 30.0,
+      "length_km": 0.893,
+      "importance": 0.8582665066556621,
+      "nominal": {
+        "speed_kmh": 37.3,
+        "flow_vph": 1251,
+        "occupancy_pct": 52.2,
+        "delay_min": 0.11,
+        "queue_veh": 0,
+        "congestion_index": 0.058
+      },
+      "incident": {
+        "speed_kmh": 37.3,
+        "flow_vph": 1251,
+        "occupancy_pct": 52.2,
+        "delay_min": 0.11,
+        "queue_veh": 0,
+        "congestion_index": 0.058
+      }
+    },
+    "R0004": {
+      "segment_id": "R0004",
+      "road_class": "collector",
+      "lanes": 3,
+      "capacity_vph": 2700,
+      "free_flow_speed_kmh": 60.0,
+      "length_km": 1.311,
+      "importance": 0.6130158643805834,
+      "nominal": {
+        "speed_kmh": 51.6,
+        "flow_vph": 1274,
+        "occupancy_pct": 37.7,
+        "delay_min": 0.03,
+        "queue_veh": 0,
+        "congestion_index": 0.019
+      },
+      "incident": {
+        "speed_kmh": 50.0,
+        "flow_vph": 1272,
+        "occupancy_pct": 37.6,
+        "delay_min": 0.03,
+        "queue_veh": 0,
+        "congestion_index": 0.019
+      }
+    },
+    "R0005": {
+      "segment_id": "R0005",
+      "road_class": "collector",
+      "lanes": 3,
+      "capacity_vph": 2700,
+      "free_flow_speed_kmh": 40.0,
+      "length_km": 0.794,
+      "importance": 0.6536189296020534,
+      "nominal": {
+        "speed_kmh": 39.7,
+        "flow_vph": 1406,
+        "occupancy_pct": 40.9,
+        "delay_min": 0.04,
+        "queue_veh": 0,
+        "congestion_index": 0.026
+      },
+      "incident": {
+        "speed_kmh": 39.7,
+        "flow_vph": 1406,
+        "occupancy_pct": 40.9,
+        "delay_min": 0.04,
+        "queue_veh": 0,
+        "congestion_index": 0.026
+      }
+    },
+    "R0006": {
+      "segment_id": "R0006",
+      "road_class": "collector",
+      "lanes": 3,
+      "capacity_vph": 2700,
+      "free_flow_speed_kmh": 40.0,
+      "length_km": 0.825,
+      "importance": 0.7006395142957513,
+      "nominal": {
+        "speed_kmh": 39.5,
+        "flow_vph": 1539,
+        "occupancy_pct": 45.2,
+        "delay_min": 0.07,
+        "queue_veh": 0,
+        "congestion_index": 0.038
+      },
+      "incident": {
+        "speed_kmh": 38.4,
+        "flow_vph": 1547,
+        "occupancy_pct": 45.4,
+        "delay_min": 0.07,
+        "queue_veh": 0,
+        "congestion_index": 0.039
+      }
+    },
+    "R0007": {
+      "segment_id": "R0007",
+      "road_class": "collector",
+      "lanes": 2,
+      "capacity_vph": 1800,
+      "free_flow_speed_kmh": 50.0,
+      "length_km": 0.795,
+      "importance": 0.8537533427506035,
+      "nominal": {
+        "speed_kmh": 42.2,
+        "flow_vph": 1258,
+        "occupancy_pct": 52.4,
+        "delay_min": 0.1,
+        "queue_veh": 0,
+        "congestion_index": 0.06
+      },
+      "incident": {
+        "speed_kmh": 42.2,
+        "flow_vph": 1258,
+        "occupancy_pct": 52.4,
+        "delay_min": 0.1,
+        "queue_veh": 0,
+        "congestion_index": 0.06
+      }
+    },
+    "R0008": {
+      "segment_id": "R0008",
+      "road_class": "collector",
+      "lanes": 2,
+      "capacity_vph": 1800,
+      "free_flow_speed_kmh": 50.0,
+      "length_km": 1.592,
+      "importance": 0.7043864528609101,
+      "nominal": {
+        "speed_kmh": 47.0,
+        "flow_vph": 998,
+        "occupancy_pct": 43.1,
+        "delay_min": 0.06,
+        "queue_veh": 0,
+        "congestion_index": 0.031
+      },
+      "incident": {
+        "speed_kmh": 47.0,
+        "flow_vph": 998,
+        "occupancy_pct": 43.1,
+        "delay_min": 0.06,
+        "queue_veh": 0,
+        "congestion_index": 0.031
+      }
+    },
+    "R0009": {
+      "segment_id": "R0009",
+      "road_class": "arterial",
+      "lanes": 1,
+      "capacity_vph": 1035,
+      "free_flow_speed_kmh": 50.0,
+      "length_km": 1.12,
+      "importance": 1.0604338859921203,
+      "nominal": {
+        "speed_kmh": 46.5,
+        "flow_vph": 847,
+        "occupancy_pct": 60.2,
+        "delay_min": 0.17,
+        "queue_veh": 0,
+        "congestion_index": 0.092
+      },
+      "incident": {
+        "speed_kmh": 46.1,
+        "flow_vph": 849,
+        "occupancy_pct": 60.4,
+        "delay_min": 0.18,
+        "queue_veh": 0,
+        "congestion_index": 0.093
+      }
+    },
+    "R0010": {
+      "segment_id": "R0010",
+      "road_class": "arterial",
+      "lanes": 2,
+      "capacity_vph": 2070,
+      "free_flow_speed_kmh": 30.0,
+      "length_km": 1.179,
+      "importance": 1.0040839664778936,
+      "nominal": {
+        "speed_kmh": 39.3,
+        "flow_vph": 1594,
+        "occupancy_pct": 54.6,
+        "delay_min": 0.15,
+        "queue_veh": 1,
+        "congestion_index": 0.071
+      },
+      "incident": {
+        "speed_kmh": 39.3,
+        "flow_vph": 1551,
+        "occupancy_pct": 53.4,
+        "delay_min": 0.14,
+        "queue_veh": 1,
+        "congestion_index": 0.067
+      }
+    },
+    "R0011": {
+      "segment_id": "R0011",
+      "road_class": "arterial",
+      "lanes": 2,
+      "capacity_vph": 2070,
+      "free_flow_speed_kmh": 50.0,
+      "length_km": 1.17,
+      "importance": 1.2379449586344993,
+      "nominal": {
+        "speed_kmh": 39.4,
+        "flow_vph": 2050,
+        "occupancy_pct": 71.4,
+        "delay_min": 0.3,
+        "queue_veh": 73,
+        "congestion_index": 0.153
+      },
+      "incident": {
+        "speed_kmh": 39.4,
+        "flow_vph": 2081,
+        "occupancy_pct": 72.4,
+        "delay_min": 0.31,
+        "queue_veh": 89,
+        "congestion_index": 0.159
+      }
+    },
+    "R0012": {
+      "segment_id": "R0012",
+      "road_class": "arterial",
+      "lanes": 2,
+      "capacity_vph": 2070,
+      "free_flow_speed_kmh": 40.0,
+      "length_km": 0.825,
+      "importance": 1.3032686541034266,
+      "nominal": {
+        "speed_kmh": 33.0,
+        "flow_vph": 2062,
+        "occupancy_pct": 71.8,
+        "delay_min": 0.32,
+        "queue_veh": 69,
+        "congestion_index": 0.154
+      },
+      "incident": {
+        "speed_kmh": 33.7,
+        "flow_vph": 2109,
+        "occupancy_pct": 73.2,
+        "delay_min": 0.33,
+        "queue_veh": 98,
+        "congestion_index": 0.164
+      }
+    },
+    "R0013": {
+      "segment_id": "R0013",
+      "road_class": "collector",
+      "lanes": 3,
+      "capacity_vph": 2700,
+      "free_flow_speed_kmh": 30.0,
+      "length_km": 1.052,
+      "importance": 0.8597574733637837,
+      "nominal": {
+        "speed_kmh": 41.1,
+        "flow_vph": 1730,
+        "occupancy_pct": 51.3,
+        "delay_min": 0.12,
+        "queue_veh": 0,
+        "congestion_index": 0.058
+      },
+      "incident": {
+        "speed_kmh": 40.1,
+        "flow_vph": 1721,
+        "occupancy_pct": 50.9,
+        "delay_min": 0.11,
+        "queue_veh": 0,
+        "congestion_index": 0.056
+      }
+    },
+    "R0014": {
+      "segment_id": "R0014",
+      "road_class": "collector",
+      "lanes": 2,
+      "capacity_vph": 1800,
+      "free_flow_speed_kmh": 40.0,
+      "length_km": 0.882,
+      "importance": 0.7874337140951665,
+      "nominal": {
+        "speed_kmh": 41.9,
+        "flow_vph": 1139,
+        "occupancy_pct": 48.2,
+        "delay_min": 0.08,
+        "queue_veh": 0,
+        "congestion_index": 0.045
+      },
+      "incident": {
+        "speed_kmh": 40.9,
+        "flow_vph": 1144,
+        "occupancy_pct": 48.3,
+        "delay_min": 0.08,
+        "queue_veh": 0,
+        "congestion_index": 0.046
+      }
+    },
+    "R0015": {
+      "segment_id": "R0015",
+      "road_class": "collector",
+      "lanes": 2,
+      "capacity_vph": 1800,
+      "free_flow_speed_kmh": 60.0,
+      "length_km": 0.995,
+      "importance": 0.8412174458379911,
+      "nominal": {
+        "speed_kmh": 53.2,
+        "flow_vph": 1194,
+        "occupancy_pct": 50.1,
+        "delay_min": 0.07,
+        "queue_veh": 0,
+        "congestion_index": 0.052
+      },
+      "incident": {
+        "speed_kmh": 53.2,
+        "flow_vph": 1194,
+        "occupancy_pct": 50.1,
+        "delay_min": 0.07,
+        "queue_veh": 0,
+        "congestion_index": 0.052
+      }
+    },
+    "R0016": {
+      "segment_id": "R0016",
+      "road_class": "collector",
+      "lanes": 2,
+      "capacity_vph": 1800,
+      "free_flow_speed_kmh": 60.0,
+      "length_km": 1.688,
+      "importance": 0.7987052082373174,
+      "nominal": {
+        "speed_kmh": 46.4,
+        "flow_vph": 1134,
+        "occupancy_pct": 48.0,
+        "delay_min": 0.08,
+        "queue_veh": 0,
+        "congestion_index": 0.045
+      },
+      "incident": {
+        "speed_kmh": 46.0,
+        "flow_vph": 1139,
+        "occupancy_pct": 48.1,
+        "delay_min": 0.08,
+        "queue_veh": 0,
+        "congestion_index": 0.045
+      }
+    },
+    "R0017": {
+      "segment_id": "R0017",
+      "road_class": "collector",
+      "lanes": 2,
+      "capacity_vph": 1800,
+      "free_flow_speed_kmh": 60.0,
+      "length_km": 0.942,
+      "importance": 0.5978242125779955,
+      "nominal": {
+        "speed_kmh": 56.5,
+        "flow_vph": 839,
+        "occupancy_pct": 37.3,
+        "delay_min": 0.02,
+        "queue_veh": 0,
+        "congestion_index": 0.019
+      },
+      "incident": {
+        "speed_kmh": 55.3,
+        "flow_vph": 841,
+        "occupancy_pct": 37.4,
+        "delay_min": 0.02,
+        "queue_veh": 0,
+        "congestion_index": 0.019
+      }
+    },
+    "R0018": {
+      "segment_id": "R0018",
+      "road_class": "collector",
+      "lanes": 1,
+      "capacity_vph": 900,
+      "free_flow_speed_kmh": 50.0,
+      "length_km": 1.157,
+      "importance": 0.5984338793362096,
+      "nominal": {
+        "speed_kmh": 49.5,
+        "flow_vph": 410,
+        "occupancy_pct": 36.6,
+        "delay_min": 0.03,
+        "queue_veh": 0,
+        "congestion_index": 0.018
+      },
+      "incident": {
+        "speed_kmh": 49.7,
+        "flow_vph": 411,
+        "occupancy_pct": 36.8,
+        "delay_min": 0.03,
+        "queue_veh": 0,
+        "congestion_index": 0.018
+      }
+    },
+    "R0019": {
+      "segment_id": "R0019",
+      "road_class": "collector",
+      "lanes": 2,
+      "capacity_vph": 1800,
+      "free_flow_speed_kmh": 40.0,
+      "length_km": 1.172,
+      "importance": 0.7260987197721256,
+      "nominal": {
+        "speed_kmh": 43.1,
+        "flow_vph": 1058,
+        "occupancy_pct": 45.2,
+        "delay_min": 0.07,
+        "queue_veh": 0,
+        "congestion_index": 0.037
+      },
+      "incident": {
+        "speed_kmh": 43.0,
+        "flow_vph": 1055,
+        "occupancy_pct": 45.1,
+        "delay_min": 0.06,
+        "queue_veh": 0,
+        "congestion_index": 0.036
+      }
+    },
+    "R0020": {
+      "segment_id": "R0020",
+      "road_class": "collector",
+      "lanes": 2,
+      "capacity_vph": 1800,
+      "free_flow_speed_kmh": 60.0,
+      "length_km": 1.644,
+      "importance": 0.618171439656672,
+      "nominal": {
+        "speed_kmh": 51.3,
+        "flow_vph": 882,
+        "occupancy_pct": 38.9,
+        "delay_min": 0.04,
+        "queue_veh": 0,
+        "congestion_index": 0.022
+      },
+      "incident": {
+        "speed_kmh": 53.9,
+        "flow_vph": 887,
+        "occupancy_pct": 39.0,
+        "delay_min": 0.04,
+        "queue_veh": 0,
+        "congestion_index": 0.022
+      }
+    },
+    "R0021": {
+      "segment_id": "R0021",
+      "road_class": "arterial",
+      "lanes": 2,
+      "capacity_vph": 2070,
+      "free_flow_speed_kmh": 40.0,
+      "length_km": 1.625,
+      "importance": 0.9726815671296084,
+      "nominal": {
+        "speed_kmh": 39.2,
+        "flow_vph": 1584,
+        "occupancy_pct": 54.3,
+        "delay_min": 0.15,
+        "queue_veh": 1,
+        "congestion_index": 0.07
+      },
+      "incident": {
+        "speed_kmh": 39.2,
+        "flow_vph": 1547,
+        "occupancy_pct": 53.3,
+        "delay_min": 0.14,
+        "queue_veh": 1,
+        "congestion_index": 0.066
+      }
+    },
+    "R0022": {
+      "segment_id": "R0022",
+      "road_class": "arterial",
+      "lanes": 2,
+      "capacity_vph": 2070,
+      "free_flow_speed_kmh": 50.0,
+      "length_km": 1.375,
+      "importance": 1.212835938130453,
+      "nominal": {
+        "speed_kmh": 41.4,
+        "flow_vph": 2001,
+        "occupancy_pct": 69.9,
+        "delay_min": 0.29,
+        "queue_veh": 55,
+        "congestion_index": 0.144
+      },
+      "incident": {
+        "speed_kmh": 41.5,
+        "flow_vph": 2025,
+        "occupancy_pct": 70.6,
+        "delay_min": 0.3,
+        "queue_veh": 69,
+        "congestion_index": 0.148
+      }
+    },
+    "R0023": {
+      "segment_id": "R0023",
+      "road_class": "arterial",
+      "lanes": 3,
+      "capacity_vph": 3105,
+      "free_flow_speed_kmh": 40.0,
+      "length_km": 1.726,
+      "importance": 1.2441170810713975,
+      "nominal": {
+        "speed_kmh": 33.8,
+        "flow_vph": 3126,
+        "occupancy_pct": 72.5,
+        "delay_min": 0.49,
+        "queue_veh": 149,
+        "congestion_index": 0.159
+      },
+      "incident": {
+        "speed_kmh": 35.0,
+        "flow_vph": 3151,
+        "occupancy_pct": 73.0,
+        "delay_min": 0.44,
+        "queue_veh": 161,
+        "congestion_index": 0.163
+      }
+    },
+    "R0024": {
+      "segment_id": "R0024",
+      "road_class": "arterial",
+      "lanes": 2,
+      "capacity_vph": 2070,
+      "free_flow_speed_kmh": 30.0,
+      "length_km": 1.142,
+      "importance": 1.0570759166773869,
+      "nominal": {
+        "speed_kmh": 38.4,
+        "flow_vph": 1697,
+        "occupancy_pct": 58.0,
+        "delay_min": 0.18,
+        "queue_veh": 6,
+        "congestion_index": 0.086
+      },
+      "incident": {
+        "speed_kmh": 38.9,
+        "flow_vph": 1531,
+        "occupancy_pct": 52.8,
+        "delay_min": 0.13,
+        "queue_veh": 3,
+        "congestion_index": 0.065
+      }
+    },
+    "R0025": {
+      "segment_id": "R0025",
+      "road_class": "collector",
+      "lanes": 2,
+      "capacity_vph": 1800,
+      "free_flow_speed_kmh": 60.0,
+      "length_km": 1.007,
+      "importance": 0.5686080071650352,
+      "nominal": {
+        "speed_kmh": 54.3,
+        "flow_vph": 820,
+        "occupancy_pct": 36.6,
+        "delay_min": 0.02,
+        "queue_veh": 0,
+        "congestion_index": 0.017
+      },
+      "incident": {
+        "speed_kmh": 54.1,
+        "flow_vph": 825,
+        "occupancy_pct": 36.8,
+        "delay_min": 0.02,
+        "queue_veh": 0,
+        "congestion_index": 0.018
+      }
+    },
+    "R0026": {
+      "segment_id": "R0026",
+      "road_class": "collector",
+      "lanes": 2,
+      "capacity_vph": 1800,
+      "free_flow_speed_kmh": 60.0,
+      "length_km": 1.297,
+      "importance": 0.7953407523857293,
+      "nominal": {
+        "speed_kmh": 45.3,
+        "flow_vph": 1114,
+        "occupancy_pct": 47.3,
+        "delay_min": 0.07,
+        "queue_veh": 0,
+        "congestion_index": 0.043
+      },
+      "incident": {
+        "speed_kmh": 44.9,
+        "flow_vph": 1119,
+        "occupancy_pct": 47.4,
+        "delay_min": 0.07,
+        "queue_veh": 0,
+        "congestion_index": 0.043
+      }
+    },
+    "R0027": {
+      "segment_id": "R0027",
+      "road_class": "collector",
+      "lanes": 3,
+      "capacity_vph": 2700,
+      "free_flow_speed_kmh": 50.0,
+      "length_km": 0.89,
+      "importance": 0.7545468325671283,
+      "nominal": {
+        "speed_kmh": 42.1,
+        "flow_vph": 1626,
+        "occupancy_pct": 48.7,
+        "delay_min": 0.09,
+        "queue_veh": 0,
+        "congestion_index": 0.049
+      },
+      "incident": {
+        "speed_kmh": 40.8,
+        "flow_vph": 1629,
+        "occupancy_pct": 48.7,
+        "delay_min": 0.09,
+        "queue_veh": 0,
+        "congestion_index": 0.049
+      }
+    },
+    "R0028": {
+      "segment_id": "R0028",
+      "road_class": "collector",
+      "lanes": 2,
+      "capacity_vph": 1800,
+      "free_flow_speed_kmh": 50.0,
+      "length_km": 1.53,
+      "importance": 0.6083821627730317,
+      "nominal": {
+        "speed_kmh": 45.4,
+        "flow_vph": 886,
+        "occupancy_pct": 39.0,
+        "delay_min": 0.04,
+        "queue_veh": 0,
+        "congestion_index": 0.022
+      },
+      "incident": {
+        "speed_kmh": 46.4,
+        "flow_vph": 886,
+        "occupancy_pct": 39.0,
+        "delay_min": 0.04,
+        "queue_veh": 0,
+        "congestion_index": 0.022
+      }
+    },
+    "R0029": {
+      "segment_id": "R0029",
+      "road_class": "collector",
+      "lanes": 2,
+      "capacity_vph": 1800,
+      "free_flow_speed_kmh": 40.0,
+      "length_km": 1.371,
+      "importance": 0.7958421231837285,
+      "nominal": {
+        "speed_kmh": 43.6,
+        "flow_vph": 1133,
+        "occupancy_pct": 47.9,
+        "delay_min": 0.08,
+        "queue_veh": 0,
+        "congestion_index": 0.045
+      },
+      "incident": {
+        "speed_kmh": 43.2,
+        "flow_vph": 1137,
+        "occupancy_pct": 48.1,
+        "delay_min": 0.08,
+        "queue_veh": 0,
+        "congestion_index": 0.045
+      }
+    },
+    "R0030": {
+      "segment_id": "R0030",
+      "road_class": "collector",
+      "lanes": 2,
+      "capacity_vph": 1800,
+      "free_flow_speed_kmh": 30.0,
+      "length_km": 1.099,
+      "importance": 0.7419895747194283,
+      "nominal": {
+        "speed_kmh": 40.7,
+        "flow_vph": 1058,
+        "occupancy_pct": 45.2,
+        "delay_min": 0.07,
+        "queue_veh": 0,
+        "congestion_index": 0.037
+      },
+      "incident": {
+        "speed_kmh": 40.6,
+        "flow_vph": 1055,
+        "occupancy_pct": 45.1,
+        "delay_min": 0.07,
+        "queue_veh": 0,
+        "congestion_index": 0.036
+      }
+    },
+    "R0031": {
+      "segment_id": "R0031",
+      "road_class": "collector",
+      "lanes": 2,
+      "capacity_vph": 1800,
+      "free_flow_speed_kmh": 60.0,
+      "length_km": 1.486,
+      "importance": 0.7995034503140447,
+      "nominal": {
+        "speed_kmh": 45.5,
+        "flow_vph": 1134,
+        "occupancy_pct": 48.0,
+        "delay_min": 0.08,
+        "queue_veh": 0,
+        "congestion_index": 0.045
+      },
+      "incident": {
+        "speed_kmh": 45.1,
+        "flow_vph": 1138,
+        "occupancy_pct": 48.1,
+        "delay_min": 0.08,
+        "queue_veh": 0,
+        "congestion_index": 0.045
+      }
+    },
+    "R0032": {
+      "segment_id": "R0032",
+      "road_class": "collector",
+      "lanes": 3,
+      "capacity_vph": 2700,
+      "free_flow_speed_kmh": 40.0,
+      "length_km": 1.595,
+      "importance": 0.6931030341261197,
+      "nominal": {
+        "speed_kmh": 39.3,
+        "flow_vph": 1452,
+        "occupancy_pct": 42.0,
+        "delay_min": 0.06,
+        "queue_veh": 0,
+        "congestion_index": 0.028
+      },
+      "incident": {
+        "speed_kmh": 39.3,
+        "flow_vph": 1452,
+        "occupancy_pct": 42.0,
+        "delay_min": 0.06,
+        "queue_veh": 0,
+        "congestion_index": 0.028
+      }
+    },
+    "R0033": {
+      "segment_id": "R0033",
+      "road_class": "arterial",
+      "lanes": 2,
+      "capacity_vph": 2070,
+      "free_flow_speed_kmh": 60.0,
+      "length_km": 1.287,
+      "importance": 1.09625306245233,
+      "nominal": {
+        "speed_kmh": 40.2,
+        "flow_vph": 1742,
+        "occupancy_pct": 60.7,
+        "delay_min": 0.2,
+        "queue_veh": 8,
+        "congestion_index": 0.097
+      },
+      "incident": {
+        "speed_kmh": 40.5,
+        "flow_vph": 1612,
+        "occupancy_pct": 56.5,
+        "delay_min": 0.17,
+        "queue_veh": 6,
+        "congestion_index": 0.08
+      }
+    },
+    "R0034": {
+      "segment_id": "R0034",
+      "road_class": "arterial",
+      "lanes": 2,
+      "capacity_vph": 2070,
+      "free_flow_speed_kmh": 30.0,
+      "length_km": 1.055,
+      "importance": 1.0551922695023663,
+      "nominal": {
+        "speed_kmh": 38.2,
+        "flow_vph": 1697,
+        "occupancy_pct": 57.9,
+        "delay_min": 0.18,
+        "queue_veh": 6,
+        "congestion_index": 0.085
+      },
+      "incident": {
+        "speed_kmh": 38.9,
+        "flow_vph": 1534,
+        "occupancy_pct": 52.8,
+        "delay_min": 0.13,
+        "queue_veh": 3,
+        "congestion_index": 0.065
+      }
+    },
+    "R0035": {
+      "segment_id": "R0035",
+      "road_class": "arterial",
+      "lanes": 3,
+      "capacity_vph": 3105,
+      "free_flow_speed_kmh": 60.0,
+      "length_km": 1.183,
+      "importance": 0.995122010693682,
+      "nominal": {
+        "speed_kmh": 49.4,
+        "flow_vph": 2431,
+        "occupancy_pct": 57.9,
+        "delay_min": 0.13,
+        "queue_veh": 0,
+        "congestion_index": 0.082
+      },
+      "incident": {
+        "speed_kmh": 46.6,
+        "flow_vph": 2417,
+        "occupancy_pct": 57.6,
+        "delay_min": 0.14,
+        "queue_veh": 0,
+        "congestion_index": 0.081
+      }
+    },
+    "R0036": {
+      "segment_id": "R0036",
+      "road_class": "arterial",
+      "lanes": 3,
+      "capacity_vph": 3105,
+      "free_flow_speed_kmh": 50.0,
+      "length_km": 1.172,
+      "importance": 1.0063189536135229,
+      "nominal": {
+        "speed_kmh": 47.1,
+        "flow_vph": 2346,
+        "occupancy_pct": 56.1,
+        "delay_min": 0.11,
+        "queue_veh": 0,
+        "congestion_index": 0.074
+      },
+      "incident": {
+        "speed_kmh": 45.1,
+        "flow_vph": 2341,
+        "occupancy_pct": 56.0,
+        "delay_min": 0.13,
+        "queue_veh": 0,
+        "congestion_index": 0.074
+      }
+    },
+    "R0037": {
+      "segment_id": "R0037",
+      "road_class": "collector",
+      "lanes": 1,
+      "capacity_vph": 900,
+      "free_flow_speed_kmh": 40.0,
+      "length_km": 0.781,
+      "importance": 0.7351197254146169,
+      "nominal": {
+        "speed_kmh": 38.3,
+        "flow_vph": 505,
+        "occupancy_pct": 43.5,
+        "delay_min": 0.05,
+        "queue_veh": 0,
+        "congestion_index": 0.032
+      },
+      "incident": {
+        "speed_kmh": 37.0,
+        "flow_vph": 504,
+        "occupancy_pct": 43.4,
+        "delay_min": 0.06,
+        "queue_veh": 0,
+        "congestion_index": 0.032
+      }
+    },
+    "R0038": {
+      "segment_id": "R0038",
+      "road_class": "collector",
+      "lanes": 2,
+      "capacity_vph": 1800,
+      "free_flow_speed_kmh": 50.0,
+      "length_km": 1.624,
+      "importance": 0.8447561705936653,
+      "nominal": {
+        "speed_kmh": 45.0,
+        "flow_vph": 1254,
+        "occupancy_pct": 52.3,
+        "delay_min": 0.12,
+        "queue_veh": 0,
+        "congestion_index": 0.06
+      },
+      "incident": {
+        "speed_kmh": 45.0,
+        "flow_vph": 1254,
+        "occupancy_pct": 52.3,
+        "delay_min": 0.12,
+        "queue_veh": 0,
+        "congestion_index": 0.06
+      }
+    },
+    "R0039": {
+      "segment_id": "R0039",
+      "road_class": "collector",
+      "lanes": 2,
+      "capacity_vph": 1800,
+      "free_flow_speed_kmh": 30.0,
+      "length_km": 1.12,
+      "importance": 0.5667663704057249,
+      "nominal": {
+        "speed_kmh": 36.8,
+        "flow_vph": 830,
+        "occupancy_pct": 37.0,
+        "delay_min": 0.04,
+        "queue_veh": 0,
+        "congestion_index": 0.018
+      },
+      "incident": {
+        "speed_kmh": 38.0,
+        "flow_vph": 834,
+        "occupancy_pct": 37.1,
+        "delay_min": 0.04,
+        "queue_veh": 0,
+        "congestion_index": 0.018
+      }
+    },
+    "R0040": {
+      "segment_id": "R0040",
+      "road_class": "collector",
+      "lanes": 3,
+      "capacity_vph": 2700,
+      "free_flow_speed_kmh": 50.0,
+      "length_km": 1.206,
+      "importance": 0.6203590566997332,
+      "nominal": {
+        "speed_kmh": 45.1,
+        "flow_vph": 1366,
+        "occupancy_pct": 39.9,
+        "delay_min": 0.04,
+        "queue_veh": 0,
+        "congestion_index": 0.024
+      },
+      "incident": {
+        "speed_kmh": 43.3,
+        "flow_vph": 1361,
+        "occupancy_pct": 39.8,
+        "delay_min": 0.04,
+        "queue_veh": 0,
+        "congestion_index": 0.023
+      }
+    },
+    "R0041": {
+      "segment_id": "R0041",
+      "road_class": "collector",
+      "lanes": 1,
+      "capacity_vph": 900,
+      "free_flow_speed_kmh": 40.0,
+      "length_km": 0.877,
+      "importance": 0.6622259406407673,
+      "nominal": {
+        "speed_kmh": 38.7,
+        "flow_vph": 445,
+        "occupancy_pct": 39.2,
+        "delay_min": 0.03,
+        "queue_veh": 0,
+        "congestion_index": 0.022
+      },
+      "incident": {
+        "speed_kmh": 42.0,
+        "flow_vph": 448,
+        "occupancy_pct": 39.4,
+        "delay_min": 0.03,
+        "queue_veh": 0,
+        "congestion_index": 0.023
+      }
+    },
+    "R0042": {
+      "segment_id": "R0042",
+      "road_class": "collector",
+      "lanes": 2,
+      "capacity_vph": 1800,
+      "free_flow_speed_kmh": 60.0,
+      "length_km": 1.19,
+      "importance": 0.7559906472715566,
+      "nominal": {
+        "speed_kmh": 44.7,
+        "flow_vph": 1110,
+        "occupancy_pct": 47.1,
+        "delay_min": 0.08,
+        "queue_veh": 0,
+        "congestion_index": 0.042
+      },
+      "incident": {
+        "speed_kmh": 45.1,
+        "flow_vph": 1105,
+        "occupancy_pct": 46.9,
+        "delay_min": 0.07,
+        "queue_veh": 0,
+        "congestion_index": 0.042
+      }
+    },
+    "R0043": {
+      "segment_id": "R0043",
+      "road_class": "collector",
+      "lanes": 2,
+      "capacity_vph": 1800,
+      "free_flow_speed_kmh": 60.0,
+      "length_km": 1.586,
+      "importance": 0.6516400507514856,
+      "nominal": {
+        "speed_kmh": 51.9,
+        "flow_vph": 923,
+        "occupancy_pct": 40.3,
+        "delay_min": 0.04,
+        "queue_veh": 0,
+        "congestion_index": 0.025
+      },
+      "incident": {
+        "speed_kmh": 53.8,
+        "flow_vph": 940,
+        "occupancy_pct": 41.0,
+        "delay_min": 0.04,
+        "queue_veh": 0,
+        "congestion_index": 0.026
+      }
+    },
+    "R0044": {
+      "segment_id": "R0044",
+      "road_class": "collector",
+      "lanes": 2,
+      "capacity_vph": 1800,
+      "free_flow_speed_kmh": 50.0,
+      "length_km": 0.993,
+      "importance": 0.7436083514467902,
+      "nominal": {
+        "speed_kmh": 45.9,
+        "flow_vph": 1048,
+        "occupancy_pct": 44.9,
+        "delay_min": 0.05,
+        "queue_veh": 0,
+        "congestion_index": 0.036
+      },
+      "incident": {
+        "speed_kmh": 46.1,
+        "flow_vph": 1048,
+        "occupancy_pct": 44.9,
+        "delay_min": 0.05,
+        "queue_veh": 0,
+        "congestion_index": 0.036
+      }
+    },
+    "R0045": {
+      "segment_id": "R0045",
+      "road_class": "collector",
+      "lanes": 2,
+      "capacity_vph": 1800,
+      "free_flow_speed_kmh": 40.0,
+      "length_km": 1.126,
+      "importance": 0.7731696081717877,
+      "nominal": {
+        "speed_kmh": 42.0,
+        "flow_vph": 1102,
+        "occupancy_pct": 46.8,
+        "delay_min": 0.08,
+        "queue_veh": 0,
+        "congestion_index": 0.041
+      },
+      "incident": {
+        "speed_kmh": 42.1,
+        "flow_vph": 1096,
+        "occupancy_pct": 46.6,
+        "delay_min": 0.07,
+        "queue_veh": 0,
+        "congestion_index": 0.041
+      }
+    },
+    "R0046": {
+      "segment_id": "R0046",
+      "road_class": "collector",
+      "lanes": 2,
+      "capacity_vph": 1800,
+      "free_flow_speed_kmh": 60.0,
+      "length_km": 1.779,
+      "importance": 0.8622590310684122,
+      "nominal": {
+        "speed_kmh": 55.3,
+        "flow_vph": 1184,
+        "occupancy_pct": 49.8,
+        "delay_min": 0.09,
+        "queue_veh": 0,
+        "congestion_index": 0.052
+      },
+      "incident": {
+        "speed_kmh": 55.3,
+        "flow_vph": 1184,
+        "occupancy_pct": 49.8,
+        "delay_min": 0.09,
+        "queue_veh": 0,
+        "congestion_index": 0.052
+      }
+    },
+    "R0047": {
+      "segment_id": "R0047",
+      "road_class": "collector",
+      "lanes": 2,
+      "capacity_vph": 1800,
+      "free_flow_speed_kmh": 50.0,
+      "length_km": 1.702,
+      "importance": 0.8402055655965007,
+      "nominal": {
+        "speed_kmh": 46.1,
+        "flow_vph": 1187,
+        "occupancy_pct": 49.9,
+        "delay_min": 0.1,
+        "queue_veh": 0,
+        "congestion_index": 0.051
+      },
+      "incident": {
+        "speed_kmh": 46.1,
+        "flow_vph": 1187,
+        "occupancy_pct": 49.9,
+        "delay_min": 0.1,
+        "queue_veh": 0,
+        "congestion_index": 0.051
+      }
+    },
+    "R0048": {
+      "segment_id": "R0048",
+      "road_class": "collector",
+      "lanes": 2,
+      "capacity_vph": 1800,
+      "free_flow_speed_kmh": 50.0,
+      "length_km": 0.891,
+      "importance": 0.7056104972770318,
+      "nominal": {
+        "speed_kmh": 49.7,
+        "flow_vph": 989,
+        "occupancy_pct": 42.7,
+        "delay_min": 0.04,
+        "queue_veh": 0,
+        "congestion_index": 0.03
+      },
+      "incident": {
+        "speed_kmh": 49.7,
+        "flow_vph": 989,
+        "occupancy_pct": 42.7,
+        "delay_min": 0.04,
+        "queue_veh": 0,
+        "congestion_index": 0.03
+      }
+    },
+    "R0049": {
+      "segment_id": "R0049",
+      "road_class": "collector",
+      "lanes": 3,
+      "capacity_vph": 2700,
+      "free_flow_speed_kmh": 40.0,
+      "length_km": 1.651,
+      "importance": 0.6078586195010012,
+      "nominal": {
+        "speed_kmh": 44.2,
+        "flow_vph": 1328,
+        "occupancy_pct": 39.0,
+        "delay_min": 0.04,
+        "queue_veh": 0,
+        "congestion_index": 0.022
+      },
+      "incident": {
+        "speed_kmh": 43.4,
+        "flow_vph": 1324,
+        "occupancy_pct": 38.9,
+        "delay_min": 0.04,
+        "queue_veh": 0,
+        "congestion_index": 0.022
+      }
+    },
+    "R0050": {
+      "segment_id": "R0050",
+      "road_class": "collector",
+      "lanes": 3,
+      "capacity_vph": 2700,
+      "free_flow_speed_kmh": 40.0,
+      "length_km": 1.658,
+      "importance": 0.8553808750249378,
+      "nominal": {
+        "speed_kmh": 42.6,
+        "flow_vph": 1700,
+        "occupancy_pct": 50.3,
+        "delay_min": 0.11,
+        "queue_veh": 0,
+        "congestion_index": 0.054
+      },
+      "incident": {
+        "speed_kmh": 41.5,
+        "flow_vph": 1692,
+        "occupancy_pct": 50.0,
+        "delay_min": 0.11,
+        "queue_veh": 0,
+        "congestion_index": 0.053
+      }
+    }
+  },
+  "corridor_weights": {
+    "nominal_speed_kmh": 43.6,
+    "nominal_flow_vph": 797,
+    "nominal_occupancy_pct": 32.9,
+    "nominal_queue_veh": 3,
+    "nominal_congestion_index": 0.024
+  }
+}

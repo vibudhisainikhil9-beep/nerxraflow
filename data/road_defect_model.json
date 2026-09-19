@@ -1,0 +1,52 @@
+{
+  "model_name": "NeuraX-RoadDefect-CNN-v1",
+  "trained_at": "2026-09-20T00:25:11.604795",
+  "categories": [
+    "crack",
+    "hole",
+    "normal",
+    "rust",
+    "scratch"
+  ],
+  "accuracy": 0.695,
+  "num_training_images": 1000,
+  "defect_severities": {
+    "hole": {
+      "severity": "CRITICAL",
+      "urgency": "Immediate 24h Pothole Patch",
+      "color": "#ef4444",
+      "irc_code": "IRC:82-2015 Clause 4.3"
+    },
+    "crack": {
+      "severity": "HIGH",
+      "urgency": "Resurfacing Required (3 Days)",
+      "color": "#f97316",
+      "irc_code": "IRC:SP:84-2019"
+    },
+    "scratch": {
+      "severity": "MODERATE",
+      "urgency": "Surface Milling Scheduled",
+      "color": "#eab308",
+      "irc_code": "IRC:110-2018"
+    },
+    "rust": {
+      "severity": "HIGH",
+      "urgency": "Flyover Rail Anti-Corrosion Treatment",
+      "color": "#f43f5e",
+      "irc_code": "IRC:24-2010"
+    },
+    "normal": {
+      "severity": "NOMINAL",
+      "urgency": "Optimal Highway Quality",
+      "color": "#10b981",
+      "irc_code": "Satisfactory Serviceability"
+    }
+  },
+  "sample_images": {
+    "crack": "assets/defect_samples/crack_sample.png",
+    "hole": "assets/defect_samples/hole_sample.png",
+    "normal": "assets/defect_samples/normal_sample.png",
+    "rust": "assets/defect_samples/rust_sample.png",
+    "scratch": "assets/defect_samples/scratch_sample.png"
+  }
+}

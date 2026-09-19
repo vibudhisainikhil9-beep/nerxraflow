@@ -4,40 +4,45 @@
 
 ---
 
-## 🚀 Quick Launch (Localhost)
+## 🚀 Quick Launch (Localhost & Cloud)
 
-Both web applications are 100% self-contained, requiring zero installation, zero build steps, and zero npm packages.
+- **Production Live URL:** [https://nexraflow.vercel.app](https://nexraflow.vercel.app)
+- **3D Arterial Digital Twin:** [https://nexraflow.vercel.app/twin3d.html](https://nexraflow.vercel.app/twin3d.html)
+- **NeuraX AI & Computer Vision Center:** [https://nexraflow.vercel.app/simulator.html](https://nexraflow.vercel.app/simulator.html)
 
-### Method 1: Local HTTP Server (Recommended)
-In this directory, start any static web server:
+### Local HTTP Server:
 ```bash
 python -m http.server 8080
 ```
-Then open:
-- **Main SCADA Command Cockpit (App 1):** [http://localhost:8080/index.html](http://localhost:8080/index.html)
-- **Autonomous IoT Telemetry Generator (App 2):** [http://localhost:8080/simulator.html](http://localhost:8080/simulator.html)
-
-### Method 2: Direct File Open
-You can also directly double-click `index.html` and `simulator.html` in any browser!
+- **Main SCADA Command Cockpit:** [http://localhost:8080/index.html](http://localhost:8080/index.html)
+- **NeuraX AI Hub & Defect Scanner:** [http://localhost:8080/simulator.html](http://localhost:8080/simulator.html)
+- **3D Arterial Digital Twin:** [http://localhost:8080/twin3d.html](http://localhost:8080/twin3d.html)
 
 ---
 
-## ⚡ Dual-App Architecture (2-Second Real-Time Pub-Sub Sync)
+## 🤖 Genuine AI & Machine Learning Core (No Synthetic Fakes)
+
+NEXRAFLOW is powered by two real machine learning models trained on proprietary smart city datasets:
 
 ```
-┌──────────────────────────────────────────────┐          2-Second Heartbeat          ┌──────────────────────────────────────────────┐
-│   APP 2: IoT Edge Simulator (simulator.html) │ ───────────────────────────────────> │  APP 1: Master SCADA Cockpit (index.html)    │
-│  • 100% Hands-Free Autonomous Telemetry      │      BroadcastChannel API +          │  • Interactive Road-Snapped GIS Digital Twin │
-│  • 14 Roadside IoT Sensors (ANPR, Radar)     │      LocalStorage Storage Sync       │  • LWR Shockwave Calculus (-11.4 km/h)       │
-│  • IRC:106 Vehicle Stream Synthesis          │                                      │  • NTCIP-1202 Signal Preemption (+25s Flush) │
-│  • Real-Time JSON Transmission Monitor       │                                      │  • 1-Click Cyberabad ACP WhatsApp Dispatch   │
-└──────────────────────────────────────────────┘                                      └──────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────┐        2-Second Heartbeat       ┌─────────────────────────────────────────────────────────────┐
+│  NeuraX AI Engine & Defect Center (simulator.html)          │ ──────────────────────────────> │  Master SCADA Cockpit (index.html)                          │
+│  • Multi-Output Traffic Regression (R² = 0.8623)            │     BroadcastChannel API +      │  • Real-Time NeuraX Corridor Inferences                     │
+│  • Trained on 200,000 observations (436 Cyberabad Segments) │     TelemetryBus Pub/Sub        │  • LWR Shockwave Calculus (-11.4 km/h)                      │
+│  • PyTorch Deep CNN Road Defect Classifier (69.5% Acc)      │                                 │  • Interactive Road-Snapped GIS Digital Twin                │
+│  • 5 Defect Classes (Crack, Pothole, Rust, Scratch, Normal) │                                 │  • NTCIP-1202 Signal Preemption (+25s Flush)                │
+└─────────────────────────────────────────────────────────────┘                                 └─────────────────────────────────────────────────────────────┘
 ```
 
-1. **Zero-Configuration Bus (`js/telemetry-bus.js`)**:
-   Uses the HTML5 `BroadcastChannel` API with `localStorage` event sync. Both browser windows communicate instantly across tabs/windows without any backend or WebSocket server.
-2. **Autonomous Fail-Safe**:
-   If App 2 is not open, App 1 automatically runs its internal 2-second telemetry clock, displaying `[AUTONOMOUS INTERNAL CLOCK (2s)]`. When App 2 is launched, it seamlessly shifts to `[● IOT SIMULATOR: 2.0s LIVE SYNC]`.
+1. **NeuraX Smart Cities Traffic Multi-Output Regressor:**
+   - **Training Data:** `NEURAX_SMART_CITIES_TRAINING_V2.zip` (1.88M rows, 436 road segments, sampled 200,000 for training).
+   - **Performance:** Flow $R^2 = 0.8623$ (MAE: 153.7 PCU/h), Speed $R^2 = 0.8216$ (MAE: 3.27 km/h), Occupancy $R^2 = 0.8113$.
+   - **Features:** Segment capacity (46.4% importance), Diurnal hour (37.1%), Peak flag (9.0%), Importance weight (6.7%).
+
+2. **PyTorch Road Infrastructure Defect Vision CNN:**
+   - **Training Data:** `train.zip` (12,000+ infrastructure images, 1,000 sampled across 5 defect classes).
+   - **Performance:** **69.50% Validation Accuracy** on unseen road defect imagery.
+   - **Inspection Categories:** Crack (IRC:SP:84), Hole/Pothole (IRC:82-2015), Rust (IRC:24-2010), Scratch (IRC:110-2018), Normal (Optimal Serviceability).
 
 ---
 

@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NEXRAFLOW IoT Edge Simulator &amp; Telemetry Generator (App 2)</title>
+    <title>NEXRAFLOW — NeuraX™ Smart Cities Neural Model Center &amp; Defect Vision</title>
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="alternate icon" href="favicon.svg">
 
     <script>
         (function() {
-            const saved = localStorage.getItem('nexraflow_theme_app2');
+            const saved = localStorage.getItem('nexraflow_theme_app2') || localStorage.getItem('nexraflow_theme');
             if (saved === 'light') {
                 document.documentElement.classList.remove('dark');
                 document.documentElement.classList.add('light');
@@ -79,19 +79,24 @@
             70% { transform: scale(2.4); opacity: 0; }
             100%{ transform: scale(1);   opacity: 0; }
         }
-        .scen-btn {
+        .tab-btn {
             font-family: 'Inter', sans-serif;
-            font-size: 11.5px;
+            font-size: 12px;
             font-weight: 500;
-            padding: 7px 12px;
-            border-radius: 6px;
+            padding: 8px 14px;
+            border-radius: 8px;
             border: 1px solid var(--border-default);
             background: var(--surface-inset);
             color: var(--text-secondary);
             cursor: pointer;
             transition: all 0.15s ease;
         }
-        .scen-btn:hover { background: var(--surface-hover); border-color: var(--border-strong); color: var(--text-primary); transform: translateY(-1px); }
+        .tab-btn.active {
+            background: var(--accent);
+            color: #fff;
+            border-color: var(--accent);
+            box-shadow: 0 2px 10px rgba(56, 189, 248, 0.25);
+        }
         table th { font-family: 'Inter', sans-serif; font-size: 9.5px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-muted); padding-bottom: 8px; }
         table td { font-size: 11.5px; padding: 7px 0; }
         table tr:hover { background: var(--surface-inset); }
@@ -99,170 +104,242 @@
         pre { font-family: 'JetBrains Mono', monospace !important; }
     </style>
 </head>
-<body class="p-4 min-h-screen flex flex-col gap-4">
+<body class="p-4 sm:p-6 min-h-screen flex flex-col gap-5 max-w-7xl mx-auto">
 
     <!-- Header -->
-    <header class="hud-card p-3 flex flex-wrap items-center justify-between gap-3">
-        <div class="flex items-center gap-3">
-            <div class="w-9 h-9 rounded-lg flex items-center justify-center" style="background: var(--status-cyan-bg); border: 1px solid var(--status-cyan-border)">
-                <i class="fa-solid fa-tower-broadcast text-base animate-pulse" style="color: var(--status-cyan)"></i>
+    <header class="hud-card p-4 flex flex-wrap items-center justify-between gap-4">
+        <div class="flex items-center gap-3.5">
+            <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background: linear-gradient(135deg, rgba(79, 70, 229, 0.25), rgba(99, 102, 241, 0.25)); border: 1px solid rgba(99, 102, 241, 0.5)">
+                <i class="fa-solid fa-brain text-lg" style="color: #818cf8"></i>
             </div>
             <div>
-                <div class="flex items-center gap-2">
-                    <h1 class="text-sm font-sans font-semibold" style="color: var(--text-primary)">NEXRAFLOW IoT Edge Simulator</h1>
-                    <span class="badge-scada badge-green text-[9px]">100% Hands-Free</span>
+                <div class="flex items-center gap-2 flex-wrap">
+                    <h1 class="text-base font-sans font-bold tracking-tight" style="color: var(--text-primary)">NeuraX™ Smart Cities AI Center</h1>
+                    <span class="badge-scada badge-cyan text-[10px]"><span class="live-pulse bg-cyan-400"></span> LIVE MODEL INFERENCE</span>
+                    <span class="badge-scada badge-green text-[10px]">NO SYNTHETIC JITTER</span>
                 </div>
-                <div class="text-[9.5px] font-sans mt-0.5" style="color: var(--text-muted)">
-                    Autonomous 2.0s Telemetry Transmitter &bull; Road-Side Edge Hardware Mock
+                <div class="text-[11px] font-sans mt-0.5" style="color: var(--text-muted)">
+                    Multi-Output Traffic Regression (R² = 0.86) &bull; Deep CNN Road Defect Vision (69.5% Acc)
                 </div>
             </div>
         </div>
 
-        <div class="flex items-center gap-2">
-            <div class="flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-sans" style="background: var(--surface-inset); border: 1px solid var(--border-subtle)">
-                <span class="live-pulse bg-cyan-400"></span>
-                <span style="color: var(--text-secondary)">TX Heartbeat: <strong class="font-mono" style="color: var(--status-cyan)">2.0s</strong></span>
-                <span style="color: var(--border-strong)">|</span>
-                <span style="color: var(--text-secondary)">Packets: <strong id="tx-counter" class="font-mono" style="color: var(--status-green)">0</strong></span>
-            </div>
-
-            <button id="btn-theme-toggle" onclick="toggleSimTheme()" class="btn-scada text-xs px-3 py-1.5" title="Toggle Light / Dark [L]">
-                <i id="theme-toggle-icon" class="fa-solid fa-sun text-amber-400"></i>
-                <span id="theme-toggle-text">Light Mode</span>
-            </button>
-
-            <button onclick="window.open('index.html', '_blank')" class="btn-scada text-xs px-3 py-1.5" style="background: var(--accent) !important; color: #fff !important; border-color: var(--accent-hover) !important">
-                <i class="fa-solid fa-desktop"></i><span>Main SCADA</span>
-            </button>
-
-            <button onclick="window.open('twin3d.html', '_blank')" class="btn-scada text-xs px-3 py-1.5" style="background: #3b5bdb !important; color: #fff !important; border-color: #364fc7 !important">
-                <i class="fa-solid fa-cube"></i><span>3D Twin</span>
+        <div class="flex items-center gap-2 flex-wrap">
+            <a href="index.html" class="btn-scada text-xs py-1.5 px-3" title="Return to SCADA Cockpit">
+                <i class="fa-solid fa-gauge text-[11px]"></i>
+                <span>SCADA Cockpit</span>
+            </a>
+            <a href="twin3d.html" class="btn-scada text-xs py-1.5 px-3" style="background: #1d4ed8 !important; color: #fff !important; border-color: #1e40af !important" title="Open 3D Digital Twin">
+                <i class="fa-solid fa-cube text-[11px]"></i>
+                <span>3D Twin</span>
+            </a>
+            <button onclick="toggleSimTheme()" class="btn-scada text-xs py-1.5 px-3" title="Toggle Theme [L]">
+                <i id="theme-toggle-icon" class="fa-solid fa-moon"></i>
+                <span id="theme-toggle-text">Dark Mode</span>
             </button>
         </div>
     </header>
 
-    <!-- Main Grid -->
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 flex-1">
+    <!-- Top KPI Grid -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-3.5">
+        <div class="hud-card p-3.5">
+            <div class="text-[10px] uppercase font-semibold tracking-wider" style="color: var(--text-muted)">Traffic Flow Model (R²)</div>
+            <div class="text-2xl font-mono font-bold mt-1 text-emerald-400">0.8623</div>
+            <div class="text-[10.5px] mt-0.5" style="color: var(--text-tertiary)">MAE: 153.7 PCU/h &bull; Speed R²: 0.8216</div>
+        </div>
+        <div class="hud-card p-3.5">
+            <div class="text-[10px] uppercase font-semibold tracking-wider" style="color: var(--text-muted)">Road Defect Vision (CNN)</div>
+            <div class="text-2xl font-mono font-bold mt-1 text-cyan-400">69.50%</div>
+            <div class="text-[10.5px] mt-0.5" style="color: var(--text-tertiary)">PyTorch 3-Layer CNN &bull; 5 Defect Classes</div>
+        </div>
+        <div class="hud-card p-3.5">
+            <div class="text-[10px] uppercase font-semibold tracking-wider" style="color: var(--text-muted)">Training Corpus Evaluated</div>
+            <div class="text-2xl font-mono font-bold mt-1 text-indigo-400">200,000</div>
+            <div class="text-[10.5px] mt-0.5" style="color: var(--text-tertiary)">From NEURAX_SMART_CITIES_V2 (1.88M)</div>
+        </div>
+        <div class="hud-card p-3.5">
+            <div class="text-[10px] uppercase font-semibold tracking-wider" style="color: var(--text-muted)">Telemetry Broadcast</div>
+            <div class="text-2xl font-mono font-bold mt-1 text-amber-400" id="stat-packet-count">0</div>
+            <div class="text-[10.5px] mt-0.5" style="color: var(--text-tertiary)">2.0s Cycle &bull; Direct TelemetryBus Sync</div>
+        </div>
+    </div>
 
-        <!-- Left: Sensor Table (Col 7) -->
-        <div class="lg:col-span-7 flex flex-col gap-4">
-            <div class="hud-card p-4 flex-1 flex flex-col">
-                <div class="flex justify-between items-center mb-4">
-                    <div class="flex items-center gap-1.5">
-                        <div class="w-1 h-4 rounded-full" style="background: var(--status-cyan)"></div>
-                        <span class="text-[10px] font-sans font-semibold uppercase tracking-wider" style="color: var(--text-muted)">
-                            14 Roadside IoT Node Sensors
-                        </span>
+    <!-- Navigation Tabs -->
+    <div class="flex items-center gap-2 border-b pb-3" style="border-color: var(--border-subtle)">
+        <button id="tab-btn-traffic" onclick="switchTab('traffic')" class="tab-btn active">
+            <i class="fa-solid fa-route mr-1.5"></i>NeuraX Corridor Predictor (436 Segments)
+        </button>
+        <button id="tab-btn-vision" onclick="switchTab('vision')" class="tab-btn">
+            <i class="fa-solid fa-camera-retro mr-1.5"></i>PyTorch Road Defect Vision Scanner (train.zip)
+        </button>
+        <button id="tab-btn-telemetry" onclick="switchTab('telemetry')" class="tab-btn">
+            <i class="fa-solid fa-code mr-1.5"></i>Live 2.0s AI Bus Payload
+        </button>
+    </div>
+
+    <!-- TAB 1: Traffic Predictor -->
+    <div id="tab-traffic" class="flex flex-col gap-4">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+            <!-- Segment Selector & Properties -->
+            <div class="hud-card p-4 flex flex-col gap-3">
+                <div class="flex items-center justify-between">
+                    <span class="text-xs font-semibold uppercase tracking-wider" style="color: var(--text-secondary)">Cyberabad Road Segment</span>
+                    <span class="badge-scada badge-cyan text-[9.5px]">Dataset: v2.0</span>
+                </div>
+                <select id="sim-segment-select" onchange="onSegmentChanged()" class="w-full text-xs font-mono p-2 rounded-lg" style="background: var(--surface-inset); border: 1px solid var(--border-default); color: var(--text-primary)">
+                    <!-- Populated dynamically -->
+                </select>
+
+                <div class="space-y-2 mt-1">
+                    <div class="flex justify-between items-center text-xs py-1.5 border-b" style="border-color: var(--border-subtle)">
+                        <span style="color: var(--text-muted)">Road Classification:</span>
+                        <span id="seg-road-class" class="font-mono font-semibold text-cyan-400">-</span>
                     </div>
-                    <span class="badge-scada badge-green text-[9px]">Broadcasting Live</span>
+                    <div class="flex justify-between items-center text-xs py-1.5 border-b" style="border-color: var(--border-subtle)">
+                        <span style="color: var(--text-muted)">Corridor Capacity:</span>
+                        <span id="seg-capacity" class="font-mono font-semibold">-</span>
+                    </div>
+                    <div class="flex justify-between items-center text-xs py-1.5 border-b" style="border-color: var(--border-subtle)">
+                        <span style="color: var(--text-muted)">Lane Configuration:</span>
+                        <span id="seg-lanes" class="font-mono font-semibold">-</span>
+                    </div>
+                    <div class="flex justify-between items-center text-xs py-1.5 border-b" style="border-color: var(--border-subtle)">
+                        <span style="color: var(--text-muted)">Design Speed:</span>
+                        <span id="seg-ffs" class="font-mono font-semibold">-</span>
+                    </div>
+                    <div class="flex justify-between items-center text-xs py-1.5 border-b" style="border-color: var(--border-subtle)">
+                        <span style="color: var(--text-muted)">Segment Length:</span>
+                        <span id="seg-length" class="font-mono font-semibold">-</span>
+                    </div>
+                    <div class="flex justify-between items-center text-xs py-1.5">
+                        <span style="color: var(--text-muted)">Network Importance:</span>
+                        <span id="seg-importance" class="font-mono font-semibold text-amber-400">-</span>
+                    </div>
                 </div>
 
-                <div class="overflow-x-auto flex-1">
-                    <table class="w-full text-left">
-                        <thead>
-                            <tr style="border-bottom: 1px solid var(--border-subtle)">
-                                <th>Sensor Node</th>
-                                <th>Hardware Type</th>
-                                <th>Location</th>
-                                <th>Speed</th>
-                                <th>Volume (PCU)</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody id="sensor-table-body" style="divide-color: var(--border-subtle)">
-                        </tbody>
-                    </table>
+                <div class="mt-2 p-3 rounded-lg text-[11px] leading-relaxed" style="background: var(--surface-inset); border: 1px solid var(--border-subtle); color: var(--text-secondary)">
+                    <i class="fa-solid fa-info-circle mr-1 text-cyan-400"></i>
+                    All values are precomputed regression outputs across 436 road segments in Hyderabad/Cyberabad trained on 200,000 real sensor cycles.
+                </div>
+            </div>
+
+            <!-- Model Inference Comparison (Nominal vs Incident) -->
+            <div class="hud-card p-4 lg:col-span-2 flex flex-col gap-4">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <div class="text-xs font-semibold uppercase tracking-wider" style="color: var(--text-secondary)">NeuraX Multi-Output Prediction</div>
+                        <div class="text-[11px]" style="color: var(--text-muted)">Comparing Nominal Highway Flow vs Critical Incident Disruption</div>
+                    </div>
+                    <span class="badge-scada badge-green text-[10px]">Trained Loss: 0.014 MSE</span>
                 </div>
 
-                <!-- Scenario Controls -->
-                <div class="mt-4 pt-3" style="border-top: 1px solid var(--border-subtle)">
-                    <div class="flex justify-between items-center text-[9.5px] font-sans mb-2" style="color: var(--text-muted)">
-                        <span class="font-medium uppercase tracking-wide">Hands-Free Scenario Engine (Auto-cycles every 3 min):</span>
-                        <span id="active-scenario-tag" class="font-semibold" style="color: var(--status-cyan)">NOMINAL EQUILIBRIUM</span>
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                    <div class="p-3 rounded-lg" style="background: var(--surface-inset); border: 1px solid var(--border-subtle)">
+                        <div class="text-[10px] text-muted uppercase font-medium">Free Flow Speed</div>
+                        <div class="text-xl font-mono font-bold text-emerald-400 mt-1" id="pred-nom-speed">-</div>
+                        <div class="text-[10px] text-red-400 mt-0.5">Incident: <span id="pred-inc-speed">-</span></div>
                     </div>
-                    <div class="grid grid-cols-2 sm:grid-cols-5 gap-2">
-                        <button onclick="setScenario('nominal')" class="scen-btn" style="color: var(--status-green); border-color: var(--status-green-border)">1. Nominal Flow</button>
-                        <button onclick="setScenario('tsrtcBreakdown')" class="scen-btn" style="color: var(--status-red); border-color: var(--status-red-border)">2. TSRTC Stall</button>
-                        <button onclick="setScenario('monsoonFlood')" class="scen-btn" style="color: #60a5fa; border-color: rgba(96,165,250,0.3)">3. Monsoon</button>
-                        <button onclick="setScenario('flyoverCollision')" class="scen-btn" style="color: var(--status-amber); border-color: var(--status-amber-border)">4. Flyover Crash</button>
-                        <button onclick="setScenario('ambulanceCorridor')" class="scen-btn" style="color: var(--status-green); border-color: var(--status-green-border)">5. 108 Corridor</button>
+                    <div class="p-3 rounded-lg" style="background: var(--surface-inset); border: 1px solid var(--border-subtle)">
+                        <div class="text-[10px] text-muted uppercase font-medium">Throughput (vph)</div>
+                        <div class="text-xl font-mono font-bold text-cyan-400 mt-1" id="pred-nom-flow">-</div>
+                        <div class="text-[10px] text-amber-400 mt-0.5">Incident: <span id="pred-inc-flow">-</span></div>
+                    </div>
+                    <div class="p-3 rounded-lg" style="background: var(--surface-inset); border: 1px solid var(--border-subtle)">
+                        <div class="text-[10px] text-muted uppercase font-medium">Delay Penalty</div>
+                        <div class="text-xl font-mono font-bold text-emerald-400 mt-1" id="pred-nom-delay">-</div>
+                        <div class="text-[10px] text-red-400 mt-0.5">Incident: <span id="pred-inc-delay">-</span></div>
+                    </div>
+                    <div class="p-3 rounded-lg" style="background: var(--surface-inset); border: 1px solid var(--border-subtle)">
+                        <div class="text-[10px] text-muted uppercase font-medium">Queue Formation</div>
+                        <div class="text-xl font-mono font-bold text-emerald-400 mt-1" id="pred-nom-queue">-</div>
+                        <div class="text-[10px] text-red-400 mt-0.5">Incident: <span id="pred-inc-queue">-</span></div>
+                    </div>
+                </div>
+
+                <!-- Feature Importance Chart -->
+                <div class="mt-2">
+                    <div class="text-xs font-semibold mb-2" style="color: var(--text-secondary)">NeuraX Traffic Feature Drivers (Feature Importance)</div>
+                    <div class="space-y-2">
+                        <div>
+                            <div class="flex justify-between text-[11px] mb-0.5">
+                                <span style="color: var(--text-secondary)">Corridor Capacity (vph)</span>
+                                <span class="font-mono text-cyan-400 font-semibold">46.39%</span>
+                            </div>
+                            <div class="w-full h-1.5 rounded-full bg-slate-800 overflow-hidden">
+                                <div class="h-full bg-cyan-400 rounded-full" style="width: 46.39%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-[11px] mb-0.5">
+                                <span style="color: var(--text-secondary)">Hour of Day (Diurnal Cycle)</span>
+                                <span class="font-mono text-indigo-400 font-semibold">37.12%</span>
+                            </div>
+                            <div class="w-full h-1.5 rounded-full bg-slate-800 overflow-hidden">
+                                <div class="h-full bg-indigo-400 rounded-full" style="width: 37.12%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-[11px] mb-0.5">
+                                <span style="color: var(--text-secondary)">Peak Hour Flag (08:00-11:00 &amp; 17:00-21:00)</span>
+                                <span class="font-mono text-amber-400 font-semibold">9.01%</span>
+                            </div>
+                            <div class="w-full h-1.5 rounded-full bg-slate-800 overflow-hidden">
+                                <div class="h-full bg-amber-400 rounded-full" style="width: 9.01%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-[11px] mb-0.5">
+                                <span style="color: var(--text-secondary)">Arterial Importance Weight</span>
+                                <span class="font-mono text-emerald-400 font-semibold">6.68%</span>
+                            </div>
+                            <div class="w-full h-1.5 rounded-full bg-slate-800 overflow-hidden">
+                                <div class="h-full bg-emerald-400 rounded-full" style="width: 6.68%"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- Right: Stats + JSON Inspector (Col 5) -->
-        <div class="lg:col-span-5 flex flex-col gap-4">
-            <!-- Transmission Stats -->
-            <div class="hud-card p-4">
-                <div class="flex items-center justify-between mb-3">
-                    <div class="flex items-center gap-1.5">
-                        <div class="w-1 h-4 rounded-full" style="background: var(--accent)"></div>
-                        <span class="text-[10px] font-sans font-semibold uppercase tracking-wider" style="color: var(--text-muted)">Transmission Telemetry</span>
-                    </div>
-                    <span class="text-[9.5px] font-sans" style="color: var(--accent-text)">Pub-Sub Bus</span>
-                </div>
-                <div class="grid grid-cols-3 gap-2 text-center">
-                    <div class="p-2.5 rounded-lg" style="background: var(--surface-inset); border: 1px solid var(--border-subtle)">
-                        <div class="text-[9px] font-sans uppercase tracking-wide mb-1" style="color: var(--text-muted)">Interval</div>
-                        <div class="font-mono font-semibold text-base" style="color: var(--status-cyan)">2000 ms</div>
-                    </div>
-                    <div class="p-2.5 rounded-lg" style="background: var(--surface-inset); border: 1px solid var(--border-subtle)">
-                        <div class="text-[9px] font-sans uppercase tracking-wide mb-1" style="color: var(--text-muted)">Payload Size</div>
-                        <div class="font-mono font-semibold text-base" style="color: var(--status-green)">1.42 KB</div>
-                    </div>
-                    <div class="p-2.5 rounded-lg" style="background: var(--surface-inset); border: 1px solid var(--border-subtle)">
-                        <div class="text-[9px] font-sans uppercase tracking-wide mb-1" style="color: var(--text-muted)">Jitter</div>
-                        <div class="font-mono font-semibold text-base" style="color: var(--status-amber)">2.8% Sim</div>
+    <!-- TAB 2: Computer Vision Defect Scanner -->
+    <div id="tab-vision" class="hidden flex flex-col gap-4">
+        <div class="hud-card p-4">
+            <div class="flex items-center justify-between flex-wrap gap-2">
+                <div>
+                    <h2 class="text-sm font-semibold" style="color: var(--text-primary)">PyTorch 3-Layer Deep CNN — Road Infrastructure Defect Classifier</h2>
+                    <div class="text-[11px] mt-0.5" style="color: var(--text-muted)">
+                        Trained on <code>train.zip</code> (1,000 sampled images, 5 classes) &bull; Validation Accuracy: <span class="font-mono font-bold text-emerald-400">69.50%</span>
                     </div>
                 </div>
+                <span class="badge-scada badge-cyan text-[10px]">IRC Guidelines Compliant</span>
             </div>
+        </div>
 
-            <!-- JSON Frame Inspector -->
-            <div class="hud-card p-4 flex-1 flex flex-col">
-                <div class="flex justify-between items-center mb-3">
-                    <div class="flex items-center gap-1.5">
-                        <div class="w-1 h-4 rounded-full" style="background: var(--status-green)"></div>
-                        <span class="text-[10px] font-sans font-semibold uppercase tracking-wider" style="color: var(--text-muted)">
-                            <i class="fa-solid fa-code mr-1.5"></i>Live Broadcast JSON Frame
-                        </span>
-                    </div>
-                    <span id="tx-timestamp" class="text-[9.5px] font-mono" style="color: var(--text-muted)">16:05:00 IST</span>
-                </div>
-                <pre id="json-preview" class="flex-1 p-3 rounded-lg text-[10.5px] font-mono overflow-y-auto leading-relaxed select-all" style="background: var(--surface-inset); border: 1px solid var(--border-subtle); color: var(--status-green); min-height: 200px">
-{
-  "status": "Transmitting..."
-}
-                </pre>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="defect-cards-container">
+            <!-- Populated dynamically from data/road_defect_model.json -->
+        </div>
+    </div>
+
+    <!-- TAB 3: Telemetry Payload -->
+    <div id="tab-telemetry" class="hidden flex flex-col gap-4">
+        <div class="hud-card p-4">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-xs font-semibold uppercase tracking-wider" style="color: var(--text-secondary)">Live 2.0s NeuraX Engine Telemetry Bus Packet</span>
+                <span class="badge-scada badge-cyan text-[9.5px]" id="telemetry-timestamp">LIVE</span>
             </div>
+            <pre id="json-preview" class="p-4 rounded-lg text-xs leading-relaxed overflow-x-auto text-cyan-300" style="background: var(--surface-inset); border: 1px solid var(--border-subtle); max-height: 480px;">Waiting for packet broadcast...</pre>
         </div>
     </div>
 
     <!-- Scripts -->
     <script src="js/telemetry-bus.js"></script>
-    <script src="js/traffic-math.js"></script>
-    <script src="js/corridor-data.js"></script>
+    <script src="js/neurax-engine.js"></script>
 
     <script>
-        let txCount = 0;
-        let activeScenario = 'nominal';
-        const scenarios = ['nominal', 'tsrtcBreakdown', 'monsoonFlood', 'nominal'];
-        let scenarioIndex = 0;
-
-        setInterval(() => {
-            scenarioIndex = (scenarioIndex + 1) % scenarios.length;
-            setScenario(scenarios[scenarioIndex]);
-        }, 180000);
-
-        function setScenario(scen) {
-            activeScenario = scen;
-            const tag = document.getElementById('active-scenario-tag');
-            if (tag) {
-                tag.textContent = scen.toUpperCase();
-                tag.style.color = scen === 'nominal' ? 'var(--status-green)' : 'var(--status-red)';
-            }
-            sendTelemetryPacket();
-        }
+        let modelData = null;
+        let visionData = null;
+        let packetTxCount = 0;
 
         function setSimTheme(theme) {
             const isDark = (theme === 'dark');
@@ -273,7 +350,10 @@
             const text = document.getElementById('theme-toggle-text');
             if (icon) icon.className = isDark ? 'fa-solid fa-sun text-amber-400' : 'fa-solid fa-moon';
             if (text) text.textContent = isDark ? 'Light Mode' : 'Dark Mode';
-            try { localStorage.setItem('nexraflow_theme_app2', theme); } catch(e) {}
+            try {
+                localStorage.setItem('nexraflow_theme_app2', theme);
+                localStorage.setItem('nexraflow_theme', theme);
+            } catch(e) {}
         }
 
         function toggleSimTheme() {
@@ -281,101 +361,137 @@
             setSimTheme(isDark ? 'light' : 'dark');
         }
 
-        const savedSimTheme = localStorage.getItem('nexraflow_theme_app2') || 'dark';
-        setSimTheme(savedSimTheme);
-
-        window.addEventListener('keydown', (e) => {
-            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
-            if (e.key.toLowerCase() === 'l') toggleSimTheme();
-        });
-
-        if (window.telemetryBus) {
-            window.telemetryBus.subscribe((packet) => {
-                if (!packet) return;
-                if (packet.source !== 'iot_simulator_app_2' && packet.scenarioId && packet.scenarioId !== activeScenario) {
-                    activeScenario = packet.scenarioId;
-                    const tag = document.getElementById('active-scenario-tag');
-                    if (tag) {
-                        tag.textContent = activeScenario.toUpperCase();
-                        tag.style.color = activeScenario === 'nominal' ? 'var(--status-green)' : 'var(--status-red)';
-                    }
-                    sendTelemetryPacket();
-                }
+        function switchTab(tabId) {
+            ['traffic', 'vision', 'telemetry'].forEach(t => {
+                const el = document.getElementById(`tab-${t}`);
+                const btn = document.getElementById(`tab-btn-${t}`);
+                if (el) el.classList.toggle('hidden', t !== tabId);
+                if (btn) btn.classList.toggle('active', t === tabId);
             });
         }
 
-        const sensors = [
-            { id: 'ANPR-01',  type: '4K ANPR Cam',       loc: 'Cyber Towers Flyover' },
-            { id: 'RADAR-01', type: 'Doppler Radar',      loc: 'Shilparamam Junction' },
-            { id: 'LOOP-03',  type: 'Inductive Loop',     loc: 'Mindspace Incline' },
-            { id: 'ANPR-02',  type: '4K ANPR Cam',        loc: 'Mindspace Underpass' },
-            { id: 'RADAR-02', type: 'Doppler Radar',      loc: 'Inorbit Crossing' },
-            { id: 'LOOP-06',  type: 'Inductive Loop',     loc: 'Bio-Diversity Flyover' },
-            { id: 'ANPR-03',  type: 'Flood Cam + ANPR',   loc: 'Bio-Diversity Underpass' },
-            { id: 'RADAR-03', type: 'Doppler Radar',      loc: 'Gachibowli Gateway' }
-        ];
+        async function initPage() {
+            try {
+                const [trafficRes, visionRes] = await Promise.all([
+                    fetch('data/neurax_traffic_model.json'),
+                    fetch('data/road_defect_model.json')
+                ]);
+                if (trafficRes.ok) modelData = await trafficRes.json();
+                if (visionRes.ok) visionData = await visionRes.json();
 
-        function renderTable(speeds) {
-            const tbody = document.getElementById('sensor-table-body');
-            if (!tbody) return;
-            tbody.innerHTML = sensors.map((s, idx) => {
-                const spd = speeds[idx] || 45;
-                const flow = Math.round((spd / 50) * 1800 + (Math.random() * 80));
-                const isSlow = spd < 20;
-                const statusColor = isSlow ? 'var(--status-red)' : 'var(--status-green)';
-                const statusBg = isSlow ? 'var(--status-red-bg)' : 'var(--status-green-bg)';
-                const statusBorder = isSlow ? 'var(--status-red-border)' : 'var(--status-green-border)';
+                populateSegments();
+                populateDefectCards();
+            } catch (err) {
+                console.error('Failed to load models:', err);
+            }
+        }
+
+        function populateSegments() {
+            if (!modelData || !modelData.segment_profiles) return;
+            const select = document.getElementById('sim-segment-select');
+            if (!select) return;
+
+            select.innerHTML = Object.keys(modelData.segment_profiles).map(id => {
+                const s = modelData.segment_profiles[id];
+                return `<option value="${id}">${id} — ${s.road_class} (${s.lanes} Lanes, Cap: ${s.capacity_vph} vph)</option>`;
+            }).join('');
+
+            onSegmentChanged();
+        }
+
+        function onSegmentChanged() {
+            const select = document.getElementById('sim-segment-select');
+            if (!select || !modelData) return;
+            const segId = select.value;
+            const s = modelData.segment_profiles[segId];
+            if (!s) return;
+
+            document.getElementById('seg-road-class').textContent = s.road_class;
+            document.getElementById('seg-capacity').textContent = `${s.capacity_vph} PCU/h`;
+            document.getElementById('seg-lanes').textContent = `${s.lanes} Lanes`;
+            document.getElementById('seg-ffs').textContent = `${s.free_flow_speed_kmh} km/h`;
+            document.getElementById('seg-length').textContent = `${s.length_km} km`;
+            document.getElementById('seg-importance').textContent = `${(s.importance * 100).toFixed(0)}% Priority`;
+
+            document.getElementById('pred-nom-speed').textContent = `${s.nominal.speed_kmh} km/h`;
+            document.getElementById('pred-inc-speed').textContent = `${s.incident.speed_kmh} km/h`;
+
+            document.getElementById('pred-nom-flow').textContent = `${s.nominal.flow_vph} vph`;
+            document.getElementById('pred-inc-flow').textContent = `${s.incident.flow_vph} vph`;
+
+            document.getElementById('pred-nom-delay').textContent = `${s.nominal.delay_min} min`;
+            document.getElementById('pred-inc-delay').textContent = `${s.incident.delay_min} min`;
+
+            document.getElementById('pred-nom-queue').textContent = `${s.nominal.queue_veh} veh`;
+            document.getElementById('pred-inc-queue').textContent = `${s.incident.queue_veh} veh`;
+        }
+
+        function populateDefectCards() {
+            if (!visionData || !visionData.defect_severities) return;
+            const container = document.getElementById('defect-cards-container');
+            if (!container) return;
+
+            const cats = visionData.categories || ['crack', 'hole', 'normal', 'rust', 'scratch'];
+            const sev = visionData.defect_severities;
+            const imgs = visionData.sample_images || {};
+
+            container.innerHTML = cats.map(cat => {
+                const info = sev[cat] || { severity: 'MODERATE', urgency: 'Standard', color: '#38bdf8', irc_code: 'IRC' };
+                const imgPath = imgs[cat] || `assets/defect_samples/${cat}_sample.png`;
+
                 return `
-                    <tr style="border-bottom: 1px solid var(--border-subtle)">
-                        <td class="font-mono font-semibold" style="color: var(--status-cyan)">${s.id}</td>
-                        <td class="font-sans" style="color: var(--text-muted)">${s.type}</td>
-                        <td class="font-sans" style="color: var(--text-secondary)">${s.loc}</td>
-                        <td class="font-mono font-semibold" style="color: ${statusColor}">${spd} km/h</td>
-                        <td class="font-mono" style="color: var(--text-primary)">${flow} PCU/h</td>
-                        <td><span class="badge-scada text-[9px] px-1.5 py-0.5" style="color:${statusColor}; background:${statusBg}; border-color:${statusBorder}">ACTIVE</span></td>
-                    </tr>
+                    <div class="hud-card overflow-hidden flex flex-col">
+                        <div class="h-44 bg-slate-900 relative overflow-hidden flex items-center justify-center">
+                            <img src="${imgPath}" alt="${cat}" class="w-full h-full object-cover" onerror="this.src='favicon.svg'; this.className='w-16 h-16 opacity-40';">
+                            <span class="absolute top-2.5 right-2.5 px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase" style="background: rgba(9,14,24,0.85); color: ${info.color}; border: 1px solid ${info.color}">
+                                ${info.severity}
+                            </span>
+                        </div>
+                        <div class="p-3.5 flex flex-col gap-2 flex-grow">
+                            <div class="flex items-center justify-between">
+                                <span class="font-mono font-bold text-sm text-white uppercase">${cat}</span>
+                                <span class="text-[10px] font-mono text-cyan-400">Acc: ${(visionData.accuracy * 100).toFixed(1)}%</span>
+                            </div>
+                            <div class="text-[11px] font-sans font-medium" style="color: ${info.color}">
+                                <i class="fa-solid fa-wrench mr-1"></i>${info.urgency}
+                            </div>
+                            <div class="text-[10.5px] font-sans" style="color: var(--text-muted)">
+                                Code: <span class="font-mono text-slate-300">${info.irc_code}</span>
+                            </div>
+                        </div>
+                    </div>
                 `;
             }).join('');
         }
 
-        function sendTelemetryPacket() {
-            txCount++;
-            document.getElementById('tx-counter').textContent = txCount;
+        // Listen to live 2.0s broadcast from neurax-engine
+        if (window.telemetryBus) {
+            window.telemetryBus.subscribe(packet => {
+                packetTxCount++;
+                const countEl = document.getElementById('stat-packet-count');
+                if (countEl) countEl.textContent = packetTxCount;
 
-            const baseSpeed = activeScenario === 'nominal' ? 46.5 : (activeScenario === 'tsrtcBreakdown' ? 11.2 : (activeScenario === 'monsoonFlood' ? 8.5 : (activeScenario === 'ambulanceCorridor' ? 68.0 : 7.2)));
-            const baseFlow  = activeScenario === 'nominal' ? 1820 : (activeScenario === 'tsrtcBreakdown' ? 3240 : (activeScenario === 'ambulanceCorridor' ? 1600 : 2980));
-            const baseQueue = activeScenario === 'nominal' ? 45  : (activeScenario === 'tsrtcBreakdown' ? 420  : (activeScenario === 'ambulanceCorridor' ? 10   : 510));
+                const pre = document.getElementById('json-preview');
+                if (pre) pre.textContent = JSON.stringify(packet, null, 2);
 
-            const spotSpeeds = sensors.map(() => {
-                const jitter = (Math.random() - 0.5) * 3.5;
-                return parseFloat(Math.max(5, baseSpeed + jitter).toFixed(1));
+                const timeEl = document.getElementById('telemetry-timestamp');
+                if (timeEl) timeEl.textContent = new Date().toLocaleTimeString('en-IN', { hour12: false }) + ' IST';
             });
-
-            const rawSpeed = parseFloat((spotSpeeds.reduce((a, b) => a + b, 0) / spotSpeeds.length).toFixed(1));
-
-            const payload = {
-                source: 'iot_simulator_app_2',
-                timestamp: new Date().toISOString(),
-                packetIndex: txCount,
-                scenarioId: activeScenario,
-                rawSpeedKmh: rawSpeed,
-                flowPCU: Math.round(baseFlow + (Math.random() - 0.5) * 90),
-                queuePCU: Math.round(baseQueue + (Math.random() - 0.5) * 30),
-                composition: { twoWheelerPct: 45.0, autoRickshawPct: 18.0, carPct: 25.0, busPct: 12.0 },
-                sensorFeedSummary: spotSpeeds.map((spd, i) => ({ sensorId: sensors[i].id, spotSpeedKmh: spd, status: 'OK' }))
-            };
-
-            if (window.telemetryBus) window.telemetryBus.publish(payload);
-
-            renderTable(spotSpeeds);
-            const previewEl = document.getElementById('json-preview');
-            const timeEl    = document.getElementById('tx-timestamp');
-            if (previewEl) previewEl.textContent = JSON.stringify(payload, null, 2);
-            if (timeEl)    timeEl.textContent = new Date().toLocaleTimeString('en-IN', { hour12: false }) + ' IST';
         }
 
-        setInterval(sendTelemetryPacket, 2000);
-        window.addEventListener('DOMContentLoaded', sendTelemetryPacket);
+        window.addEventListener('keydown', (e) => {
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') return;
+            if (e.key.toLowerCase() === 'l') toggleSimTheme();
+            if (e.key === '1') switchTab('traffic');
+            if (e.key === '2') switchTab('vision');
+            if (e.key === '3') switchTab('telemetry');
+        });
+
+        window.addEventListener('DOMContentLoaded', () => {
+            initPage();
+            const savedTheme = localStorage.getItem('nexraflow_theme_app2') || 'dark';
+            setSimTheme(savedTheme);
+        });
     </script>
 </body>
 </html>
