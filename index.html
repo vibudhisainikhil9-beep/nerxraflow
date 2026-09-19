@@ -364,7 +364,7 @@
                         <i class="fa-solid fa-traffic-light text-[10px] block mb-0.5"></i>Signals
                     </button>
                     <button id="tab-btn-bypass"   onclick="window.scadaApp.switchTab('bypass')"   class="scada-tab-btn py-2.5 text-center">
-                        <i class="fa-solid fa-route text-[10px] block mb-0.5"></i>Bypass
+                        <i class="fa-solid fa-route text-[10px] block mb-0.5"></i>Diversion &amp; Police
                     </button>
                     <button id="tab-btn-briefing" onclick="window.scadaApp.switchTab('briefing')" class="scada-tab-btn py-2.5 text-center">
                         <i class="fa-solid fa-brain text-[10px] block mb-0.5"></i>Gemini
@@ -507,57 +507,72 @@
                 </div>
             </div>
 
-            <!-- TAB 2: BYPASS -->
+            <!-- TAB 2: AI DIVERSIONS & POLICE DISPATCH -->
             <div id="tab-bypass" class="tab-content hidden flex flex-col gap-2.5">
+                <!-- Top Summary Card -->
                 <div class="scada-card p-3">
-                    <div class="flex items-center gap-1.5 mb-3">
-                        <div class="w-1 h-3.5 rounded-full" style="background: var(--status-cyan)"></div>
-                        <span class="text-[9.5px] font-sans font-semibold uppercase tracking-wider" style="color: var(--text-muted)">Durgam Cheruvu Bypass</span>
-                    </div>
-                    <div class="grid grid-cols-2 gap-2 mb-3">
-                        <div class="p-2.5 rounded-lg" style="background: var(--surface-inset); border: 1px solid var(--border-subtle)">
-                            <div class="text-[9px] font-sans uppercase tracking-wide mb-1" style="color: var(--text-muted)">Time Saved</div>
-                            <div id="bypass-time-saved" class="font-mono font-semibold text-base leading-tight" style="color: var(--status-cyan)">18.4 Mins/Car</div>
+                    <div class="flex justify-between items-center mb-2">
+                        <div class="flex items-center gap-1.5">
+                            <div class="w-1 h-3.5 rounded-full bg-cyan-400"></div>
+                            <span class="text-[9.5px] font-sans font-semibold uppercase tracking-wider" style="color: var(--text-muted)">AI Multi-Route Diversion Advisor</span>
                         </div>
-                        <div class="p-2.5 rounded-lg" style="background: var(--surface-inset); border: 1px solid var(--border-subtle)">
-                            <div class="text-[9px] font-sans uppercase tracking-wide mb-1" style="color: var(--text-muted)">Diversion Split</div>
-                            <div id="bypass-split-pct" class="font-sans font-semibold text-base leading-tight" style="color: var(--status-green)">35% Arterial</div>
+                        <span class="text-[8.5px] font-mono px-1.5 py-0.5 rounded bg-cyan-950/60 text-cyan-300 border border-cyan-500/30">Human Authorization Req.</span>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2 mb-2">
+                        <div class="p-2 rounded-lg" style="background: var(--surface-inset); border: 1px solid var(--border-subtle)">
+                            <div class="text-[8.5px] font-sans uppercase tracking-wide mb-0.5" style="color: var(--text-muted)">Est. Delay Reduction</div>
+                            <div id="bypass-time-saved" class="font-mono font-semibold text-base leading-tight text-emerald-400">-18.4 min/car</div>
+                        </div>
+                        <div class="p-2 rounded-lg" style="background: var(--surface-inset); border: 1px solid var(--border-subtle)">
+                            <div class="text-[8.5px] font-sans uppercase tracking-wide mb-0.5" style="color: var(--text-muted)">Target Inbound Shift</div>
+                            <div id="bypass-split-pct" class="font-mono font-semibold text-base leading-tight text-cyan-400">35% Arterial</div>
                         </div>
                     </div>
                     <p class="text-[10px] font-sans leading-relaxed" style="color: var(--text-secondary)">
-                        Multi-criteria diversion re-routes vehicles over the Durgam Cheruvu Cable Bridge into Road No. 36 Jubilee Hills, completely circumventing the Mindspace Incline choke.
+                        Corridor incident detected. The AI has computed 3 viable alternative bypass routes. <strong>Select the most feasible route</strong> to issue police deployment orders and broadcast overhead warnings.
                     </p>
                 </div>
 
-                <div class="scada-card p-3" style="border-top: 2px solid var(--status-amber)">
-                    <div class="flex justify-between items-center mb-2 text-[9px] font-sans font-semibold uppercase tracking-wide" style="color: var(--status-amber)">
-                        <span><i class="fa-solid fa-display mr-1"></i>VMS Gantry #04</span>
-                        <span class="animate-pulse">&#9679; Public Advisory</span>
+                <!-- 3 Selectable Alternative Route Options (Operator Hands-On Selection) -->
+                <div class="scada-card p-3">
+                    <div class="text-[9px] font-sans font-semibold uppercase tracking-wide mb-2 flex justify-between" style="color: var(--text-muted)">
+                        <span><i class="fa-solid fa-code-fork mr-1 text-cyan-400"></i>Candidate Alternative Routes</span>
+                        <span class="text-amber-400">Click to Select</span>
                     </div>
-                    <div id="vms-gantry-text" class="rounded p-2 text-center font-mono font-bold text-[10.5px] tracking-wider" style="background: #050505; border: 1px solid rgba(245,158,11,0.25); color: #f59e0b">
-                        [ TSRTC BREAKDOWN | DIVERT VIA DURGAM CHERUVU | SAVE 18.4 MIN ]
-                    </div>
-                    <div class="text-[9px] font-sans mt-1 flex justify-between" style="color: var(--text-muted)">
-                        <span>Target: Inbound Commuters</span>
-                        <span style="color: var(--status-green); font-weight: 600">Compliance: 35%</span>
+                    <div id="diversion-routes-list" class="space-y-2">
+                        <!-- Dynamically populated by renderBypassAndPoliceTab() -->
                     </div>
                 </div>
 
-                <div class="scada-card p-3" style="border-left: 2px solid var(--status-green)">
+                <!-- Police Order & Human Authorization Card -->
+                <div class="scada-card p-3 border-l-2 border-emerald-500">
                     <div class="flex justify-between items-center mb-2">
                         <div class="flex items-center gap-1.5">
-                            <div class="w-1 h-3.5 rounded-full" style="background: var(--status-green)"></div>
-                            <span class="text-[9.5px] font-sans font-semibold uppercase tracking-wider" style="color: var(--text-muted)">WhatsApp Police Dispatch</span>
+                            <div class="w-1 h-3.5 rounded-full bg-emerald-400"></div>
+                            <span class="text-[9.5px] font-sans font-semibold uppercase tracking-wider" style="color: var(--text-muted)">Traffic Police Directive Order</span>
                         </div>
-                        <span class="text-[9px] font-sans" style="color: var(--status-green)">ACP Cyberabad</span>
+                        <span class="text-[8.5px] font-mono text-emerald-400">ACP Cyberabad West</span>
                     </div>
-                    <textarea id="whatsapp-payload-preview" rows="9" readonly class="w-full text-[10px] font-mono leading-tight"></textarea>
-                    <div class="grid grid-cols-2 gap-2 mt-2">
+
+                    <!-- Digital Authorization Seal -->
+                    <div id="diversion-auth-status-badge" class="mb-2.5">
+                        <!-- Populated by JS -->
+                    </div>
+
+                    <!-- Authorization Button -->
+                    <button id="btn-authorize-diversion" onclick="window.authorizeDiversionOrder()" class="btn-scada btn-scada-primary text-xs py-2 w-full font-bold shadow-lg mb-2.5">
+                        <i class="fa-solid fa-shield-halved mr-1.5 text-amber-300"></i> Authorize Diversion &amp; Issue Police Order
+                    </button>
+
+                    <!-- WhatsApp Encrypted Police Payload Preview -->
+                    <textarea id="whatsapp-payload-preview" rows="8" readonly class="w-full text-[9.5px] font-mono leading-tight p-2 rounded bg-black/80 border border-slate-700 text-emerald-300 mb-2"></textarea>
+
+                    <div class="grid grid-cols-2 gap-2">
                         <button id="btn-dispatch-whatsapp" class="btn-scada text-xs py-2" style="background: var(--status-green) !important; color: #fff !important; border-color: #15803d !important">
-                            <i class="fa-brands fa-whatsapp"></i> 1-Click Dispatch
+                            <i class="fa-brands fa-whatsapp mr-1"></i> 1-Click WhatsApp
                         </button>
                         <button id="btn-copy-payload" class="btn-scada text-xs py-2">
-                            <i class="fa-solid fa-copy"></i> Copy
+                            <i class="fa-solid fa-copy mr-1"></i> Copy Payload
                         </button>
                     </div>
                 </div>

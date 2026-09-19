@@ -56,6 +56,60 @@ class ScadaApp {
             simConnected: false,
             lastPacketTime: 0
         };
+
+        // Multi-Criteria Alternative Diversion Routes (AI Suggested // Operator Selected)
+        this.selectedDiversionRoute = 'cable_bridge';
+        this.isDiversionAuthorized = false;
+        this.diversionRoutes = [
+            {
+                id: 'cable_bridge',
+                name: 'Durgam Cheruvu Cable Bridge Corridor',
+                badge: 'RECOMMENDED (AI CHOICE)',
+                badgeColor: 'text-emerald-400 border-emerald-500/40 bg-emerald-500/10',
+                dist: '4.8 km',
+                time: '12.2 min',
+                saved: '18.4 min',
+                split: '35% Arterial Flow',
+                headroom: '65% Headroom (3,200 PCU/h)',
+                risk: 'Low (22%)',
+                via: 'Shilparamam ➔ Inorbit Rotary ➔ Cable Bridge ➔ Road 36 Jubilee Hills',
+                desc: 'Circumvents Mindspace choke completely via 4-lane extradosed cable bridge. Lowest delay with zero conflict stops.',
+                marshals: 'CP-01 Shilparamam Entry, CP-02 Inorbit Rotary, CP-03 Cable Bridge West Pylon',
+                vms: 'DIVERT VIA DURGAM CHERUVU CABLE BRIDGE | SAVE 18.4 MIN'
+            },
+            {
+                id: 'inorbit_kc',
+                name: 'Inorbit Spur ➔ Knowledge City Link',
+                badge: 'FEASIBLE ALTERNATE',
+                badgeColor: 'text-cyan-400 border-cyan-500/40 bg-cyan-500/10',
+                dist: '5.6 km',
+                time: '16.5 min',
+                saved: '14.1 min',
+                split: '28% Arterial Flow',
+                headroom: '48% Headroom (2,800 PCU/h)',
+                risk: 'Medium (44%)',
+                via: 'Mindspace Slip Road ➔ Knowledge City SEZ ➔ Bio-Diversity Flyover',
+                desc: 'Routes inbound commuters through Knowledge City service arterial. Ideal for software park commuters heading to Gachibowli.',
+                marshals: 'CP-04 Mindspace Slip, CP-05 IKEA Rotary Marshal, CP-06 Bio-Diversity Upper Ramp',
+                vms: 'DIVERT VIA KNOWLEDGE CITY ARTERIAL | SAVE 14.1 MIN'
+            },
+            {
+                id: 'mmts_slip',
+                name: 'HITEC MMTS Sub-Arterial Slip Road',
+                badge: 'EMERGENCY / HEAVY VEHICLES',
+                badgeColor: 'text-amber-400 border-amber-500/40 bg-amber-500/10',
+                dist: '6.4 km',
+                time: '21.0 min',
+                saved: '8.6 min',
+                split: '20% Heavy Traffic',
+                headroom: '30% Headroom (2,100 PCU/h)',
+                risk: 'High (68%)',
+                via: 'Cyber Towers Gate 2 ➔ MMTS Railway Underpass ➔ Hafeezpet Road',
+                desc: 'Wide secondary link bypassing IT corridor entirely. Designated for TSRTC buses, container trucks, and heavy recovery vehicles.',
+                marshals: 'CP-07 Cyber Towers Gate 2, CP-08 MMTS Underpass Choke Point',
+                vms: 'HEAVY VEHICLES: DIVERT VIA MMTS UNDERPASS SLIP ROAD'
+            }
+        ];
     }
 
     init() {
@@ -1282,13 +1336,98 @@ class ScadaApp {
         container.innerHTML = html;
     }
 
+    selectDiversionRoute(routeId) {
+        this.selectedDiversionRoute = routeId;
+        this.isDiversionAuthorized = false;
+        this.highlightDiversionRouteOnMap(routeId);
+        this.renderBypassAndPoliceTab();
+        if (window.tacticalAudio) window.tacticalAudio.playClick();
+    }
+
+    highlightDiversionRouteOnMap(routeId) {
+        if (this.bypassPolyline && this.bypassCasing) {
+            const isBridge = (routeId === 'cable_bridge');
+            this.bypassPolyline.setStyle({ opacity: isBridge ? 0.95 : 0.25, weight: isBridge ? 6 : 3, color: '#06b6d4' });
+            this.bypassCasing.setStyle({ opacity: isBridge ? 0.9 : 0.2, weight: isBridge ? 14 : 8 });
+        }
+        if (this.inorbitSpur) {
+            const isSpur = (routeId === 'inorbit_kc');
+            this.inorbitSpur.setStyle({ opacity: isSpur ? 0.95 : 0.4, weight: isSpur ? 6 : 2.5, color: isSpur ? '#38bdf8' : '#0284c7' });
+        }
+    }
+
+    authorizeDiversionOrder() {
+        this.isDiversionAuthorized = true;
+        const r = (this.diversionRoutes && this.diversionRoutes.find(x => x.id === this.selectedDiversionRoute)) || (this.diversionRoutes ? this.diversionRoutes[0] : null);
+
+        if (r && r.vms) {
+            this.broadcastCustomVms(r.vms);
+        }
+
+        if (window.tacticalAudio) {
+            window.tacticalAudio.playPreemptionChime();
+        }
+
+        this.renderBypassAndPoliceTab();
+    }
+
     renderBypassAndPoliceTab() {
+        const container = document.getElementById('diversion-routes-list');
         const payloadBox = document.getElementById('whatsapp-payload-preview');
+        const authBadge = document.getElementById('diversion-auth-status-badge');
         const timeSavedEl = document.getElementById('bypass-time-saved');
         const splitPctEl = document.getElementById('bypass-split-pct');
+        const r = (this.diversionRoutes && this.diversionRoutes.find(x => x.id === this.selectedDiversionRoute)) || (this.diversionRoutes ? this.diversionRoutes[0] : null);
 
-        if (timeSavedEl) timeSavedEl.textContent = this.state.bypassActive ? '18.4 Mins/Car' : '0.0 Mins (Standby)';
-        if (splitPctEl) splitPctEl.textContent = this.state.bypassActive ? '35% Arterial Flow' : '0% (Nominal)';
+        if (timeSavedEl && r) timeSavedEl.textContent = `${r.saved}/Car`;
+        if (splitPctEl && r) splitPctEl.textContent = r.split;
+
+        if (authBadge) {
+            if (this.isDiversionAuthorized) {
+                authBadge.innerHTML = '<i class="fa-solid fa-circle-check text-emerald-400 mr-1.5"></i> DIVERSION ORDER AUTHORIZED BY OPERATOR (CHIEF CONTROLLER #TS-CP-884)';
+                authBadge.className = 'text-[9.5px] font-mono font-bold px-2.5 py-1.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-center animate-pulse shadow-md';
+            } else {
+                authBadge.innerHTML = '<i class="fa-solid fa-triangle-exclamation text-amber-400 mr-1.5"></i> PENDING OPERATOR SELECTION &amp; AUTHORIZATION';
+                authBadge.className = 'text-[9.5px] font-mono font-bold px-2.5 py-1.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/40 text-center';
+            }
+        }
+
+        if (container && this.diversionRoutes) {
+            container.innerHTML = this.diversionRoutes.map(route => {
+                const isSelected = (route.id === this.selectedDiversionRoute);
+                return `
+                    <div onclick="window.selectDiversionRoute('${route.id}')" class="p-2.5 rounded-lg cursor-pointer transition-all border ${isSelected ? 'border-cyan-400 bg-cyan-950/60 shadow-[0_0_15px_rgba(6,182,212,0.35)] ring-1 ring-cyan-400' : 'border-slate-700/60 bg-slate-900/50 hover:border-slate-500'}">
+                        <div class="flex justify-between items-start mb-1.5">
+                            <span class="font-sans font-bold text-xs ${isSelected ? 'text-cyan-300' : 'text-slate-200'}">${route.name}</span>
+                            <span class="text-[8.5px] font-mono font-semibold px-1.5 py-0.5 rounded border ${route.badgeColor}">${route.badge}</span>
+                        </div>
+                        <div class="grid grid-cols-3 gap-1 mb-1.5 text-[9.5px] font-mono">
+                            <div class="p-1 rounded bg-black/40 border border-slate-800">
+                                <span class="text-slate-400 block text-[8px]">Time Saved:</span>
+                                <span class="text-emerald-400 font-bold">-${route.saved}</span>
+                            </div>
+                            <div class="p-1 rounded bg-black/40 border border-slate-800">
+                                <span class="text-slate-400 block text-[8px]">Transit Time:</span>
+                                <span class="text-white font-semibold">${route.time}</span>
+                            </div>
+                            <div class="p-1 rounded bg-black/40 border border-slate-800">
+                                <span class="text-slate-400 block text-[8px]">Choke Risk:</span>
+                                <span class="${route.risk.includes('Low') ? 'text-emerald-400' : (route.risk.includes('Med') ? 'text-amber-400' : 'text-red-400')} font-semibold">${route.risk}</span>
+                            </div>
+                        </div>
+                        <div class="text-[9.5px] font-sans text-slate-400 mb-2 leading-tight">
+                            <strong class="text-slate-300">Route:</strong> ${route.via}
+                        </div>
+                        <div class="flex justify-between items-center text-[9px] pt-1.5 border-t border-slate-800/80">
+                            <span class="text-slate-400"><i class="fa-solid fa-road mr-1"></i>${route.headroom}</span>
+                            <button class="px-2 py-0.5 rounded font-sans font-semibold text-[9.5px] ${isSelected ? 'bg-cyan-500 text-slate-950 shadow' : 'bg-slate-800 text-slate-300 border border-slate-700'}">
+                                ${isSelected ? '<i class="fa-solid fa-check mr-1"></i>Selected by Operator' : '<i class="fa-solid fa-hand-pointer mr-1"></i>Select Route'}
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
 
         const payload = this._generatePolicePayload();
         if (payloadBox) {
@@ -1298,7 +1437,9 @@ class ScadaApp {
 
     _generatePolicePayload() {
         const s = window.HYDERABAD_CORRIDOR.scenarios[this.currentScenario];
+        const r = (this.diversionRoutes && this.diversionRoutes.find(x => x.id === this.selectedDiversionRoute)) || (this.diversionRoutes ? this.diversionRoutes[0] : null);
         const timeStr = new Date().toLocaleTimeString('en-IN', { timeZone: 'Asia/Kolkata' });
+        const authStatus = this.isDiversionAuthorized ? 'APPROVED & SIGNED BY OPERATOR (CHIEF CONTROLLER)' : 'PENDING OPERATOR CONFIRMATION';
 
         if (this.currentScenario === 'ambulanceCorridor') {
             return `🚨 [NEXRAFLOW SCADA PRIORITY DISPATCH] 🚨
@@ -1319,30 +1460,37 @@ AUTOMATED SCADA DIRECTIVES:
 Verified by NEXRAFLOW AI Spatiotemporal Core.`;
         }
 
-        return `🚨 [NEXRAFLOW SCADA PRIORITY DISPATCH] 🚨
-----------------------------------------
+        const routeName = r ? r.name : 'Durgam Cheruvu Cable Bridge Bypass';
+        const savedTime = r ? r.saved : '18.4 min';
+        const splitPct = r ? r.split : '35%';
+        const marshals = r ? r.marshals : 'CP-01 Shilparamam Entry, CP-02 Inorbit Rotary, CP-03 Cable Bridge West';
+        const viaRoute = r ? r.via : 'Shilparamam ➔ Inorbit ➔ Cable Bridge';
+
+        return `🚨 [NEXRAFLOW SCADA POLICE DIVERSION ORDER] 🚨
+--------------------------------------------------
 TO: Cyberabad Traffic Police Command (ACP West Zone)
 TIME: ${timeStr} IST
-STATUS: ${s.badge}
-
+INCIDENT: ${s.badge} (${s.incidentType})
 LOCATION: ${s.incidentLocation ? s.incidentLocation.landmark : 'Cyber Towers - Mindspace Corridor'}
-GPS: ${s.incidentLocation ? `${s.incidentLocation.lat}, ${s.incidentLocation.lng}` : '17.4435, 78.3772'}
-TYPE: ${s.incidentType}
 
-KINEMATICS:
-- Corridor Capacity Drop: ${s.capacityDropPct}%
-- LWR Shockwave Speed: ${s.shockwaveVelocity} km/h (Backward Spillback)
-- Upstream Choke ETA: ${s.upstreamSpillbackEtaMins ? s.upstreamSpillbackEtaMins + ' mins' : 'N/A'}
+OPERATOR TACTICAL DIRECTIVE:
+--------------------------------------------------
+AUTHORIZATION: [ ${authStatus} ]
+OPERATOR SELECTED ROUTE: ${routeName}
+ROUTING PATH: ${viaRoute}
+PROJECTED TIME SAVED: -${savedTime} per diverted commuter
+TARGET TRAFFIC SHIFT: ${splitPct}
 
-AUTONOMOUS ACTIONS EXECUTED:
-1. Signal Preemption: +25s Green Flush (NTCIP-1202 Phase 61/39)
-2. Tactical Bypass: Durgam Cheruvu Cable Bridge ACTIVATED (35% Split)
+TACTICAL POLICE MARSHAL DEPLOYMENT:
+- Deploy traffic marshals with luminous batons at:
+  ${marshals}
+- Variable Message Signs (VMS #04):
+  "${r ? r.vms : ''}"
+- Signal Timing: Phase 61/39 preemption flush active at upstream feed intersections.
 
-REQUISITION & DIRECTIVES:
-1. Dispatch Heavy Hydraulic Recovery Crane immediately to Mindspace Incline.
-2. Station Traffic Marshals at Shilparamam Slip Road.
-
-Verified by NEXRAFLOW AI Spatiotemporal Core.`;
+OPERATOR BADGE: Chief SCADA Traffic Controller (#TS-CP-884)
+COMMAND POST: Cyberabad ICCC Traffic Operations Center
+CORE ENGINE: NexraFlow Level-4 SCADA Supervisory Decision Core`;
     }
 
     dispatchWhatsApp() {
@@ -1545,4 +1693,6 @@ window.updateManualGreenSplit = (val) => window.scadaApp && window.scadaApp.setM
 window.forceManualSignalPhase = (phase) => window.scadaApp && window.scadaApp.forceSignalPhase(phase);
 window.broadcastCustomVms = (val) => window.scadaApp && window.scadaApp.broadcastCustomVms(val);
 window.applyVmsPreset = (key) => window.scadaApp && window.scadaApp.applyVmsPreset(key);
+window.selectDiversionRoute = (routeId) => window.scadaApp && window.scadaApp.selectDiversionRoute(routeId);
+window.authorizeDiversionOrder = () => window.scadaApp && window.scadaApp.authorizeDiversionOrder();
 
