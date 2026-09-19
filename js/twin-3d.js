@@ -8,19 +8,23 @@
 class NexraFlow3D {
     constructor(containerId) {
         this.container = document.getElementById(containerId);
-        this.width = this.container.clientWidth || window.innerWidth;
-        this.height = this.container.clientHeight || window.innerHeight;
+        if (!this.container) {
+            console.error('NexraFlow3D container #' + containerId + ' not found in document.');
+            return;
+        }
+        this.width = this.container.clientWidth || window.innerWidth || 800;
+        this.height = this.container.clientHeight || window.innerHeight || 600;
 
         // Core Three.js components
         this.scene = null;
         this.camera = null;
         this.renderer = null;
         this.controls = null;
-        this.clock = new THREE.Clock();
+        this.clock = (typeof THREE !== 'undefined' && THREE.Clock) ? new THREE.Clock() : null;
 
         // Raycasting & Inspection
-        this.raycaster = new THREE.Raycaster();
-        this.mouse = new THREE.Vector2();
+        this.raycaster = (typeof THREE !== 'undefined' && THREE.Raycaster) ? new THREE.Raycaster() : null;
+        this.mouse = (typeof THREE !== 'undefined' && THREE.Vector2) ? new THREE.Vector2() : null;
         this.selectedObject = null;
 
         // Scene objects
@@ -33,7 +37,7 @@ class NexraFlow3D {
         this.cyberTowers = null;
         this.waterPlane = null;
         this.rainSystem = null;
-        this.incidentGroup = new THREE.Group();
+        this.incidentGroup = (typeof THREE !== 'undefined' && THREE.Group) ? new THREE.Group() : null;
         this.ambulance = null;
 
         // Visual modes
@@ -56,6 +60,11 @@ class NexraFlow3D {
         this.gridHelper = null;
 
         this._initEngine();
+        if (!this.renderer || !this.scene) {
+            console.warn('Renderer or scene could not be initialized.');
+            return;
+        }
+
         this._initAudio();
         this._buildEnvironment();
         this._buildRoadwaysAndFlyover();
@@ -75,34 +84,64 @@ class NexraFlow3D {
        1. ULTRA-SHARP THREE.JS ENGINE
        ========================================================================== */
     _initEngine() {
+        if (typeof THREE === 'undefined') {
+            console.error('Three.js library is not loaded');
+            this._showWebGLErrorNotice('Three.js library not detected');
+            return;
+        }
+
         this.scene = new THREE.Scene();
         this.scene.background = new THREE.Color(0x040812);
         this.scene.fog = new THREE.FogExp2(0x040812, 0.002);
 
-        this.camera = new THREE.PerspectiveCamera(45, this.width / this.height, 1, 3500);
+        const aspect = (this.width && this.height) ? (this.width / this.height) : (window.innerWidth / window.innerHeight);
+        this.camera = new THREE.PerspectiveCamera(45, aspect, 1, 3500);
         this.camera.position.set(0, 180, 260);
 
-        // High-DPI Razor-Sharp WebGL Renderer
-        this.renderer = new THREE.WebGLRenderer({
-            antialias: true,
-            powerPreference: 'high-performance',
-            stencil: false,
-            depth: true
-        });
+        // High-DPI Razor-Sharp WebGL Renderer with graceful fallback
+        try {
+            this.renderer = new THREE.WebGLRenderer({
+                antialias: true,
+                powerPreference: 'high-performance',
+                stencil: false,
+                depth: true
+            });
+        } catch (e1) {
+            console.warn('High-performance WebGL context failed, trying default WebGLRenderer:', e1);
+            try {
+                this.renderer = new THREE.WebGLRenderer({ antialias: false });
+            } catch (e2) {
+                console.error('WebGL is unsupported on this system:', e2);
+                this._showWebGLErrorNotice(e2.message);
+                return;
+            }
+        }
+
         this.renderer.setSize(this.width, this.height);
-        this.renderer.setPixelRatio(window.devicePixelRatio || 1);
-        this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+        if (THREE.ACESFilmicToneMapping) this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
         this.renderer.toneMappingExposure = 1.3;
-        this.renderer.outputEncoding = THREE.sRGBEncoding;
+        if (THREE.sRGBEncoding) this.renderer.outputEncoding = THREE.sRGBEncoding;
         this.container.appendChild(this.renderer.domElement);
 
-        this.controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
-        this.controls.enableDamping = true;
-        this.controls.dampingFactor = 0.06;
-        this.controls.maxPolarAngle = Math.PI / 2 - 0.02;
-        this.controls.minDistance = 15;
-        this.controls.maxDistance = 750;
-        this.controls.target.set(0, 15, 0);
+        if (typeof THREE.OrbitControls === 'function') {
+            this.controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
+            this.controls.enableDamping = true;
+            this.controls.dampingFactor = 0.06;
+            this.controls.maxPolarAngle = Math.PI / 2 - 0.02;
+            this.controls.minDistance = 15;
+            this.controls.maxDistance = 750;
+            this.controls.target.set(0, 15, 0);
+        } else {
+            console.warn('THREE.OrbitControls not found, using static camera controller fallback.');
+            this.controls = {
+                target: new THREE.Vector3(0, 15, 0),
+                update: () => {},
+                enableDamping: false,
+                autoRotate: false,
+                autoRotateSpeed: 0
+            };
+        }
 
         // Crisp SCADA Lighting (Configured for Dynamic Day/Night Mode)
         this.ambientLight = new THREE.AmbientLight(0x1a2942, 1.5);
@@ -119,13 +158,35 @@ class NexraFlow3D {
         window.addEventListener('resize', () => this.onWindowResize());
     }
 
+    _showWebGLErrorNotice(reason) {
+        if (!this.container) return;
+        this.container.innerHTML = `
+            <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(15,23,42,0.94);border:1px solid rgba(239,68,68,0.4);border-radius:12px;padding:28px 36px;color:#f8fafc;font-family:Inter,sans-serif;text-align:center;max-width:500px;box-shadow:0 8px 32px rgba(0,0,0,0.6);backdrop-filter:blur(16px);z-index:9999;">
+                <div style="font-size:36px;color:#f87171;margin-bottom:12px;"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                <div style="font-size:16px;font-weight:600;margin-bottom:8px;">3D WebGL Acceleration Notice</div>
+                <div style="font-size:13px;color:#cbd5e1;line-height:1.6;margin-bottom:18px;">
+                    Hardware Acceleration or WebGL is currently unavailable in this browser window (${reason || 'Context not acquired'}).
+                </div>
+                <div style="display:flex;gap:10px;justify-content:center;">
+                    <button onclick="location.reload()" style="background:#1d4ed8;color:#fff;border:none;padding:8px 18px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;">
+                        Reload
+                    </button>
+                    <a href="index.html" style="background:rgba(255,255,255,0.08);color:#cbd5e1;border:1px solid rgba(255,255,255,0.15);padding:8px 18px;border-radius:6px;font-size:12px;font-weight:600;text-decoration:none;">
+                        Open 2D Cockpit
+                    </a>
+                </div>
+            </div>
+        `;
+    }
+
     onWindowResize() {
+        if (!this.container || !this.camera || !this.renderer) return;
         this.width = this.container.clientWidth || window.innerWidth;
         this.height = this.container.clientHeight || window.innerHeight;
         this.camera.aspect = this.width / this.height;
         this.camera.updateProjectionMatrix();
         this.renderer.setSize(this.width, this.height);
-        this.renderer.setPixelRatio(window.devicePixelRatio || 1);
+        this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
     }
 
     /* ==========================================================================
@@ -1084,10 +1145,11 @@ class NexraFlow3D {
        15. 60 FPS RENDER LOOP
        ========================================================================== */
     _animate() {
+        if (!this.renderer || !this.scene || !this.camera) return;
         requestAnimationFrame(() => this._animate());
 
-        const delta = this.clock.getDelta();
-        const time = this.clock.getElapsedTime();
+        const delta = this.clock ? this.clock.getDelta() : 0.016;
+        const time = this.clock ? this.clock.getElapsedTime() : Date.now() * 0.001;
 
         if (this.ctBeacon) {
             this.ctBeacon.material.color.setHex((Math.floor(time * 2) % 2 === 0) ? 0xef4444 : 0x330000);

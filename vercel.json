@@ -1,8 +1,15 @@
 {
   "version": 2,
-  "name": "nexraflow",
   "cleanUrls": true,
   "trailingSlash": false,
+  "redirects": [
+    { "source": "/twin3d.htm", "destination": "/twin3d", "permanent": true },
+    { "source": "/twin3d.html", "destination": "/twin3d", "permanent": true },
+    { "source": "/simulator.htm", "destination": "/simulator", "permanent": true },
+    { "source": "/simulator.html", "destination": "/simulator", "permanent": true },
+    { "source": "/index.htm", "destination": "/", "permanent": true },
+    { "source": "/index.html", "destination": "/", "permanent": true }
+  ],
   "headers": [
     {
       "source": "/(.*)",

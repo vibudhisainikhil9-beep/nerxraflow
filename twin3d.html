@@ -32,8 +32,18 @@
             theme: { extend: { fontFamily: { sans: ['Inter', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] } } }
         };
     </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <script src="js/three.min.js"></script>
+    <script>
+        if (typeof THREE === 'undefined') {
+            document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"><\/script>');
+        }
+    </script>
+    <script src="js/OrbitControls.js"></script>
+    <script>
+        if (typeof THREE !== 'undefined' && typeof THREE.OrbitControls === 'undefined') {
+            document.write('<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"><\/script>');
+        }
+    </script>
     <link rel="stylesheet" href="css/styles.css">
 
     <style>
@@ -272,10 +282,28 @@
     <script src="js/telemetry-bus.js"></script>
     <script src="js/twin-3d.js"></script>
     <script>
-        window.twin3D = new NexraFlow3D('webgl-canvas-container');
+        function initTwin3D() {
+            try {
+                if (typeof NexraFlow3D === 'undefined') {
+                    console.error('NexraFlow3D class is not loaded');
+                    return;
+                }
+                window.twin3D = new NexraFlow3D('webgl-canvas-container');
+            } catch (err) {
+                console.error('Failed to initialize 3D digital twin:', err);
+            }
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initTwin3D);
+        } else {
+            initTwin3D();
+        }
 
         function setCam(mode) {
-            window.twin3D.setCameraMode(mode);
+            if (window.twin3D && window.twin3D.setCameraMode) {
+                window.twin3D.setCameraMode(mode);
+            }
             document.querySelectorAll('.gov-btn').forEach(b => {
                 if (b.id && b.id.startsWith('cam-') && b.id !== 'cam-autorotate') b.classList.remove('active');
             });
@@ -284,6 +312,7 @@
         }
 
         function toggleAutoRotate() {
+            if (!window.twin3D) return;
             window.twin3D.autoRotate = !window.twin3D.autoRotate;
             const statusEl = document.getElementById('autorotate-status');
             const btn = document.getElementById('cam-autorotate');
@@ -303,7 +332,9 @@
         }
 
         function triggerScenario(scenarioId) {
-            window.twin3D.applyScenario(scenarioId);
+            if (window.twin3D && window.twin3D.applyScenario) {
+                window.twin3D.applyScenario(scenarioId);
+            }
             document.querySelectorAll('.scenario-btn-3d').forEach(b => b.classList.remove('active'));
             const activeBtn = document.getElementById(`btn-3d-${scenarioId}`);
             if (activeBtn) activeBtn.classList.add('active');
@@ -337,7 +368,7 @@
         }
 
         function toggleTwinTheme() {
-            if (window.twin3D) window.twin3D.toggleTheme();
+            if (window.twin3D && window.twin3D.toggleTheme) window.twin3D.toggleTheme();
         }
 
         window.addEventListener('keydown', (e) => {
