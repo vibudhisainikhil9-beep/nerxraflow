@@ -125,7 +125,11 @@ class ScadaApp {
         this._startLocalFallbackClock();
 
         this.autoPilot = new AutoPilotTour(this);
-        this.loadScenario('nominal');
+        let initialScen = 'nominal';
+        try {
+            initialScen = sessionStorage.getItem('nexraflow_selected_scenario') || 'nominal';
+        } catch(e) {}
+        this.loadScenario(initialScen);
 
         // Initial tab render
         this.switchTab('radar');
@@ -638,10 +642,9 @@ class ScadaApp {
             this.state.busPct = parseFloat(packet.composition.busPct || 12);
         }
 
-        // If simulator injected a scenario change
-        if (packet.scenarioId && packet.scenarioId !== this.currentScenario) {
-            this.currentScenario = packet.scenarioId;
-            this._applyScenarioVisuals(packet.scenarioId);
+        // Only change scenario if explicitly requested as a deliberate scenario_change action
+        if (packet.action === 'scenario_change' && packet.scenarioId && packet.scenarioId !== this.currentScenario) {
+            this.loadScenario(packet.scenarioId);
         }
 
         this._recalculateTrafficScience();
@@ -698,6 +701,15 @@ class ScadaApp {
        SCENARIO MANAGEMENT & MATHEMATICS
        ========================================================================== */
     loadScenario(scenarioId) {
+        // If autopilot tour was running, stop it so it won't auto-switch scenarios
+        if (this.autoPilot && this.autoPilot.isRunning) {
+            this.autoPilot.stop();
+        }
+
+        try {
+            sessionStorage.setItem('nexraflow_selected_scenario', scenarioId);
+        } catch(e) {}
+
         const s = window.HYDERABAD_CORRIDOR.scenarios[scenarioId];
         if (!s) return;
 
@@ -744,42 +756,18 @@ class ScadaApp {
             this.incidentZoneCircle = null;
         }
 
-        // 2. Add Incident Marker & SCADA Geofence Ring if incident exists
-        if (s.incidentLocation) {
+        // 2. Incident display on map
+        // Keep the map pristine and clean without alarming warning popups or red dashed circles
+        if (scenarioId === 'ambulanceCorridor' && s.incidentLocation) {
             const loc = s.incidentLocation;
-            const isAmbulance = scenarioId === 'ambulanceCorridor';
-            const iconHtml = isAmbulance ?
-                `<div class="incident-pulse-marker" style="background:#10b981; border-color:#ffffff;"><i class="fa-solid fa-truck-medical text-white text-xs"></i></div>` :
-                `<div class="incident-pulse-marker"><i class="fa-solid fa-triangle-exclamation"></i></div>`;
-
+            const iconHtml = `<div class="incident-pulse-marker" style="background:#10b981; border-color:#ffffff;"><i class="fa-solid fa-truck-medical text-white text-xs"></i></div>`;
             const icon = L.divIcon({
                 className: 'custom-incident-icon',
                 html: iconHtml,
-                iconSize: [30, 30],
-                iconAnchor: [15, 15]
+                iconSize: [28, 28],
+                iconAnchor: [14, 14]
             });
             this.incidentMarker = L.marker([loc.lat, loc.lng], { icon }).addTo(this.map);
-            this.incidentMarker.bindPopup(`
-                <div class="p-2 font-mono text-xs text-slate-100 bg-slate-900 rounded border ${isAmbulance ? 'border-emerald-500' : 'border-red-500'}">
-                    <div class="${isAmbulance ? 'text-emerald-400' : 'text-red-400'} font-bold text-sm mb-1"><i class="fa-solid ${isAmbulance ? 'fa-truck-medical' : 'fa-triangle-exclamation'}"></i> ${s.badge}</div>
-                    <div class="text-white font-semibold mb-1">${loc.title}</div>
-                    <div class="text-slate-300 text-[11px] mb-2">${loc.landmark}</div>
-                    <div class="text-slate-400 text-[11px] border-t border-slate-700 pt-1">${loc.subtext}</div>
-                </div>
-            `).openPopup();
-
-            // Tactical Shockwave Geofence Radius
-            if (scenarioId !== 'nominal') {
-                const zoneColor = isAmbulance ? '#10b981' : '#ef4444';
-                this.incidentZoneCircle = L.circle([loc.lat, loc.lng], {
-                    radius: isAmbulance ? 160 : 300,
-                    color: zoneColor,
-                    fillColor: zoneColor,
-                    fillOpacity: 0.12,
-                    weight: 1.5,
-                    dashArray: '5, 5'
-                }).addTo(this.map);
-            }
         }
 
         // 3. Update Polyline Colors, Halo Glow & Flow Speed
@@ -808,13 +796,13 @@ class ScadaApp {
         const vmsEl = document.getElementById('vms-gantry-text');
         if (vmsEl) {
             if (scenarioId === 'tsrtcBreakdown') {
-                vmsEl.textContent = '[ ⚠️ TSRTC BREAKDOWN AT MINDSPACE | ➡️ DIVERSION VIA DURGAM CHERUVU CABLE BRIDGE | SAVE 18.4 MIN ]';
-                vmsEl.className = 'bg-black border border-red-500/50 rounded p-2 text-center text-red-400 font-mono font-bold text-xs tracking-wider shadow-inner shadow-red-500/20';
+                vmsEl.textContent = '[ TSRTC BUS STOPPAGE AT MINDSPACE | ➡️ DIVERSION VIA DURGAM CHERUVU CABLE BRIDGE | SAVE 18.4 MIN ]';
+                vmsEl.className = 'bg-black border border-amber-500/50 rounded p-2 text-center text-amber-300 font-mono font-bold text-xs tracking-wider shadow-inner shadow-amber-500/20';
             } else if (scenarioId === 'monsoonFlood') {
                 vmsEl.textContent = '[ 🌊 BIO-DIVERSITY UNDERPASS WATERLOGGED 48CM | ➡️ USE ELEVATED UPPER FLYOVER ]';
                 vmsEl.className = 'bg-black border border-blue-500/50 rounded p-2 text-center text-blue-400 font-mono font-bold text-xs tracking-wider shadow-inner shadow-blue-500/20';
             } else if (scenarioId === 'flyoverCollision') {
-                vmsEl.textContent = '[ 🚨 CYBER TOWERS FLYOVER CRASH | ➡️ USE MMTS UNDERPASS SLIP ROAD ]';
+                vmsEl.textContent = '[ CYBER TOWERS FLYOVER ACCIDENT | ➡️ USE MMTS UNDERPASS SLIP ROAD ]';
                 vmsEl.className = 'bg-black border border-amber-500/50 rounded p-2 text-center text-amber-300 font-mono font-bold text-xs tracking-wider shadow-inner shadow-amber-500/20';
             } else if (scenarioId === 'ambulanceCorridor') {
                 vmsEl.textContent = '[ 🚑 EMERGENCY 108 AMBULANCE TRANSIT | YIELD ALL LANES TO RIGHT | GREEN CORRIDOR ENGAGED ]';
@@ -1387,7 +1375,7 @@ class ScadaApp {
                 authBadge.innerHTML = '<i class="fa-solid fa-circle-check text-emerald-400 mr-1.5"></i> DIVERSION ORDER AUTHORIZED BY OPERATOR (CHIEF CONTROLLER #TS-CP-884)';
                 authBadge.className = 'text-[9.5px] font-mono font-bold px-2.5 py-1.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-center animate-pulse shadow-md';
             } else {
-                authBadge.innerHTML = '<i class="fa-solid fa-triangle-exclamation text-amber-400 mr-1.5"></i> PENDING OPERATOR SELECTION &amp; AUTHORIZATION';
+                authBadge.innerHTML = '<i class="fa-solid fa-shield-halved text-amber-400 mr-1.5"></i> PENDING OPERATOR SELECTION &amp; AUTHORIZATION';
                 authBadge.className = 'text-[9.5px] font-mono font-bold px-2.5 py-1.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/40 text-center';
             }
         }
@@ -1668,13 +1656,6 @@ CORE ENGINE: NexraFlow Level-4 SCADA Supervisory Decision Core`;
             else if (e.key.toLowerCase() === 'b') this.showBypassRoute(!this.state.bypassActive);
             else if (e.key.toLowerCase() === 't') window.open('twin3d.html', 'NexraFlow3D', 'width=1366,height=820');
             else if (e.key.toLowerCase() === 'l') this.toggleTheme();
-            else if (e.code === 'Space') {
-                e.preventDefault();
-                if (this.autoPilot) {
-                    if (!this.autoPilot.isRunning) this.autoPilot.start();
-                    else this.autoPilot.togglePause();
-                }
-            }
         });
     }
 }

@@ -1160,15 +1160,6 @@ class NexraFlow3D {
         hazardLight.position.set(4.5, 22, 10);
         this.incidentGroup.add(hazardLight);
 
-        // Ground Warning Perimeter Ring
-        const ring = new THREE.Mesh(
-            new THREE.RingGeometry(2, 16, 32),
-            new THREE.MeshBasicMaterial({ color: 0xef4444, side: THREE.DoubleSide, transparent: true, opacity: 0.7 })
-        );
-        ring.rotation.x = -Math.PI / 2;
-        ring.position.set(4.5, 18.3, 10);
-        this.incidentGroup.add(ring);
-
         // 4 Realistic Emergency Traffic Cones placed behind the bus
         const coneGeo = new THREE.ConeGeometry(0.5, 1.4, 12);
         const coneMat = new THREE.MeshStandardMaterial({ color: 0xf97316, roughness: 0.3 });
@@ -1378,7 +1369,7 @@ class NexraFlow3D {
         if (!window.telemetryBus) return;
 
         window.telemetryBus.subscribe(packet => {
-            if (packet.scenarioId && packet.scenarioId !== this.scenarioId) {
+            if (packet.action === 'scenario_change' && packet.scenarioId && packet.scenarioId !== this.scenarioId) {
                 this.applyScenario(packet.scenarioId);
             }
             if (packet.rawSpeedKmh) {
