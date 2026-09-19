@@ -1063,7 +1063,7 @@ const HYDERABAD_CORRIDOR = {
         tsrtcBreakdown: {
             id: 'tsrtcBreakdown',
             name: 'TSRTC Bus Breakdown (Mindspace Incline)',
-            badge: 'CRITICAL DISRUPTION',
+            badge: 'TSRTC STALL INCIDENT',
             color: '#ef4444',
             incidentLocation: {
                 lat: 17.4435,

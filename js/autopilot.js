@@ -31,7 +31,7 @@ class AutoPilotTour {
             },
             {
                 stepNumber: 2,
-                title: 'Step 2: Acute Physical Disruption — TSRTC Bus Breakdown',
+                title: 'Step 2: TSRTC Bus Breakdown Incident',
                 duration: 8000,
                 focusCoord: [17.4435, 78.3772],
                 zoom: 16,
