@@ -21,6 +21,7 @@ class SignalController {
         this.phaseSecondsRemaining = this.baseGreen;
         this.elapsedCycleSeconds = 0;
         this.meteringHoldActive = false;
+        this.isManualOverride = false;
 
         this.listeners = [];
         this._startClock();
@@ -33,6 +34,12 @@ class SignalController {
     }
 
     _tick() {
+        if (this.isManualOverride) {
+            // In manual override, hold current phase indefinitely unless user switches it
+            this._notify();
+            return;
+        }
+
         this.phaseSecondsRemaining--;
         this.elapsedCycleSeconds = (this.elapsedCycleSeconds + 1) % this.getTotalCycle();
 
@@ -63,10 +70,43 @@ class SignalController {
     }
 
     /**
+     * Operator Manual Phase Override (NTCIP-1202 Level 4 Supervisory Control)
+     */
+    forcePhase(phase) {
+        const p = (phase || 'GREEN').toUpperCase();
+        this.isManualOverride = true;
+        this.currentPhase = p;
+        this.phaseSecondsRemaining = 99; // Continuous hold indicator
+
+        if (window.tacticalAudio) {
+            if (p === 'RED') window.tacticalAudio.playAlertChime();
+            else if (p === 'GREEN') window.tacticalAudio.playPreemptionChime();
+            else window.tacticalAudio.playClick();
+        }
+
+        this._notify();
+    }
+
+    /**
+     * Set Dynamic Green Split Duration (15s to 90s)
+     */
+    setGreenSplit(greenSec) {
+        const g = Math.max(15, Math.min(90, parseInt(greenSec) || 45));
+        this.baseGreen = g;
+        this.activeGreen = g;
+        this.activeRed = Math.max(15, this.nominalCycle - this.activeGreen - this.activeAmber);
+        if (this.currentPhase === 'GREEN' && !this.isManualOverride) {
+            this.phaseSecondsRemaining = Math.min(this.phaseSecondsRemaining, this.activeGreen);
+        }
+        this._notify();
+    }
+
+    /**
      * Trigger Webster +25s Signal Preemption Flush
      */
     forcePreemption(extension = 25) {
         this.isPreempted = true;
+        this.isManualOverride = false;
         this.extensionSeconds = extension;
         this.activeGreen = this.baseGreen + extension; // 70s
         this.activeRed = Math.max(15, this.nominalCycle - this.activeGreen - this.activeAmber); // 15s
@@ -89,15 +129,27 @@ class SignalController {
     }
 
     /**
-     * Reset to standard 90s balanced cycle
+     * Reset to standard 90s balanced cycle (Release Manual Override)
      */
     resetNominal() {
+        this.isManualOverride = false;
         this.isPreempted = false;
         this.extensionSeconds = 0;
         this.activeGreen = this.baseGreen; // 45s
         this.activeAmber = this.baseAmber; // 5s
         this.activeRed = this.baseRed;     // 40s
         this.meteringHoldActive = false;
+        if (this.currentPhase === 'GREEN') {
+            this.phaseSecondsRemaining = this.activeGreen;
+        } else if (this.currentPhase === 'RED') {
+            this.phaseSecondsRemaining = this.activeRed;
+        } else {
+            this.phaseSecondsRemaining = this.activeAmber;
+        }
+
+        if (window.tacticalAudio) {
+            window.tacticalAudio.playUiChime(640, 0.08);
+        }
 
         this._notify();
     }
@@ -126,6 +178,7 @@ class SignalController {
             phase: this.currentPhase,
             secondsRemaining: this.phaseSecondsRemaining,
             isPreempted: this.isPreempted,
+            isManualOverride: this.isManualOverride,
             extensionSeconds: this.extensionSeconds,
             activeGreen: this.activeGreen,
             activeAmber: this.activeAmber,

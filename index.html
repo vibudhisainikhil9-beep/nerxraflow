@@ -92,6 +92,12 @@
                 </button>
             </div>
 
+            <!-- MANUAL OPERATOR OVERRIDE TOGGLE -->
+            <button id="btn-toggle-manual-mode" onclick="window.toggleManualMode()" class="btn-scada text-xs py-1 px-2.5 font-semibold" style="background: rgba(245, 158, 11, 0.15) !important; color: #fbbf24 !important; border-color: rgba(245, 158, 11, 0.45) !important" title="Engage Operator Manual SCADA Override">
+                <i class="fa-solid fa-gamepad text-amber-400"></i>
+                <span id="manual-mode-btn-text">Manual Override</span>
+            </button>
+
             <button id="btn-run-autopilot" class="btn-scada btn-scada-primary text-xs py-1 px-2.5">
                 <i class="fa-solid fa-play text-[10px]"></i>
                 <span>System Briefing</span>
@@ -117,6 +123,29 @@
             </button>
         </div>
     </header>
+
+    <!-- OPERATOR MANUAL OVERRIDE HUD BANNER -->
+    <div id="manual-override-banner" class="hidden w-full px-4 py-2 flex items-center justify-between gap-3 z-30" style="background: linear-gradient(90deg, rgba(120,53,15,0.95), rgba(69,26,3,0.95)); border-bottom: 2px solid #f59e0b; box-shadow: 0 4px 20px rgba(245,158,11,0.25)">
+        <div class="flex items-center gap-2.5 min-w-0">
+            <div class="w-7 h-7 rounded-full flex-shrink-0 flex items-center justify-center bg-amber-500/20 border border-amber-400 animate-pulse">
+                <i class="fa-solid fa-hand text-xs text-amber-300"></i>
+            </div>
+            <div class="min-w-0">
+                <div class="flex items-center gap-2 flex-wrap">
+                    <span class="font-mono font-bold text-xs tracking-wider text-amber-300 uppercase">🕹️ OPERATOR MANUAL CONTROL ENGAGED (NTCIP-1202 & LEVEL-4 SCADA)</span>
+                    <span class="badge-scada bg-amber-500/20 text-amber-200 border-amber-400/40 text-[9px] px-1.5 font-mono">HUMAN-IN-THE-LOOP</span>
+                </div>
+                <div class="text-[10.5px] font-sans truncate text-amber-200/90">
+                    Autonomous AI preemption suspended. Direct supervisory control active on Signal Split, Inflow Demand, and Overhead VMS Gantries.
+                </div>
+            </div>
+        </div>
+        <div class="flex items-center gap-2 flex-shrink-0">
+            <button onclick="window.restoreAiMode()" class="btn-scada text-xs py-1 px-2.5 font-semibold bg-emerald-600 hover:bg-emerald-500 text-white border-emerald-400 shadow-md">
+                <i class="fa-solid fa-rotate-left mr-1"></i> Return to AI Auto
+            </button>
+        </div>
+    </div>
 
     <!-- AUTOPILOT HUD -->
     <div id="autopilot-hud" class="hidden hud-banner w-full px-4 py-2 flex-shrink-0 items-center justify-between gap-3 z-20">
@@ -346,25 +375,29 @@
                 </div>
             </div>
 
-            <!-- TAB 1: SIGNALS -->
+            <!-- TAB 1: SIGNALS & MANUAL OPERATOR CONSOLE -->
             <div id="tab-radar" class="tab-content flex flex-col gap-2.5">
-                <div id="panel-signal-controller" class="scada-card p-3">
-                    <div class="flex justify-between items-center mb-3">
+                <div id="panel-signal-controller" class="scada-card p-3 border-amber-500/30">
+                    <div class="flex justify-between items-center mb-2.5">
                         <div class="flex items-center gap-1.5">
                             <div class="w-1 h-3.5 rounded-full bg-amber-400"></div>
-                            <span class="text-[9.5px] font-sans font-semibold uppercase tracking-wider" style="color: var(--text-muted)">NTCIP-1202 Controller</span>
+                            <span class="text-[9.5px] font-sans font-semibold uppercase tracking-wider" style="color: var(--text-muted)">NTCIP-1202 &bull; Operator Manual Console</span>
                         </div>
-                        <span id="signal-phase-label" class="text-xs font-semibold font-sans" style="color: var(--status-green)">GREEN</span>
+                        <span id="signal-phase-label" class="text-xs font-semibold font-sans px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">GREEN</span>
                     </div>
 
-                    <div class="flex items-center gap-4 p-3 rounded-lg mb-3" style="background: var(--surface-inset); border: 1px solid var(--border-subtle)">
+                    <!-- Traffic Light Housing & Timer -->
+                    <div class="flex items-center gap-4 p-3 rounded-lg mb-2.5" style="background: var(--surface-inset); border: 1px solid var(--border-subtle)">
                         <div class="traffic-light-housing">
                             <div class="traffic-light-visor"><div id="lens-red"   class="traffic-lens red"></div></div>
                             <div class="traffic-light-visor"><div id="lens-amber" class="traffic-lens amber"></div></div>
                             <div class="traffic-light-visor"><div id="lens-green" class="traffic-lens green active"></div></div>
                         </div>
                         <div class="flex-1">
-                            <div class="text-[9px] font-sans font-medium uppercase tracking-wide mb-0.5" style="color: var(--text-muted)">Phase Remaining</div>
+                            <div class="flex justify-between items-baseline mb-0.5">
+                                <span class="text-[9px] font-sans font-medium uppercase tracking-wide" style="color: var(--text-muted)">Phase Remaining</span>
+                                <span class="text-[9px] font-mono text-amber-400 font-semibold" id="manual-hold-badge">Direct Manual Hold</span>
+                            </div>
                             <div id="signal-phase-timer" class="font-mono font-bold text-3xl leading-none" style="color: var(--text-primary)">45s</div>
                             <div class="mt-2">
                                 <div id="signal-split-text" class="text-[9px] font-sans mb-1" style="color: var(--text-tertiary)">STANDARD: 45s / 45s</div>
@@ -375,13 +408,90 @@
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-2 gap-2">
-                        <button id="btn-force-flush" class="btn-scada btn-scada-primary text-xs py-1.5">
-                            <i class="fa-solid fa-bolt text-amber-300"></i> Force +25s
-                        </button>
-                        <button id="btn-reset-signal" class="btn-scada text-xs py-1.5">
-                            <i class="fa-solid fa-arrow-rotate-left"></i> Reset 90s
-                        </button>
+                    <!-- Direct Manual Phase Switches (Hands-On Control) -->
+                    <div class="mb-3">
+                        <div class="text-[9px] font-sans font-semibold uppercase tracking-wide mb-1.5 flex justify-between" style="color: var(--text-muted)">
+                            <span>Manual Phase Override</span>
+                            <span class="text-amber-400 text-[8.5px]">NTCIP Override</span>
+                        </div>
+                        <div class="grid grid-cols-5 gap-1">
+                            <button id="btn-manual-green" onclick="window.forceManualSignalPhase('GREEN')" class="btn-scada text-[10px] py-1 px-1 justify-center bg-emerald-950/40 text-emerald-300 border-emerald-500/40 hover:bg-emerald-800/60" title="Force continuous Arterial Green wave">
+                                <i class="fa-solid fa-circle text-emerald-400 text-[8px] mr-1"></i> Green
+                            </button>
+                            <button id="btn-manual-amber" onclick="window.forceManualSignalPhase('AMBER')" class="btn-scada text-[10px] py-1 px-1 justify-center bg-amber-950/40 text-amber-300 border-amber-500/40 hover:bg-amber-800/60" title="Force Caution Amber phase">
+                                <i class="fa-solid fa-circle text-amber-400 text-[8px] mr-1"></i> Amber
+                            </button>
+                            <button id="btn-manual-red" onclick="window.forceManualSignalPhase('RED')" class="btn-scada text-[10px] py-1 px-1 justify-center bg-red-950/40 text-red-300 border-red-500/40 hover:bg-red-800/60" title="Emergency All-Red Stop">
+                                <i class="fa-solid fa-circle text-red-400 text-[8px] mr-1"></i> All-Red
+                            </button>
+                            <button id="btn-force-flush" onclick="window.signalController.forcePreemption(25)" class="btn-scada btn-scada-primary text-[10px] py-1 px-1 justify-center" title="Webster +25s Green Flush">
+                                <i class="fa-solid fa-bolt text-amber-300 text-[8px] mr-1"></i> +25s
+                            </button>
+                            <button id="btn-reset-signal" onclick="window.restoreAiMode()" class="btn-scada text-[10px] py-1 px-1 justify-center" title="Release Manual Hold & Return to Auto Cycle">
+                                <i class="fa-solid fa-rotate-left text-[8px] mr-1"></i> Auto
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Dynamic Green Split Duration Slider -->
+                    <div class="mb-3 p-2 rounded-lg" style="background: var(--surface-inset); border: 1px solid var(--border-subtle)">
+                        <div class="flex justify-between items-center text-[9px] font-sans mb-1">
+                            <span class="font-medium" style="color: var(--text-muted)">Green Phase Duration:</span>
+                            <span id="manual-green-val" class="font-mono font-bold text-emerald-400 text-xs">45s</span>
+                        </div>
+                        <input type="range" min="15" max="90" step="5" value="45" oninput="window.updateManualGreenSplit(this.value)" class="w-full accent-emerald-400 cursor-pointer h-1.5 rounded bg-slate-700">
+                        <div class="flex justify-between text-[8px] font-mono mt-1" style="color: var(--text-muted)">
+                            <span>15s (Min)</span>
+                            <span>45s (Nominal)</span>
+                            <span>90s (Max)</span>
+                        </div>
+                    </div>
+
+                    <!-- Dynamic Traffic Demand / Inflow Throttle Slider -->
+                    <div class="mb-3 p-2 rounded-lg" style="background: var(--surface-inset); border: 1px solid var(--border-subtle)">
+                        <div class="flex justify-between items-center text-[9px] font-sans mb-1">
+                            <span class="font-medium" style="color: var(--text-muted)">Manual Traffic Inflow Demand:</span>
+                            <span id="manual-demand-val" class="font-mono font-bold text-cyan-400 text-xs">1,820 PCU/h</span>
+                        </div>
+                        <input type="range" min="1000" max="4500" step="100" value="1820" oninput="window.updateManualDemand(this.value)" class="w-full accent-cyan-400 cursor-pointer h-1.5 rounded bg-slate-700">
+                        <div class="flex justify-between text-[8px] font-mono mt-1" style="color: var(--text-muted)">
+                            <span>1,000 (Low)</span>
+                            <span>1,820 (Nominal)</span>
+                            <span>3,800 (Capacity)</span>
+                            <span>4,500 (Severe)</span>
+                        </div>
+                    </div>
+
+                    <!-- Variable Message Sign (VMS) Manual Transmitter -->
+                    <div class="p-2 rounded-lg" style="background: var(--surface-inset); border: 1px solid rgba(245,158,11,0.25)">
+                        <div class="flex justify-between items-center text-[9px] font-sans mb-1.5">
+                            <span class="font-semibold text-amber-400 uppercase tracking-wide"><i class="fa-solid fa-tower-broadcast mr-1"></i>VMS Gantry #04 Dispatcher</span>
+                            <span class="text-[8px] font-mono text-slate-400">Overhead LED</span>
+                        </div>
+                        <div class="flex gap-1.5 mb-1.5">
+                            <input type="text" id="manual-vms-input" placeholder="Type custom advisory text..." value="CRASH AT MINDSPACE | DIVERT TO DURGAM CHERUVU" class="flex-1 text-[10.5px] font-mono px-2 py-1 rounded bg-black/80 border border-slate-700 text-amber-300 placeholder-slate-500 focus:outline-none focus:border-amber-400">
+                            <button onclick="window.broadcastCustomVms(document.getElementById('manual-vms-input').value)" class="btn-scada btn-scada-primary text-[10.5px] py-1 px-2.5 whitespace-nowrap font-semibold">
+                                <i class="fa-solid fa-paper-plane mr-1 text-[9px]"></i> Send
+                            </button>
+                        </div>
+                        <!-- Quick Presets -->
+                        <div class="flex flex-wrap gap-1">
+                            <button onclick="window.applyVmsPreset('accident')" class="px-1.5 py-0.5 rounded text-[8.5px] font-sans font-medium bg-red-950/60 text-red-300 border border-red-500/30 hover:bg-red-900/60">
+                                ⚠️ Crash
+                            </button>
+                            <button onclick="window.applyVmsPreset('monsoon')" class="px-1.5 py-0.5 rounded text-[8.5px] font-sans font-medium bg-blue-950/60 text-blue-300 border border-blue-500/30 hover:bg-blue-900/60">
+                                🌊 Flood
+                            </button>
+                            <button onclick="window.applyVmsPreset('ambulance')" class="px-1.5 py-0.5 rounded text-[8.5px] font-sans font-medium bg-emerald-950/60 text-emerald-300 border border-emerald-500/30 hover:bg-emerald-900/60">
+                                🚑 108 Clear
+                            </button>
+                            <button onclick="window.applyVmsPreset('vvip')" class="px-1.5 py-0.5 rounded text-[8.5px] font-sans font-medium bg-purple-950/60 text-purple-300 border border-purple-500/30 hover:bg-purple-900/60">
+                                🚔 VVIP
+                            </button>
+                            <button onclick="window.applyVmsPreset('clear')" class="px-1.5 py-0.5 rounded text-[8.5px] font-sans font-medium bg-slate-800 text-slate-300 border border-slate-700 hover:bg-slate-700">
+                                ✔️ Clear
+                            </button>
+                        </div>
                     </div>
                 </div>
 

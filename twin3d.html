@@ -199,6 +199,53 @@
         </div>
     </header>
 
+    <!-- REAL-TIME OVERHEAD VMS BANNER NOTIFICATION -->
+    <div id="twin-vms-banner" class="hud-overlay top-16 left-1/2 -translate-x-1/2 hud-glass px-4 py-2 font-mono text-xs font-bold text-amber-300 border border-amber-500/50 hidden shadow-[0_0_20px_rgba(245,158,11,0.35)] flex items-center gap-2">
+        <i class="fa-solid fa-tower-broadcast text-amber-400 animate-pulse"></i>
+        <span id="twin-vms-text">[ 📢 VMS GANTRY #04: NOMINAL FLOW ]</span>
+    </div>
+
+    <!-- MANUAL OPERATOR CONTROLS (Top Left) -->
+    <div id="deck-manual-controls" class="hud-overlay top-20 left-3 hud-glass p-2.5 w-64 space-y-2">
+        <div class="flex items-center justify-between pb-1.5" style="border-bottom: 1px solid rgba(255,255,255,0.07)">
+            <span class="hud-label text-amber-300"><i class="fa-solid fa-gamepad mr-1"></i> Operator Manual Deck</span>
+            <span id="twin-hold-badge" class="text-[8.5px] font-mono px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-400 font-semibold">AUTO</span>
+        </div>
+
+        <!-- Manual Phase Direct Switches -->
+        <div>
+            <div class="hud-label mb-1">Signal Phase Direct Override:</div>
+            <div class="grid grid-cols-4 gap-1">
+                <button onclick="setManualSignal('GREEN')" class="gov-btn !px-1 text-[10px] justify-center bg-emerald-950/50 text-emerald-300 border-emerald-500/40 hover:bg-emerald-800/60" title="Force Green">
+                    <i class="fa-solid fa-circle text-[7px] text-emerald-400 mr-0.5"></i> Green
+                </button>
+                <button onclick="setManualSignal('AMBER')" class="gov-btn !px-1 text-[10px] justify-center bg-amber-950/50 text-amber-300 border-amber-500/40 hover:bg-amber-800/60" title="Force Caution Amber">
+                    <i class="fa-solid fa-circle text-[7px] text-amber-400 mr-0.5"></i> Amber
+                </button>
+                <button onclick="setManualSignal('RED')" class="gov-btn !px-1 text-[10px] justify-center bg-red-950/50 text-red-300 border-red-500/40 hover:bg-red-800/60" title="Emergency All-Red Stop">
+                    <i class="fa-solid fa-circle text-[7px] text-red-400 mr-0.5"></i> All-Red
+                </button>
+                <button onclick="setManualSignal('AUTO')" class="gov-btn !px-1 text-[10px] justify-center" title="Release to Auto Cycle">
+                    <i class="fa-solid fa-rotate-left text-[8px]"></i> Auto
+                </button>
+            </div>
+        </div>
+
+        <!-- Traffic Demand Slider -->
+        <div class="pt-1.5" style="border-top: 1px solid rgba(255,255,255,0.07)">
+            <div class="flex justify-between items-center text-[9.5px] mb-1">
+                <span class="hud-label">Demand Inflow:</span>
+                <span id="twin-demand-val" class="hud-value text-cyan-400 text-[11px]">1,820 PCU/h</span>
+            </div>
+            <input type="range" min="1000" max="4500" step="100" value="1820" oninput="setManualDemand(this.value)" class="w-full accent-cyan-400 cursor-pointer h-1.5 rounded bg-slate-700">
+            <div class="flex justify-between text-[8px] font-mono mt-0.5" style="color: rgba(148,163,184,0.7)">
+                <span>1k (Clear)</span>
+                <span>3.8k (Cap)</span>
+                <span>4.5k (Gridlock)</span>
+            </div>
+        </div>
+    </div>
+
     <!-- CAMERA CONTROLS (Top Right) -->
     <div class="hud-overlay top-20 right-3 hud-glass p-2.5 w-56 space-y-1">
         <div class="flex items-center justify-between mb-2 pb-1.5" style="border-bottom: 1px solid rgba(255,255,255,0.07)">
@@ -231,7 +278,7 @@
     </div>
 
     <!-- VEHICLE INSPECT CARD -->
-    <div id="card-inspect" class="hud-overlay top-24 left-3 hud-glass p-3 w-72 hidden">
+    <div id="card-inspect" class="hud-overlay top-72 left-3 hud-glass p-3 w-72 hidden">
         <div class="flex items-center justify-between pb-2 mb-2" style="border-bottom: 1px solid rgba(255,255,255,0.07)">
             <div class="flex items-center gap-2">
                 <span class="w-1.5 h-1.5 rounded-full bg-blue-400"></span>
@@ -390,6 +437,47 @@
             else if (e.key.toLowerCase() === 'l') toggleTwinTheme();
             else if (e.code === 'Space') { e.preventDefault(); toggleAutoRotate(); }
         });
+
+        function setManualSignal(phase) {
+            if (!window.twin3D) return;
+            const badge = document.getElementById('twin-hold-badge');
+            if (phase === 'AUTO') {
+                if (badge) {
+                    badge.textContent = 'AUTO';
+                    badge.className = 'text-[8.5px] font-mono px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-400 font-semibold';
+                }
+                window.twin3D.setSignalPhase('GREEN');
+                if (window.telemetryBus) {
+                    window.telemetryBus.publish({ type: 'signal_update', signalState: { phase: 'GREEN', secondsRemaining: 45, isManualOverride: false } });
+                }
+            } else {
+                if (badge) {
+                    badge.textContent = 'MANUAL HOLD';
+                    badge.className = 'text-[8.5px] font-mono px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold animate-pulse';
+                }
+                window.twin3D.setSignalPhase(phase);
+                if (window.telemetryBus) {
+                    window.telemetryBus.publish({ type: 'signal_update', signalState: { phase: phase, secondsRemaining: 99, isManualOverride: true } });
+                }
+            }
+        }
+
+        function setManualDemand(val) {
+            if (!window.twin3D) return;
+            const flow = parseInt(val) || 1820;
+            const read = document.getElementById('twin-demand-val');
+            if (read) read.textContent = `${flow.toLocaleString()} PCU/h`;
+            const speed = Math.max(9, Math.round(52.0 * Math.max(0.15, 1 - 0.75 * Math.pow(flow / 3800, 1.8)) * 10) / 10);
+            window.twin3D.flowPCU = flow;
+            window.twin3D.corridorSpeed = speed;
+            const speedEl = document.getElementById('hud-speed');
+            const flowEl = document.getElementById('hud-flow');
+            if (speedEl) speedEl.textContent = `${speed.toFixed(1)} km/h`;
+            if (flowEl) flowEl.textContent = `${flow.toLocaleString()} PCU/h`;
+            if (window.telemetryBus) {
+                window.telemetryBus.publish({ type: 'demand_update', flowPCU: flow, rawSpeedKmh: speed });
+            }
+        }
 
         function toggleFullscreen() {
             if (!document.fullscreenElement) document.documentElement.requestFullscreen().catch(() => {});

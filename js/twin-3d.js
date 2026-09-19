@@ -65,6 +65,7 @@ class NexraFlow3D {
         this.corridorSpeed = 46.5;
         this.flowPCU = 1820;
         this.signalPhase = 'GREEN';
+        this.isEmergencyAllRed = false;
         // Theme & Lighting Modes (Default: Dark Mode)
         this.currentTheme = localStorage.getItem('nexraflow_theme_app3') || 'dark';
         this.ambientLight = null;
@@ -652,6 +653,8 @@ class NexraFlow3D {
 
     setSignalPhase(phase) {
         const p = (phase || 'GREEN').toLowerCase();
+        this.signalPhase = p.toUpperCase();
+        this.isEmergencyAllRed = (p === 'red');
         this.signals.forEach(s => {
             s.phase = p;
             const isGreen = p === 'green';
@@ -1398,12 +1401,35 @@ class NexraFlow3D {
                 }
             }
 
+            // Demand throttle updates
+            if (packet.type === 'demand_update') {
+                if (packet.flowPCU) this.flowPCU = packet.flowPCU;
+                if (packet.rawSpeedKmh) this.corridorSpeed = packet.rawSpeedKmh;
+            }
+
+            // Variable Message Sign Broadcasts
+            if (packet.type === 'vms_broadcast' && packet.vmsText) {
+                this.showVmsNotification(packet.vmsText);
+            }
+
             const speedEl = document.getElementById('hud-speed');
             if (speedEl) speedEl.textContent = `${this.corridorSpeed.toFixed(1)} km/h`;
 
             const flowEl = document.getElementById('hud-flow');
             if (flowEl) flowEl.textContent = `${this.flowPCU} PCU/h`;
         });
+    }
+
+    showVmsNotification(text) {
+        const banner = document.getElementById('twin-vms-banner');
+        if (!banner) return;
+        banner.textContent = text;
+        banner.classList.remove('hidden');
+        if (this.vmsTimeout) clearTimeout(this.vmsTimeout);
+        this.vmsTimeout = setTimeout(() => {
+            if (banner) banner.classList.add('hidden');
+        }, 8000);
+        this.playUiPing(750, 0.12);
     }
 
     /* ==========================================================================
@@ -1564,8 +1590,14 @@ class NexraFlow3D {
             let targetSpeed = baseStep * v.cruiseSpeedMultiplier;
             let isBraking = false;
 
+            // 0. EMERGENCY ALL-RED OPERATOR OVERRIDE (Corridor-Wide Stop)
+            if (this.isEmergencyAllRed) {
+                isBraking = true;
+                targetSpeed = 0;
+            }
+
             // 1. TRAFFIC SIGNAL COMPLIANCE (Surface Only)
-            if (!onFlyover) {
+            if (!onFlyover && !this.isEmergencyAllRed) {
                 for (let i = 0; i < signalGantriesZ.length; i++) {
                     const gZ = signalGantriesZ[i];
                     const distToGantry = gZ - v.z;

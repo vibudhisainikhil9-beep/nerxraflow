@@ -618,6 +618,8 @@ class ScadaApp {
     }
 
     _simulateMinorLocalJitter() {
+        if (this.state.isManualMode) return;
+
         if (window.neuraxEngine) {
             const m = window.neuraxEngine.getScenarioMetrics(this.currentScenario);
             const kResult = this.kalmanFilter.update(m.speed);
@@ -839,6 +841,197 @@ class ScadaApp {
     }
 
     /* ==========================================================================
+       MANUAL OPERATOR SCADA OVERRIDE (Hands-On Physical Control Mode)
+       ========================================================================== */
+    toggleManualMode(active) {
+        if (typeof active === 'boolean') {
+            this.state.isManualMode = active;
+        } else {
+            this.state.isManualMode = !this.state.isManualMode;
+        }
+
+        const banner = document.getElementById('manual-override-banner');
+        const btn = document.getElementById('btn-toggle-manual-mode');
+        const btnText = document.getElementById('manual-mode-btn-text');
+
+        if (this.state.isManualMode) {
+            if (banner) banner.classList.remove('hidden');
+            if (btn) {
+                btn.classList.add('!bg-amber-500', '!text-slate-950', '!border-amber-400');
+                btn.classList.remove('bg-amber-950/40', 'text-amber-300');
+            }
+            if (btnText) btnText.textContent = 'Override ENGAGED';
+            if (window.tacticalAudio) window.tacticalAudio.playAlertChime();
+            // Automatically switch to radar/manual tab
+            this.switchTab('radar');
+        } else {
+            if (banner) banner.classList.add('hidden');
+            if (btn) {
+                btn.classList.remove('!bg-amber-500', '!text-slate-950', '!border-amber-400');
+                btn.classList.add('bg-amber-950/40', 'text-amber-300');
+            }
+            if (btnText) btnText.textContent = 'Manual Override';
+            this.restoreAiMode();
+        }
+
+        if (window.telemetryBus) {
+            window.telemetryBus.publish({
+                type: 'manual_mode_toggle',
+                isManualMode: this.state.isManualMode
+            });
+        }
+    }
+
+    restoreAiMode() {
+        this.state.isManualMode = false;
+        const banner = document.getElementById('manual-override-banner');
+        const btn = document.getElementById('btn-toggle-manual-mode');
+        const btnText = document.getElementById('manual-mode-btn-text');
+        if (banner) banner.classList.add('hidden');
+        if (btn) {
+            btn.classList.remove('!bg-amber-500', '!text-slate-950', '!border-amber-400');
+            btn.classList.add('bg-amber-950/40', 'text-amber-300');
+        }
+        if (btnText) btnText.textContent = 'Manual Override';
+
+        if (window.signalController) {
+            window.signalController.resetNominal();
+        }
+        this.loadScenario(this.currentScenario || 'nominal');
+        if (window.tacticalAudio) window.tacticalAudio.playUiChime(640, 0.08);
+
+        if (window.telemetryBus) {
+            window.telemetryBus.publish({
+                type: 'manual_mode_toggle',
+                isManualMode: false
+            });
+        }
+    }
+
+    setManualDemand(flowPCU) {
+        const flow = Math.max(800, Math.min(4800, parseInt(flowPCU) || 1820));
+        this.state.flowPCU = flow;
+        this.state.isManualMode = true;
+
+        // Auto engage manual banner if not already visible
+        const banner = document.getElementById('manual-override-banner');
+        if (banner && banner.classList.contains('hidden')) {
+            banner.classList.remove('hidden');
+            const btn = document.getElementById('btn-toggle-manual-mode');
+            const btnText = document.getElementById('manual-mode-btn-text');
+            if (btn) {
+                btn.classList.add('!bg-amber-500', '!text-slate-950', '!border-amber-400');
+                btn.classList.remove('bg-amber-950/40', 'text-amber-300');
+            }
+            if (btnText) btnText.textContent = 'Override ENGAGED';
+        }
+
+        // Greenshields Speed-Density calculation: speed drops non-linearly with flow
+        const freeSpeed = 52.0;
+        const capacity = 3800.0;
+        const ratio = Math.min(1.25, flow / capacity);
+        let speed = freeSpeed * Math.max(0.12, (1 - 0.75 * Math.pow(ratio, 1.8)));
+        speed = Math.round(speed * 10) / 10;
+
+        this.state.speedKmh = speed;
+        this.state.filteredSpeedKmh = speed;
+        this.kalmanFilter.reset(speed);
+
+        // Calculate queue length based on demand
+        if (ratio > 0.85) {
+            this.state.queuePCU = Math.round(40 + Math.pow(ratio - 0.85, 1.5) * 1200);
+        } else {
+            this.state.queuePCU = Math.round(20 + ratio * 35);
+        }
+
+        this._recalculateTrafficScience();
+        this._renderTelemetryUi();
+
+        // Update Demand slider readout in UI
+        const readout = document.getElementById('manual-demand-val');
+        if (readout) readout.textContent = `${flow.toLocaleString()} PCU/h`;
+
+        if (window.telemetryBus) {
+            window.telemetryBus.publish({
+                type: 'demand_update',
+                flowPCU: flow,
+                rawSpeedKmh: speed,
+                queuePCU: this.state.queuePCU
+            });
+        }
+    }
+
+    setManualGreenSplit(sec) {
+        const s = parseInt(sec) || 45;
+        if (window.signalController) {
+            window.signalController.setGreenSplit(s);
+        }
+        const readout = document.getElementById('manual-green-val');
+        if (readout) readout.textContent = `${s}s`;
+    }
+
+    forceSignalPhase(phase) {
+        this.state.isManualMode = true;
+        const banner = document.getElementById('manual-override-banner');
+        if (banner && banner.classList.contains('hidden')) {
+            banner.classList.remove('hidden');
+            const btn = document.getElementById('btn-toggle-manual-mode');
+            const btnText = document.getElementById('manual-mode-btn-text');
+            if (btn) {
+                btn.classList.add('!bg-amber-500', '!text-slate-950', '!border-amber-400');
+                btn.classList.remove('bg-amber-950/40', 'text-amber-300');
+            }
+            if (btnText) btnText.textContent = 'Override ENGAGED';
+        }
+
+        if (window.signalController) {
+            window.signalController.forcePhase(phase);
+        }
+    }
+
+    broadcastCustomVms(msg) {
+        const text = (msg || '').trim();
+        if (!text) return;
+
+        const vmsEl = document.getElementById('vms-gantry-text');
+        const vmsElBypass = document.querySelector('#tab-bypass #vms-gantry-text');
+        const formatted = `[ 📢 OPERATOR DIRECTIVE | ${text.toUpperCase()} ]`;
+
+        if (vmsEl) {
+            vmsEl.textContent = formatted;
+            vmsEl.className = 'bg-black border border-amber-400 rounded p-2 text-center text-amber-300 font-mono font-bold text-xs tracking-wider shadow-[0_0_15px_rgba(245,158,11,0.4)]';
+        }
+        if (vmsElBypass) {
+            vmsElBypass.textContent = formatted;
+        }
+
+        if (window.tacticalAudio) {
+            window.tacticalAudio.playPreemptionChime();
+        }
+
+        if (window.telemetryBus) {
+            window.telemetryBus.publish({
+                type: 'vms_broadcast',
+                vmsText: formatted
+            });
+        }
+    }
+
+    applyVmsPreset(presetKey) {
+        const presets = {
+            'accident': '⚠️ CRASH AT MINDSPACE FLYOVER | DIVERT TO MMTS SLIP ROAD',
+            'monsoon': '🌊 WATERLOGGING BIO-DIVERSITY UNDERPASS 48CM | USE ELEVATED FLYOVER',
+            'ambulance': '🚑 108 CARDIAC AMBULANCE IN TRANSIT | YIELD ALL LANES TO RIGHT',
+            'vvip': '🚔 POLICE VVIP CONVOY MOVEMENT | RIGHT 2 LANES STERILIZED',
+            'clear': '✔️ ARTERIAL FLOW NOMINAL | CYBER TOWERS TO GACHIBOWLI CLEAR | SPEED: 46.5 KM/H'
+        };
+        const text = presets[presetKey] || presetKey;
+        const input = document.getElementById('manual-vms-input');
+        if (input) input.value = text;
+        this.broadcastCustomVms(text);
+    }
+
+    /* ==========================================================================
        UI RENDERING & HUD BINDINGS
        ========================================================================== */
     _renderTelemetryUi() {
@@ -944,6 +1137,26 @@ class ScadaApp {
                 const pct = Math.round((sig.activeGreen / total) * 100);
                 splitBarGreen.style.width = `${pct}%`;
             }
+
+            // Update Manual Hold Status Badge
+            const holdBadge = document.getElementById('manual-hold-badge');
+            if (holdBadge) {
+                if (sig.isManualOverride) {
+                    holdBadge.textContent = 'MANUAL HOLD';
+                    holdBadge.className = 'text-[9px] font-mono text-amber-400 font-bold animate-pulse';
+                } else {
+                    holdBadge.textContent = 'Auto Cycle';
+                    holdBadge.className = 'text-[9px] font-mono text-emerald-400 font-semibold';
+                }
+            }
+
+            // Update active rings on manual phase buttons
+            const btnG = document.getElementById('btn-manual-green');
+            const btnA = document.getElementById('btn-manual-amber');
+            const btnR = document.getElementById('btn-manual-red');
+            if (btnG) btnG.classList.toggle('ring-2', sig.isManualOverride && sig.phase === 'GREEN');
+            if (btnA) btnA.classList.toggle('ring-2', sig.isManualOverride && sig.phase === 'AMBER');
+            if (btnR) btnR.classList.toggle('ring-2', sig.isManualOverride && sig.phase === 'RED');
         });
     }
 
@@ -1323,3 +1536,13 @@ window.scadaApp = new ScadaApp();
 document.addEventListener('DOMContentLoaded', () => {
     window.scadaApp.init();
 });
+
+// Global convenience wrappers for interactive HTML controls
+window.toggleManualMode = (state) => window.scadaApp && window.scadaApp.toggleManualMode(state);
+window.restoreAiMode = () => window.scadaApp && window.scadaApp.restoreAiMode();
+window.updateManualDemand = (val) => window.scadaApp && window.scadaApp.setManualDemand(val);
+window.updateManualGreenSplit = (val) => window.scadaApp && window.scadaApp.setManualGreenSplit(val);
+window.forceManualSignalPhase = (phase) => window.scadaApp && window.scadaApp.forceSignalPhase(phase);
+window.broadcastCustomVms = (val) => window.scadaApp && window.scadaApp.broadcastCustomVms(val);
+window.applyVmsPreset = (key) => window.scadaApp && window.scadaApp.applyVmsPreset(key);
+
