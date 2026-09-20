@@ -3,51 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NEXRAFLOW ICCC — 6-Slide Executive Presentation Deck</title>
+    <title>NEXRAFLOW ICCC — Pastel Executive Presentation Deck</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
                         mono: ['JetBrains Mono', 'monospace']
                     },
                     colors: {
-                        navy: {
-                            900: '#060b16',
-                            800: '#0c1527',
-                            700: '#14223d'
+                        cream: {
+                            50: '#FDFBF7',
+                            100: '#FAF7F2',
+                            200: '#F3EDE2'
                         }
                     }
                 }
             }
         };
-        mermaid.initialize({
-            startOnLoad: true,
-            theme: 'dark',
-            themeVariables: {
-                darkMode: true,
-                background: '#0c1527',
-                primaryColor: '#1e40af',
-                primaryBorderColor: '#3b82f6',
-                primaryTextColor: '#f8fafc',
-                lineColor: '#38bdf8',
-                secondaryColor: '#0f172a',
-                tertiaryColor: '#1e293b'
-            }
-        });
     </script>
     <style>
         body {
-            background-color: #060b16;
-            color: #f1f5f9;
-            font-family: 'Inter', sans-serif;
+            background-color: #FAF7F2;
+            color: #2D3748;
+            font-family: 'Plus Jakarta Sans', sans-serif;
             overflow: hidden;
             margin: 0;
             padding: 0;
@@ -64,22 +49,25 @@
             display: flex;
             opacity: 1;
         }
-        .glass-panel {
-            background: rgba(12, 21, 39, 0.75);
-            backdrop-filter: blur(14px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 12px;
+        .pastel-card {
+            background: #FFFFFF;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+            border: 1.5px solid #E2D9CE;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
-        .badge-tag {
-            font-family: 'JetBrains Mono', monospace;
+        .pastel-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px -4px rgba(0, 0, 0, 0.08);
+        }
+        .pill-badge {
             font-size: 0.65rem;
-            padding: 2px 8px;
-            border-radius: 4px;
+            padding: 3px 10px;
+            border-radius: 9999px;
+            font-weight: 700;
+            letter-spacing: 0.04em;
             text-transform: uppercase;
-            font-weight: 600;
-            letter-spacing: 0.05em;
         }
-        /* Custom print styling for direct PDF export */
         @media print {
             body { overflow: visible !important; height: auto !important; }
             .no-print { display: none !important; }
@@ -90,90 +78,93 @@
 <body class="flex flex-col select-none justify-between">
 
     <!-- TOP GLOBAL BAR -->
-    <div class="h-14 px-6 border-b border-white/10 flex items-center justify-between bg-navy-900/90 backdrop-blur z-20 flex-shrink-0">
+    <div class="h-14 px-8 border-b border-stone-200 flex items-center justify-between bg-cream-100/90 backdrop-blur z-20 flex-shrink-0">
         <div class="flex items-center gap-3">
-            <div class="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white font-bold shadow-lg shadow-blue-500/20">
+            <div class="w-8 h-8 rounded-xl bg-blue-100 border border-blue-200 flex items-center justify-center text-blue-600 font-bold shadow-sm">
                 <i class="fa-solid fa-shield-halved text-sm"></i>
             </div>
             <div>
-                <span class="font-bold text-sm tracking-wide text-white">NEXRAFLOW ICCC</span>
-                <span class="text-xs text-slate-400 font-mono ml-2">// GOVT OF TELANGANA SMART CITIES SCADA</span>
+                <span class="font-bold text-sm tracking-tight text-slate-800">NEXRAFLOW ICCC</span>
+                <span class="text-xs text-slate-500 font-mono ml-2">// TELANGANA SMART CITIES SCADA</span>
             </div>
         </div>
 
         <div class="flex items-center gap-4">
-            <span class="badge-tag bg-blue-500/20 text-blue-300 border border-blue-500/30">JURY EVALUATION DECK</span>
-            <span class="text-xs font-mono text-slate-400">SLIDE <span id="current-slide-num" class="text-white font-bold">1</span> / 6</span>
-            <button onclick="window.print()" class="px-2.5 py-1 text-xs rounded bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-600 flex items-center gap-1.5 transition" title="Export as PDF">
+            <span class="pill-badge bg-indigo-50 text-indigo-700 border border-indigo-200">EXECUTIVE JURY DECK</span>
+            <span class="text-xs font-mono text-slate-500">SLIDE <span id="current-slide-num" class="text-slate-900 font-bold">1</span> / 6</span>
+            <a href="NexraFlow_ICCC_Pastel_Executive_Deck.pptx" download class="px-3 py-1 text-xs rounded-lg bg-white hover:bg-stone-50 text-slate-700 border border-stone-200 shadow-sm flex items-center gap-1.5 transition">
+                <i class="fa-solid fa-download text-blue-500"></i> Download PPTX
+            </a>
+            <button onclick="window.print()" class="px-2.5 py-1 text-xs rounded-lg bg-white hover:bg-stone-50 text-slate-700 border border-stone-200 shadow-sm flex items-center gap-1.5 transition">
                 <i class="fa-solid fa-print"></i> PDF
             </button>
         </div>
     </div>
 
     <!-- MAIN SLIDES CONTAINER -->
-    <div class="flex-1 relative overflow-hidden p-6">
+    <div class="flex-1 relative overflow-hidden p-8">
 
         <!-- ================= SLIDE 1 ================= -->
         <section id="slide-1" class="slide active flex-col justify-between max-w-7xl mx-auto w-full h-full">
             <div>
                 <div class="flex items-center gap-2 mb-2">
-                    <span class="badge-tag bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">OPERATIONAL CONTEXT</span>
-                    <span class="text-xs font-mono text-slate-400">NTCIP-1202 &bull; IRC:106 COMPLIANT</span>
+                    <span class="pill-badge bg-emerald-50 text-emerald-700 border border-emerald-200">OPERATIONAL CONTEXT</span>
+                    <span class="text-xs font-mono text-slate-500">NTCIP-1202 &bull; IRC:106 PROTOCOL</span>
                 </div>
-                <h1 class="text-3xl lg:text-4xl font-extrabold text-white tracking-tight leading-tight mb-2">
+                <h1 class="text-3xl lg:text-4xl font-extrabold text-slate-800 tracking-tight mb-2">
                     Autonomous Smart City Traffic & Incident Intelligence SCADA
                 </h1>
-                <p class="text-slate-400 text-sm max-w-3xl">
+                <p class="text-slate-600 text-sm max-w-3xl">
                     Arterial Corridor Bottleneck Mitigation, Shockwave Prevention & Emergency Corridor Preemption for Cyberabad Metropolitan Area.
                 </p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 my-auto">
-                <div class="glass-panel p-5 border-l-4 border-l-red-500">
-                    <div class="text-xs font-mono text-red-400 mb-1 flex items-center gap-2">
-                        <i class="fa-solid fa-triangle-exclamation"></i> ARTERIAL CONGESTION
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5 my-auto">
+                <div class="pastel-card p-6 border-rose-200 bg-rose-50/30">
+                    <div class="pill-badge bg-rose-100 text-rose-700 border border-rose-200 inline-block mb-3">
+                        <i class="fa-solid fa-triangle-exclamation mr-1"></i> ARTERIAL CONGESTION
                     </div>
-                    <div class="text-2xl font-mono font-bold text-white mb-2">>3,800 PCU/h</div>
-                    <p class="text-xs text-slate-300 leading-relaxed">
+                    <div class="text-3xl font-mono font-bold text-slate-800 mb-2">>3,800 PCU/h</div>
+                    <p class="text-xs text-slate-600 leading-relaxed">
                         Cyberabad IT Corridor carries heavy vehicular saturation. A single lane stoppage causes backward queue propagation within <strong>4.2 minutes</strong>.
                     </p>
                 </div>
 
-                <div class="glass-panel p-5 border-l-4 border-l-amber-500">
-                    <div class="text-xs font-mono text-amber-400 mb-1 flex items-center gap-2">
-                        <i class="fa-solid fa-clock-rotate-left"></i> INCIDENT LATENCY
+                <div class="pastel-card p-6 border-amber-200 bg-amber-50/30">
+                    <div class="pill-badge bg-amber-100 text-amber-800 border border-amber-200 inline-block mb-3">
+                        <i class="fa-solid fa-clock-rotate-left mr-1"></i> INCIDENT LATENCY
                     </div>
-                    <div class="text-2xl font-mono font-bold text-white mb-2">18.4 min</div>
-                    <p class="text-xs text-slate-300 leading-relaxed">
+                    <div class="text-3xl font-mono font-bold text-slate-800 mb-2">18.4 mins</div>
+                    <p class="text-xs text-slate-600 leading-relaxed">
                         Conventional manual phone call & CCTV monitoring delays on-ground police dispatch by up to 22 minutes, paralyzing feeder junctions.
                     </p>
                 </div>
 
-                <div class="glass-panel p-5 border-l-4 border-l-emerald-500">
-                    <div class="text-xs font-mono text-emerald-400 mb-1 flex items-center gap-2">
-                        <i class="fa-solid fa-shield-check"></i> NEXRAFLOW RESPONSE
+                <div class="pastel-card p-6 border-emerald-200 bg-emerald-50/30">
+                    <div class="pill-badge bg-emerald-100 text-emerald-800 border border-emerald-200 inline-block mb-3">
+                        <i class="fa-solid fa-shield-check mr-1"></i> NEXRAFLOW RESPONSE
                     </div>
-                    <div class="text-2xl font-mono font-bold text-white mb-2">< 60 sec</div>
-                    <p class="text-xs text-slate-300 leading-relaxed">
+                    <div class="text-3xl font-mono font-bold text-slate-800 mb-2">< 60 secs</div>
+                    <p class="text-xs text-slate-600 leading-relaxed">
                         Kalman-denoised LWR PDE shockwave predictions with human-authorized 1-click encrypted WhatsApp directive orders to Cyberabad Traffic ACP.
                     </p>
                 </div>
             </div>
 
-            <div class="glass-panel p-4 flex flex-wrap items-center justify-between gap-4 border border-blue-500/20 bg-blue-950/20">
+            <div class="pastel-card p-4 flex flex-wrap items-center justify-between gap-4 border-sky-200 bg-sky-50/40">
                 <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400">
-                        <i class="fa-solid fa-link text-lg"></i>
+                    <div class="w-10 h-10 rounded-xl bg-sky-100 flex items-center justify-center text-sky-600 border border-sky-200">
+                        <i class="fa-solid fa-globe text-lg"></i>
                     </div>
                     <div>
-                        <div class="text-xs font-bold text-white">LIVE PRODUCTION DEPLOYMENT ACTIVE</div>
-                        <div class="text-[11px] font-mono text-blue-300">https://nexraflow.vercel.app</div>
+                        <div class="text-xs font-bold text-slate-800">LIVE PRODUCTION DEPLOYMENT ACTIVE</div>
+                        <div class="text-xs font-mono text-sky-700 font-semibold">https://nexraflow.vercel.app</div>
                     </div>
                 </div>
-                <div class="flex items-center gap-4 text-xs font-mono text-slate-300">
-                    <span><i class="fa-solid fa-check text-emerald-400 mr-1"></i>2D GIS SCADA</span>
-                    <span><i class="fa-solid fa-check text-emerald-400 mr-1"></i>3D WebGL Twin</span>
-                    <span><i class="fa-solid fa-check text-emerald-400 mr-1"></i>NeuraX ML Engine</span>
+                <div class="flex items-center gap-5 text-xs font-medium text-slate-600">
+                    <span><i class="fa-solid fa-circle-check text-emerald-500 mr-1.5"></i>2D GIS SCADA</span>
+                    <span><i class="fa-solid fa-circle-check text-emerald-500 mr-1.5"></i>3D Spatial Twin</span>
+                    <span><i class="fa-solid fa-circle-check text-emerald-500 mr-1.5"></i>NeuraX ML Engine</span>
                 </div>
             </div>
         </section>
@@ -182,80 +173,21 @@
         <section id="slide-2" class="slide flex-col justify-between max-w-7xl mx-auto w-full h-full">
             <div>
                 <div class="flex items-center gap-2 mb-2">
-                    <span class="badge-tag bg-blue-500/20 text-blue-400 border border-blue-500/30">SYSTEM ARCHITECTURE</span>
-                    <span class="text-xs font-mono text-slate-400">ZERO-LATENCY BROADCASTCHANNEL PIPELINE</span>
+                    <span class="pill-badge bg-blue-50 text-blue-700 border border-blue-200">SYSTEM ARCHITECTURE</span>
+                    <span class="text-xs font-mono text-slate-500">BROADCASTCHANNEL &bull; &lt;16ms LATENCY</span>
                 </div>
-                <h2 class="text-2xl lg:text-3xl font-extrabold text-white tracking-tight">
+                <h2 class="text-2xl lg:text-3xl font-extrabold text-slate-800 tracking-tight">
                     End-to-End SCADA Pipeline & Telemetry Data Flow
                 </h2>
             </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 my-auto">
-                <div class="lg:col-span-8 glass-panel p-4 flex items-center justify-center">
-                    <div class="mermaid w-full">
-flowchart LR
-    subgraph INGEST["1. Telemetry Ingest"]
-        A["IoT Speed Traps / ANPR"]
-        B["TSRTC GPS Beacons"]
-    end
-
-    subgraph ENGINE["2. NexraFlow Core"]
-        C["Kalman Denoising Filter"]
-        D["LWR PDE Shockwave Solver"]
-        E["NeuraX RF Model (R²: 0.86)"]
-    end
-
-    subgraph ICCC["3. ICCC Cockpit"]
-        F["2D Satellite Map"]
-        G["3D WebGL Digital Twin"]
-    end
-
-    subgraph ACTUATE["4. Field Actuation"]
-        H["Overhead VMS Gantries"]
-        I["NTCIP-1202 Signal Split"]
-        J["Police 1-Click WhatsApp"]
-    end
-
-    A & B --> C
-    C --> D & E
-    D & E --> F & G
-    F & G --> H & I & J
-                    </div>
-                </div>
-
-                <div class="lg:col-span-4 flex flex-col gap-3">
-                    <div class="glass-panel p-4 border-l-2 border-l-blue-400">
-                        <div class="text-xs font-bold text-white mb-1 flex items-center gap-1.5">
-                            <i class="fa-solid fa-bolt text-blue-400"></i> Zero Server Bottleneck
-                        </div>
-                        <p class="text-[11px] text-slate-300 leading-relaxed">
-                            Uses browser-native <code>BroadcastChannel</code> with <code>localStorage</code> fallback, synchronizing Cockpit, Simulator, and 3D Twin in &lt;16ms.
-                        </p>
-                    </div>
-
-                    <div class="glass-panel p-4 border-l-2 border-l-emerald-400">
-                        <div class="text-xs font-bold text-white mb-1 flex items-center gap-1.5">
-                            <i class="fa-solid fa-scroll text-emerald-400"></i> Standards Compliance
-                        </div>
-                        <p class="text-[11px] text-slate-300 leading-relaxed">
-                            Strict adherence to <strong>IRC:106</strong> vehicle PCU ratings (2W: 0.5, Auto: 1.2, Car: 1.0, Bus: 3.0) and <strong>NTCIP-1202</strong> signal controller states.
-                        </p>
-                    </div>
-
-                    <div class="glass-panel p-4 border-l-2 border-l-purple-400">
-                        <div class="text-xs font-bold text-white mb-1 flex items-center gap-1.5">
-                            <i class="fa-solid fa-database text-purple-400"></i> External Data Ingestion
-                        </div>
-                        <p class="text-[11px] text-slate-300 leading-relaxed">
-                            Ingests arbitrary CSV/JSON sensor streams without server rebuilds. Compatible with any municipal smart camera or radar vendor.
-                        </p>
-                    </div>
-                </div>
+            <div class="my-auto pastel-card p-4 flex flex-col items-center justify-center border-stone-200">
+                <img src="assets/diagrams/architecture_flowchart_pastel.png" alt="Architecture Flowchart" class="max-h-[52vh] object-contain rounded-lg">
             </div>
 
-            <div class="text-xs font-mono text-slate-400 border-t border-white/10 pt-2 flex justify-between">
-                <span>SCADA CORE: NTCIP-1202 &bull; IRC:106 &bull; LWR PDE &bull; KALMAN</span>
-                <span class="text-blue-400">LATENCY: &lt; 16ms INTER-PROCESS</span>
+            <div class="pastel-card p-3 flex justify-between items-center text-xs text-slate-600 border-stone-200 bg-white">
+                <span class="font-medium">STANDARDS COMPLIANCE: Indian Road Congress (IRC:106 PCU equivalency) & NTCIP-1202 Signal Preemption Protocols</span>
+                <span class="font-mono text-blue-600 font-semibold">LATENCY: &lt; 16ms INTER-PROCESS</span>
             </div>
         </section>
 
@@ -263,77 +195,75 @@ flowchart LR
         <section id="slide-3" class="slide flex-col justify-between max-w-7xl mx-auto w-full h-full">
             <div>
                 <div class="flex items-center gap-2 mb-2">
-                    <span class="badge-tag bg-purple-500/20 text-purple-400 border border-purple-500/30">MATHEMATICAL RIGOR</span>
-                    <span class="text-xs font-mono text-slate-400">NEURAX SMART CITIES MACHINE LEARNING</span>
+                    <span class="pill-badge bg-purple-50 text-purple-700 border border-purple-200">MATHEMATICAL RIGOR</span>
+                    <span class="text-xs font-mono text-slate-500">NEURAX SMART CITIES MACHINE LEARNING</span>
                 </div>
-                <h2 class="text-2xl lg:text-3xl font-extrabold text-white tracking-tight">
-                    Physics-Informed Traffic Kinematics & AI Models
+                <h2 class="text-2xl lg:text-3xl font-extrabold text-slate-800 tracking-tight">
+                    Physics-Informed Traffic Kinematics & AI Analytical Engine
                 </h2>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-auto">
-                <!-- Kalman & LWR -->
-                <div class="glass-panel p-4 space-y-3">
-                    <div class="border-b border-white/10 pb-2 flex justify-between items-center">
-                        <span class="text-xs font-bold text-white uppercase tracking-wider">1. Kalman Denoising Filter</span>
-                        <span class="text-[10px] font-mono text-emerald-400">Q=0.08, R=3.5</span>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5 my-auto">
+                <div class="pastel-card p-5 space-y-3 border-emerald-200 bg-emerald-50/20">
+                    <div class="flex justify-between items-center border-b border-stone-200 pb-2">
+                        <span class="text-sm font-bold text-slate-800">1. Kalman Denoising Filter</span>
+                        <span class="pill-badge bg-emerald-100 text-emerald-800 border border-emerald-200">Q=0.08, R=3.5</span>
                     </div>
-                    <div class="bg-navy-900/60 p-2.5 rounded font-mono text-xs text-blue-300">
+                    <div class="bg-white p-2.5 rounded-xl border border-stone-200 font-mono text-xs text-emerald-800 shadow-sm">
                         x̂_k = x̂_k⁻ + K_k (z_k - H x̂_k⁻)
                     </div>
-                    <p class="text-xs text-slate-300 leading-relaxed">
-                        Eliminates sensor noise and GPS dropouts (tolerates up to 30% jitter) before passing telemetry to the signal controller.
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        Eliminates GPS sensor jitter and vehicle packet dropouts (tolerates up to 30% dropouts), delivering smoothed velocity to the signal preemption controller.
                     </p>
 
-                    <div class="border-b border-white/10 pb-2 pt-2 flex justify-between items-center">
-                        <span class="text-xs font-bold text-white uppercase tracking-wider">2. LWR Shockwave Theory</span>
-                        <span class="text-[10px] font-mono text-cyan-400">w = Δq / Δk</span>
+                    <div class="flex justify-between items-center border-b border-stone-200 pb-2 pt-2">
+                        <span class="text-sm font-bold text-slate-800">2. LWR Shockwave PDE Theory</span>
+                        <span class="pill-badge bg-sky-100 text-sky-800 border border-sky-200">w = Δq / Δk</span>
                     </div>
-                    <div class="bg-navy-900/60 p-2.5 rounded font-mono text-xs text-cyan-300">
+                    <div class="bg-white p-2.5 rounded-xl border border-stone-200 font-mono text-xs text-sky-800 shadow-sm">
                         w = (q_jam - q_free) / (k_jam - k_crit)
                     </div>
-                    <p class="text-xs text-slate-300 leading-relaxed">
-                        Computes backward wave velocity in real time. Predicts upstream choke ETA before queue spills back onto connecting arterials.
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        Predicts backward wave propagation velocity and choke ETA, providing advance alert before the corridor tail backs up into Cyber Towers.
                     </p>
                 </div>
 
-                <!-- NeuraX Model & Mendeley -->
-                <div class="glass-panel p-4 space-y-3">
-                    <div class="border-b border-white/10 pb-2 flex justify-between items-center">
-                        <span class="text-xs font-bold text-white uppercase tracking-wider">3. NeuraX Multi-Output RF Model</span>
-                        <span class="text-[10px] font-mono text-amber-400">R²: 0.8623</span>
+                <div class="pastel-card p-5 space-y-3 border-indigo-200 bg-indigo-50/20">
+                    <div class="flex justify-between items-center border-b border-stone-200 pb-2">
+                        <span class="text-sm font-bold text-slate-800">3. NeuraX Multi-Output RF Model</span>
+                        <span class="pill-badge bg-indigo-100 text-indigo-800 border border-indigo-200">R²: 0.8623</span>
                     </div>
                     <div class="grid grid-cols-3 gap-2 text-center">
-                        <div class="bg-navy-900/60 p-2 rounded">
-                            <div class="text-[10px] text-slate-400">Volume Flow</div>
-                            <div class="text-sm font-mono font-bold text-emerald-400">R²: 0.86</div>
+                        <div class="bg-white p-2.5 rounded-xl border border-stone-200 shadow-sm">
+                            <div class="text-[10px] text-slate-500 font-medium">Volume Flow</div>
+                            <div class="text-sm font-mono font-bold text-emerald-600">R²: 0.86</div>
                         </div>
-                        <div class="bg-navy-900/60 p-2 rounded">
-                            <div class="text-[10px] text-slate-400">Velocity</div>
-                            <div class="text-sm font-mono font-bold text-blue-400">R²: 0.82</div>
+                        <div class="bg-white p-2.5 rounded-xl border border-stone-200 shadow-sm">
+                            <div class="text-[10px] text-slate-500 font-medium">Velocity</div>
+                            <div class="text-sm font-mono font-bold text-blue-600">R²: 0.82</div>
                         </div>
-                        <div class="bg-navy-900/60 p-2 rounded">
-                            <div class="text-[10px] text-slate-400">Density</div>
-                            <div class="text-sm font-mono font-bold text-cyan-400">R²: 0.81</div>
+                        <div class="bg-white p-2.5 rounded-xl border border-stone-200 shadow-sm">
+                            <div class="text-[10px] text-slate-500 font-medium">Occupancy</div>
+                            <div class="text-sm font-mono font-bold text-indigo-600">R²: 0.81</div>
                         </div>
                     </div>
-                    <p class="text-xs text-slate-300 leading-relaxed">
+                    <p class="text-xs text-slate-600 leading-relaxed">
                         Trained on <strong>1.88M observations</strong> across 436 Cyberabad corridor links. Features: capacity, peak ratio, diurnal cycle, importance.
                     </p>
 
-                    <div class="border-b border-white/10 pb-2 pt-2 flex justify-between items-center">
-                        <span class="text-xs font-bold text-white uppercase tracking-wider">4. Discrete-Event Queuing (Mendeley)</span>
-                        <span class="text-[10px] font-mono text-purple-400">DOI: 10.17632</span>
+                    <div class="flex justify-between items-center border-b border-stone-200 pb-2 pt-2">
+                        <span class="text-sm font-bold text-slate-800">4. Discrete-Event Queuing Model</span>
+                        <span class="pill-badge bg-purple-100 text-purple-800 border border-purple-200">R²: 0.9885</span>
                     </div>
-                    <p class="text-xs text-slate-300 leading-relaxed">
-                        Based on 6,000 Rockwell Arena simulation runs. Accurately simulates 3-stage arterial bottleneck queuing with <strong>R²: 0.9885</strong>.
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        Trained on 6,000 Rockwell Arena discrete runs (DOI: 10.17632). Accurately models non-linear Kleinrock queuing at bottlenecks.
                     </p>
                 </div>
             </div>
 
-            <div class="glass-panel p-3 flex justify-between items-center text-xs font-mono text-slate-400">
+            <div class="pastel-card p-3 flex justify-between items-center text-xs font-mono text-slate-600 border-stone-200 bg-white">
                 <span>PYTORCH ROAD DEFECT VISION CNN: 69.5% ACCURACY</span>
-                <span class="text-emerald-400">ALL MODELS EMBEDDED & RUNNING CLIENT-SIDE</span>
+                <span class="text-emerald-700 font-semibold">ALL MODELS EMBEDDED CLIENT-SIDE (ZERO API FEES)</span>
             </div>
         </section>
 
@@ -341,55 +271,55 @@ flowchart LR
         <section id="slide-4" class="slide flex-col justify-between max-w-7xl mx-auto w-full h-full">
             <div>
                 <div class="flex items-center gap-2 mb-2">
-                    <span class="badge-tag bg-cyan-500/20 text-cyan-400 border border-cyan-500/30">SPATIAL TWIN</span>
-                    <span class="text-xs font-mono text-slate-400">THREE.JS PROCEDURAL DIGITAL TWIN</span>
+                    <span class="pill-badge bg-sky-50 text-sky-700 border border-sky-200">SPATIAL TWIN</span>
+                    <span class="text-xs font-mono text-slate-500">THREE.JS PROCEDURAL DIGITAL TWIN</span>
                 </div>
-                <h2 class="text-2xl lg:text-3xl font-extrabold text-white tracking-tight">
+                <h2 class="text-2xl lg:text-3xl font-extrabold text-slate-800 tracking-tight">
                     3D Digital Twin with Z-Axis Depth & Deterministic Layout
                 </h2>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 my-auto">
-                <div class="glass-panel p-4 space-y-2.5">
-                    <div class="w-8 h-8 rounded bg-cyan-500/20 flex items-center justify-center text-cyan-400 mb-2">
-                        <i class="fa-solid fa-cube text-sm"></i>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5 my-auto">
+                <div class="pastel-card p-5 space-y-2.5 border-sky-200 bg-sky-50/20">
+                    <div class="w-10 h-10 rounded-xl bg-sky-100 flex items-center justify-center text-sky-600 border border-sky-200 mb-2">
+                        <i class="fa-solid fa-cube text-base"></i>
                     </div>
-                    <div class="text-sm font-bold text-white">Full Z-Axis Perspective</div>
-                    <p class="text-xs text-slate-300 leading-relaxed">
+                    <div class="text-sm font-bold text-slate-800">Full Z-Axis Perspective</div>
+                    <p class="text-xs text-slate-600 leading-relaxed">
                         32 deterministic architectural towers arranged along deep avenues (-340 to +340 Z). Window glow illumination rows, rooftop antennas, and alternating 1.5Hz red aviation beacons.
                     </p>
-                    <div class="text-[10px] font-mono text-cyan-400">1,200 Celestial Stars &bull; Wet Road Sheen</div>
+                    <div class="text-[11px] font-mono text-sky-700 font-semibold mt-2">1,200 Stars &bull; Wet Road Sheen</div>
                 </div>
 
-                <div class="glass-panel p-4 space-y-2.5">
-                    <div class="w-8 h-8 rounded bg-blue-500/20 flex items-center justify-center text-blue-400 mb-2">
-                        <i class="fa-solid fa-car text-sm"></i>
+                <div class="pastel-card p-5 space-y-2.5 border-emerald-200 bg-emerald-50/20">
+                    <div class="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center text-emerald-600 border border-emerald-200 mb-2">
+                        <i class="fa-solid fa-car text-base"></i>
                     </div>
-                    <div class="text-sm font-bold text-white">Physical Vehicle Micro-Dynamics</div>
-                    <p class="text-xs text-slate-300 leading-relaxed">
+                    <div class="text-sm font-bold text-slate-800">Vehicle Micro-Dynamics</div>
+                    <p class="text-xs text-slate-600 leading-relaxed">
                         48 deterministic vehicles conforming to <strong>Intelligent Driver Model (IDM)</strong>. Responsive brake lights, smooth lane-change yaw angles, and zero-collision safe longitudinal gaps.
                     </p>
-                    <div class="text-[10px] font-mono text-blue-400">4 Classes: 2W, Auto, Car, Bus</div>
+                    <div class="text-[11px] font-mono text-emerald-700 font-semibold mt-2">4 Classes: 2W, Auto, Car, Bus</div>
                 </div>
 
-                <div class="glass-panel p-4 space-y-2.5">
-                    <div class="w-8 h-8 rounded bg-emerald-500/20 flex items-center justify-center text-emerald-400 mb-2">
-                        <i class="fa-solid fa-bridge text-sm"></i>
+                <div class="pastel-card p-5 space-y-2.5 border-purple-200 bg-purple-50/20">
+                    <div class="w-10 h-10 rounded-xl bg-purple-100 flex items-center justify-center text-purple-600 border border-purple-200 mb-2">
+                        <i class="fa-solid fa-bridge text-base"></i>
                     </div>
-                    <div class="text-sm font-bold text-white">Corridor Landmark Engineering</div>
-                    <p class="text-xs text-slate-300 leading-relaxed">
+                    <div class="text-sm font-bold text-slate-800">Corridor Landmark Engineering</div>
+                    <p class="text-xs text-slate-600 leading-relaxed">
                         Iconic Cyber Towers central core with 4 perimeter towers. Elevated 20-meter grade-separated Mindspace Flyover Viaduct and Durgam Cheruvu Cable-Stayed Bridge pylons.
                     </p>
-                    <div class="text-[10px] font-mono text-emerald-400">6-Stop Cinematic Tour Available</div>
+                    <div class="text-[11px] font-mono text-purple-700 font-semibold mt-2">6-Stop Automated Tour Available</div>
                 </div>
             </div>
 
-            <div class="glass-panel p-3 flex items-center justify-between text-xs text-slate-300">
+            <div class="pastel-card p-3 flex items-center justify-between text-xs text-slate-600 border-stone-200 bg-white">
                 <span class="flex items-center gap-2">
-                    <i class="fa-solid fa-glasses text-cyan-400"></i>
+                    <i class="fa-solid fa-glasses text-sky-600"></i>
                     Interactive Raycaster: Click any vehicle or junction node for instant live telemetry overlay
                 </span>
-                <span class="font-mono text-slate-400">PRESS 'T' FOR AUTOMATED TOUR</span>
+                <span class="font-mono text-slate-500 font-semibold">PRESS 'T' FOR AUTOMATED JURY TOUR</span>
             </div>
         </section>
 
@@ -397,71 +327,21 @@ flowchart LR
         <section id="slide-5" class="slide flex-col justify-between max-w-7xl mx-auto w-full h-full">
             <div>
                 <div class="flex items-center gap-2 mb-2">
-                    <span class="badge-tag bg-amber-500/20 text-amber-400 border border-amber-500/30">SOVEREIGN OVERSIGHT</span>
-                    <span class="text-xs font-mono text-slate-400">HUMAN-IN-THE-LOOP SCADA</span>
+                    <span class="pill-badge bg-amber-50 text-amber-800 border border-amber-200">SOVEREIGN OVERSIGHT</span>
+                    <span class="text-xs font-mono text-slate-500">HUMAN-IN-THE-LOOP SCADA</span>
                 </div>
-                <h2 class="text-2xl lg:text-3xl font-extrabold text-white tracking-tight">
-                    Human-in-the-Loop: Operator-Authorized Diversion & Police Orders
+                <h2 class="text-2xl lg:text-3xl font-extrabold text-slate-800 tracking-tight">
+                    Human-in-the-Loop: Operator-Authorized Diversions & Police Orders
                 </h2>
             </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 my-auto">
-                <div class="lg:col-span-7 glass-panel p-4 flex items-center justify-center">
-                    <div class="mermaid w-full">
-sequenceDiagram
-    autonumber
-    participant AI as NeuraX PDE Engine
-    participant SCADA as Traffic Operator (Human)
-    participant VMS as Overhead VMS Gantry
-    participant Police as Cyberabad Traffic Police
-
-    AI->>SCADA: Incident Detected (e.g. TSRTC Stall)
-    AI->>SCADA: Computes 3 Viable Alternative Routes
-    Note over SCADA: Operator reviews delay savings & feasible road capacity
-    SCADA->>SCADA: Selects & Authorizes Route (Digital Seal)
-    par Field Actuation
-        SCADA->>VMS: Broadcasts Advisory Guidance
-    and Signal Control
-        SCADA->>SCADA: +25s Webster Green Flush
-    and Enforcement
-        SCADA->>Police: Dispatches Encrypted Directive via 1-Click WhatsApp
-    end
-                    </div>
-                </div>
-
-                <div class="lg:col-span-5 flex flex-col justify-center gap-3">
-                    <div class="glass-panel p-3.5 border-l-2 border-l-amber-400">
-                        <div class="text-xs font-bold text-white mb-1 flex items-center gap-1.5">
-                            <i class="fa-solid fa-user-shield text-amber-400"></i> AI Recommends, Human Decides
-                        </div>
-                        <p class="text-[11px] text-slate-300 leading-relaxed">
-                            Prevents risky automated misrouting. Municipal operators choose between Candidate Routes based on on-ground real-world context.
-                        </p>
-                    </div>
-
-                    <div class="glass-panel p-3.5 border-l-2 border-l-emerald-400">
-                        <div class="text-xs font-bold text-white mb-1 flex items-center gap-1.5">
-                            <i class="fa-brands fa-whatsapp text-emerald-400"></i> 1-Click Encrypted Police Order
-                        </div>
-                        <p class="text-[11px] text-slate-300 leading-relaxed">
-                            Generates formatted tactical deployment orders for Cyberabad Traffic ACP, complete with officer posts and diversion check-points.
-                        </p>
-                    </div>
-
-                    <div class="glass-panel p-3.5 border-l-2 border-l-blue-400">
-                        <div class="text-xs font-bold text-white mb-1 flex items-center gap-1.5">
-                            <i class="fa-solid fa-gamepad text-blue-400"></i> Direct Manual Override Console
-                        </div>
-                        <p class="text-[11px] text-slate-300 leading-relaxed">
-                            Operators can directly force Green/Amber/All-Red phases, throttle inflow demand sliders, or push custom text to overhead VMS LED signs.
-                        </p>
-                    </div>
-                </div>
+            <div class="my-auto pastel-card p-4 flex flex-col items-center justify-center border-stone-200">
+                <img src="assets/diagrams/police_workflow_flowchart_pastel.png" alt="Police Workflow Flowchart" class="max-h-[52vh] object-contain rounded-lg">
             </div>
 
-            <div class="text-xs font-mono text-slate-400 border-t border-white/10 pt-2 flex justify-between">
-                <span>INCIDENT CLEARANCE TIME: REDUCED FROM 22 MIN TO &lt; 7 MIN</span>
-                <span class="text-emerald-400">ZERO VOICE RADIO PHONE LAG</span>
+            <div class="pastel-card p-3 flex justify-between items-center text-xs text-slate-600 border-stone-200 bg-white">
+                <span class="font-medium">INCIDENT CLEARANCE TIME: REDUCED FROM 22 MIN TO &lt; 7 MIN</span>
+                <span class="font-mono text-emerald-700 font-bold">1-CLICK WHATSAPP TO CYBERABAD TRAFFIC ACP</span>
             </div>
         </section>
 
@@ -469,66 +349,66 @@ sequenceDiagram
         <section id="slide-6" class="slide flex-col justify-between max-w-7xl mx-auto w-full h-full">
             <div>
                 <div class="flex items-center gap-2 mb-2">
-                    <span class="badge-tag bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">BUSINESS & CIVIC ROI</span>
-                    <span class="text-xs font-mono text-slate-400">IRC:SP:41 MICRO-SIMULATION REPORT</span>
+                    <span class="pill-badge bg-emerald-50 text-emerald-800 border border-emerald-200">CIVIC & CIVIC ROI</span>
+                    <span class="text-xs font-mono text-slate-500">IRC:SP:41 MICRO-SIMULATION REPORT</span>
                 </div>
-                <h2 class="text-2xl lg:text-3xl font-extrabold text-white tracking-tight">
+                <h2 class="text-2xl lg:text-3xl font-extrabold text-slate-800 tracking-tight">
                     Measurable Municipal Impact & Infrastructure Feasibility
                 </h2>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 my-auto">
-                <div class="glass-panel p-5 text-center flex flex-col justify-between">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5 my-auto">
+                <div class="pastel-card p-6 text-center flex flex-col justify-between border-emerald-200 bg-emerald-50/20">
                     <div>
-                        <div class="text-xs font-mono text-slate-400 mb-1">CORRIDOR DELAY REDUCTION</div>
-                        <div class="text-3xl font-extrabold font-mono text-emerald-400 mb-2">-34.2%</div>
-                        <p class="text-xs text-slate-300 leading-relaxed">
+                        <div class="pill-badge bg-emerald-100 text-emerald-800 border border-emerald-200 inline-block mb-2">CORRIDOR DELAY REDUCTION</div>
+                        <div class="text-4xl font-extrabold font-mono text-emerald-600 my-2">-34.2%</div>
+                        <p class="text-xs text-slate-600 leading-relaxed">
                             Average travel time saved per commuter through dynamic Webster green allocation and rapid shockwave bypass dissipation.
                         </p>
                     </div>
-                    <div class="text-[10px] font-mono text-emerald-400/80 mt-3 pt-2 border-t border-white/10">
+                    <div class="text-xs font-mono text-emerald-700 font-bold mt-4 pt-2 border-t border-stone-200">
                         ~18.4 MIN / VEHICLE SAVED
                     </div>
                 </div>
 
-                <div class="glass-panel p-5 text-center flex flex-col justify-between">
+                <div class="pastel-card p-6 text-center flex flex-col justify-between border-sky-200 bg-sky-50/20">
                     <div>
-                        <div class="text-xs font-mono text-slate-400 mb-1">108 AMBULANCE TRANSIT</div>
-                        <div class="text-3xl font-extrabold font-mono text-blue-400 mb-2">3.05x</div>
-                        <p class="text-xs text-slate-300 leading-relaxed">
+                        <div class="pill-badge bg-sky-100 text-sky-800 border border-sky-200 inline-block mb-2">108 AMBULANCE TRANSIT</div>
+                        <div class="text-4xl font-extrabold font-mono text-sky-600 my-2">3.05x</div>
+                        <p class="text-xs text-slate-600 leading-relaxed">
                             Emergency green corridor preemption increases ambulance speeds from 18 km/h crawling in gridlock to 55 km/h uninterrupted.
                         </p>
                     </div>
-                    <div class="text-[10px] font-mono text-blue-400/80 mt-3 pt-2 border-t border-white/10">
+                    <div class="text-xs font-mono text-sky-700 font-bold mt-4 pt-2 border-t border-stone-200">
                         CRITICAL LIFE-SAVING WINDOW
                     </div>
                 </div>
 
-                <div class="glass-panel p-5 text-center flex flex-col justify-between">
+                <div class="pastel-card p-6 text-center flex flex-col justify-between border-amber-200 bg-amber-50/20">
                     <div>
-                        <div class="text-xs font-mono text-slate-400 mb-1">CAPEX PAYBACK PERIOD</div>
-                        <div class="text-3xl font-extrabold font-mono text-amber-400 mb-2">2.31 Yrs</div>
-                        <p class="text-xs text-slate-300 leading-relaxed">
+                        <div class="pill-badge bg-amber-100 text-amber-800 border border-amber-200 inline-block mb-2">CAPEX PAYBACK PERIOD</div>
+                        <div class="text-4xl font-extrabold font-mono text-amber-600 my-2">2.31 Yrs</div>
+                        <p class="text-xs text-slate-600 leading-relaxed">
                             For proposed ₹42.5 Cr civil grade-separated slip roads at Mindspace. Annual fuel & productivity savings: ₹18.4 Cr/year.
                         </p>
                     </div>
-                    <div class="text-[10px] font-mono text-amber-400/80 mt-3 pt-2 border-t border-white/10">
+                    <div class="text-xs font-mono text-amber-700 font-bold mt-4 pt-2 border-t border-stone-200">
                         IRC:SP:41 AUDIT VERIFIED
                     </div>
                 </div>
             </div>
 
-            <div class="glass-panel p-4 flex flex-wrap items-center justify-between gap-4 border-t-2 border-t-blue-500">
+            <div class="pastel-card p-4 flex flex-wrap items-center justify-between gap-4 border-stone-200 bg-white">
                 <div>
-                    <div class="text-xs font-bold text-white">READY FOR IMMEDIATE FIELD PILOT</div>
-                    <div class="text-[11px] text-slate-400">Compatible with Telangana ICCC Central SCADA & Cyberabad Traffic Command</div>
+                    <div class="text-xs font-bold text-slate-800">READY FOR IMMEDIATE FIELD PILOT</div>
+                    <div class="text-xs text-slate-500">Compatible with Telangana ICCC Central SCADA & Cyberabad Traffic Command</div>
                 </div>
                 <div class="flex items-center gap-3">
-                    <a href="index.html" class="px-3 py-1.5 rounded bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold transition flex items-center gap-1.5">
+                    <a href="index.html" class="px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold transition flex items-center gap-1.5 shadow-sm">
                         <i class="fa-solid fa-arrow-up-right-from-square"></i> Open Live Cockpit
                     </a>
-                    <a href="twin3d.html" class="px-3 py-1.5 rounded bg-slate-800 hover:bg-slate-700 text-white text-xs font-semibold border border-white/10 transition flex items-center gap-1.5">
-                        <i class="fa-solid fa-cube"></i> Launch 3D Twin
+                    <a href="twin3d.html" class="px-3.5 py-2 rounded-xl bg-stone-100 hover:bg-stone-200 text-slate-700 text-xs font-semibold border border-stone-300 transition flex items-center gap-1.5 shadow-sm">
+                        <i class="fa-solid fa-cube text-blue-500"></i> Launch 3D Twin
                     </a>
                 </div>
             </div>
@@ -537,28 +417,28 @@ sequenceDiagram
     </div>
 
     <!-- BOTTOM PRESENTATION CONTROLLER -->
-    <div class="h-14 px-6 border-t border-white/10 flex items-center justify-between bg-navy-900/90 backdrop-blur z-20 flex-shrink-0 no-print">
+    <div class="h-14 px-8 border-t border-stone-200 flex items-center justify-between bg-cream-100/90 backdrop-blur z-20 flex-shrink-0 no-print">
         <div class="flex items-center gap-2">
-            <button onclick="prevSlide()" class="px-3 py-1.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold border border-white/10 transition flex items-center gap-1.5">
+            <button onclick="prevSlide()" class="px-3 py-1.5 rounded-lg bg-white hover:bg-stone-50 text-slate-700 text-xs font-semibold border border-stone-200 shadow-sm transition flex items-center gap-1.5">
                 <i class="fa-solid fa-chevron-left"></i> Previous
             </button>
-            <button onclick="nextSlide()" class="px-4 py-1.5 rounded bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold transition flex items-center gap-1.5 shadow-md shadow-blue-500/20">
+            <button onclick="nextSlide()" class="px-4 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold transition flex items-center gap-1.5 shadow-sm">
                 Next <i class="fa-solid fa-chevron-right"></i>
             </button>
         </div>
 
         <!-- Slide Indicators -->
         <div class="flex items-center gap-2">
-            <button onclick="goToSlide(1)" class="indicator-dot w-3 h-3 rounded-full bg-blue-500 transition-all"></button>
-            <button onclick="goToSlide(2)" class="indicator-dot w-3 h-3 rounded-full bg-slate-700 hover:bg-slate-500 transition-all"></button>
-            <button onclick="goToSlide(3)" class="indicator-dot w-3 h-3 rounded-full bg-slate-700 hover:bg-slate-500 transition-all"></button>
-            <button onclick="goToSlide(4)" class="indicator-dot w-3 h-3 rounded-full bg-slate-700 hover:bg-slate-500 transition-all"></button>
-            <button onclick="goToSlide(5)" class="indicator-dot w-3 h-3 rounded-full bg-slate-700 hover:bg-slate-500 transition-all"></button>
-            <button onclick="goToSlide(6)" class="indicator-dot w-3 h-3 rounded-full bg-slate-700 hover:bg-slate-500 transition-all"></button>
+            <button onclick="goToSlide(1)" class="indicator-dot w-6 h-2.5 rounded-full bg-blue-600 transition-all"></button>
+            <button onclick="goToSlide(2)" class="indicator-dot w-2.5 h-2.5 rounded-full bg-stone-300 hover:bg-stone-400 transition-all"></button>
+            <button onclick="goToSlide(3)" class="indicator-dot w-2.5 h-2.5 rounded-full bg-stone-300 hover:bg-stone-400 transition-all"></button>
+            <button onclick="goToSlide(4)" class="indicator-dot w-2.5 h-2.5 rounded-full bg-stone-300 hover:bg-stone-400 transition-all"></button>
+            <button onclick="goToSlide(5)" class="indicator-dot w-2.5 h-2.5 rounded-full bg-stone-300 hover:bg-stone-400 transition-all"></button>
+            <button onclick="goToSlide(6)" class="indicator-dot w-2.5 h-2.5 rounded-full bg-stone-300 hover:bg-stone-400 transition-all"></button>
         </div>
 
-        <div class="text-[11px] font-mono text-slate-400 hidden sm:block">
-            USE <kbd class="px-1.5 py-0.5 rounded bg-slate-800 border border-slate-700 text-white">←</kbd> <kbd class="px-1.5 py-0.5 rounded bg-slate-800 border border-slate-700 text-white">→</kbd> ARROW KEYS TO NAVIGATE
+        <div class="text-xs font-mono text-slate-500 hidden sm:block">
+            USE <kbd class="px-1.5 py-0.5 rounded bg-white border border-stone-200 text-slate-700">←</kbd> <kbd class="px-1.5 py-0.5 rounded bg-white border border-stone-200 text-slate-700">→</kbd> ARROW KEYS
         </div>
     </div>
 
@@ -574,9 +454,9 @@ sequenceDiagram
 
             document.querySelectorAll('.indicator-dot').forEach((d, idx) => {
                 if (idx + 1 === currentSlide) {
-                    d.className = 'indicator-dot w-6 h-2.5 rounded-full bg-blue-500 transition-all';
+                    d.className = 'indicator-dot w-6 h-2.5 rounded-full bg-blue-600 transition-all';
                 } else {
-                    d.className = 'indicator-dot w-2.5 h-2.5 rounded-full bg-slate-700 hover:bg-slate-500 transition-all';
+                    d.className = 'indicator-dot w-2.5 h-2.5 rounded-full bg-stone-300 hover:bg-stone-400 transition-all';
                 }
             });
 
