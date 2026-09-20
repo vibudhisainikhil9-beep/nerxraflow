@@ -74,6 +74,7 @@ class NexraFlow3D {
         this.ground = null;
         this.gridHelper = null;
 
+        this.buildingBeacons = [];
         this._initEngine();
         if (!this.renderer || !this.scene) {
             console.warn('Renderer or scene could not be initialized.');
@@ -107,7 +108,7 @@ class NexraFlow3D {
 
         this.scene = new THREE.Scene();
         this.scene.background = new THREE.Color(0x040812);
-        this.scene.fog = new THREE.FogExp2(0x040812, 0.002);
+        this.scene.fog = new THREE.FogExp2(0x040812, 0.0015);
 
         const aspect = (this.width && this.height) ? (this.width / this.height) : (window.innerWidth / window.innerHeight);
         this.camera = new THREE.PerspectiveCamera(45, aspect, 1, 3500);
@@ -266,22 +267,62 @@ class NexraFlow3D {
     _buildEnvironment() {
         const groundGeo = new THREE.PlaneGeometry(1400, 1400);
         const groundMat = new THREE.MeshStandardMaterial({
-            color: 0x060b16,
-            roughness: 0.95,
-            metalness: 0.1
+            color: 0x08111f,
+            roughness: 0.92,
+            metalness: 0.08,
+            envMapIntensity: 0.3
         });
         this.ground = new THREE.Mesh(groundGeo, groundMat);
         this.ground.rotation.x = -Math.PI / 2;
         this.ground.position.y = -0.15;
         this.scene.add(this.ground);
 
+        // Sidewalk / Park strips
+        const parkMat = new THREE.MeshStandardMaterial({ color: 0x0a1a0f, roughness: 0.95 });
+        const parkLeft = new THREE.Mesh(new THREE.PlaneGeometry(180, 900), parkMat);
+        parkLeft.rotation.x = -Math.PI / 2;
+        parkLeft.position.set(-110, 0.05, 0);
+        this.scene.add(parkLeft);
+        const parkRight = new THREE.Mesh(new THREE.PlaneGeometry(180, 900), parkMat);
+        parkRight.rotation.x = -Math.PI / 2;
+        parkRight.position.set(110, 0.05, 0);
+        this.scene.add(parkRight);
+
         // Ground Reference Grid
         this.gridHelper = new THREE.GridHelper(1200, 120, 0x0891b2, 0x082f49);
         this.gridHelper.position.y = 0;
         this.scene.add(this.gridHelper);
 
+        // Stars
+        const starGeo = new THREE.BufferGeometry();
+        const starCount = 1200;
+        const starPos = new Float32Array(starCount * 3);
+        for (let i = 0; i < starCount * 3; i += 3) {
+            const theta = Math.random() * Math.PI * 2;
+            const phi = Math.acos(2 * Math.random() - 1) * 0.45; // upper hemisphere only
+            const r = 800;
+            starPos[i]   = r * Math.sin(phi) * Math.cos(theta);
+            starPos[i+1] = Math.abs(r * Math.cos(phi)) + 80; // above horizon only
+            starPos[i+2] = r * Math.sin(phi) * Math.sin(theta);
+        }
+        starGeo.setAttribute('position', new THREE.BufferAttribute(starPos, 3));
+        this.starField = new THREE.Points(starGeo, new THREE.PointsMaterial({ color: 0xffffff, size: 1.8, transparent: true, opacity: 0.85 }));
+        this.scene.add(this.starField);
+
+        // City ambient ground glow
+        const glowLeft = new THREE.PointLight(0x0284c7, 0.8, 180);
+        glowLeft.position.set(-90, 5, 0);
+        this.scene.add(glowLeft);
+        const glowRight = new THREE.PointLight(0x0ea5e9, 0.8, 180);
+        glowRight.position.set(90, 5, 0);
+        this.scene.add(glowRight);
+        const glowFar = new THREE.PointLight(0x818cf8, 0.5, 220);
+        glowFar.position.set(-90, 20, -280);
+        this.scene.add(glowFar);
+
         this.scene.add(this.incidentGroup);
     }
+
 
     /* ==========================================================================
        4. ROAD NETWORK, FLYOVER & BYPASS
@@ -421,6 +462,14 @@ class NexraFlow3D {
         bypassMesh.scale.set(1, 0.05, 1);
         roadGroup.add(bypassMesh);
 
+        // Wet road reflection strip (centre)
+        const wetMat = new THREE.MeshStandardMaterial({ color: 0x0e2038, roughness: 0.05, metalness: 0.9, transparent: true, opacity: 0.4 });
+        const wetRoad = new THREE.Mesh(new THREE.PlaneGeometry(38, 840), wetMat);
+        wetRoad.rotation.x = -Math.PI / 2;
+        wetRoad.position.set(0, 0.12, 0);
+        this.scene.add(wetRoad);
+        this.wetRoad = wetRoad;
+
         // Cable Bridge Pylons
         const cableBridgeTower = new THREE.Group();
         const pylonGeo = new THREE.CylinderGeometry(0.9, 2.0, 48, 8);
@@ -485,7 +534,7 @@ class NexraFlow3D {
        ========================================================================== */
     _buildCyberTowersLandmark() {
         const ctGroup = new THREE.Group();
-        ctGroup.position.set(-90, 0, -220);
+        ctGroup.position.set(-85, 0, -230);
         ctGroup.name = 'Cyber Towers (J-01 Iconic Landmark)';
 
         const baseGeo = new THREE.CylinderGeometry(28, 30, 8, 32);
@@ -494,14 +543,14 @@ class NexraFlow3D {
         base.position.y = 4;
         ctGroup.add(base);
 
-        const coreGeo = new THREE.CylinderGeometry(24, 26, 65, 32);
+        const coreGeo = new THREE.CylinderGeometry(24, 26, 90, 32);
         const coreMat = new THREE.MeshStandardMaterial({ color: 0x0a192f, roughness: 0.3, metalness: 0.7 });
         const core = new THREE.Mesh(coreGeo, coreMat);
-        core.position.y = 36.5;
+        core.position.y = 49;
         ctGroup.add(core);
 
         const bandMat = new THREE.MeshBasicMaterial({ color: 0x38bdf8 });
-        for (let y = 15; y < 65; y += 8) {
+        for (let y = 15; y < 90; y += 8) {
             const band = new THREE.Mesh(new THREE.CylinderGeometry(24.2, 24.2, 1.2, 32), bandMat);
             band.position.y = y;
             ctGroup.add(band);
@@ -511,68 +560,99 @@ class NexraFlow3D {
             new THREE.SphereGeometry(18, 32, 16, 0, Math.PI * 2, 0, Math.PI / 2),
             new THREE.MeshStandardMaterial({ color: 0x0284c7, roughness: 0.2, metalness: 0.8 })
         );
-        dome.position.y = 69;
+        dome.position.y = 94;
         ctGroup.add(dome);
 
         const antenna = new THREE.Mesh(new THREE.CylinderGeometry(0.6, 0.6, 30, 8), new THREE.MeshBasicMaterial({ color: 0x38bdf8 }));
-        antenna.position.y = 90;
+        antenna.position.y = 94 + 15;
         ctGroup.add(antenna);
 
         const beaconMat = new THREE.MeshBasicMaterial({ color: 0xef4444 });
         this.ctBeacon = new THREE.Mesh(new THREE.SphereGeometry(2.2, 16, 16), beaconMat);
-        this.ctBeacon.position.y = 105;
+        this.ctBeacon.position.y = 108;
         ctGroup.add(this.ctBeacon);
 
         const plate = new THREE.Mesh(new THREE.BoxGeometry(44, 6, 2), new THREE.MeshBasicMaterial({ color: 0x0284c7 }));
         plate.position.set(0, 18, 27);
         ctGroup.add(plate);
 
+        // 4 secondary towers around the main cylinder
+        const secTowerPositions = [{x:36,z:0},{x:-36,z:0},{x:0,z:36},{x:0,z:-36}];
+        secTowerPositions.forEach(tp => {
+            const sec = new THREE.Mesh(new THREE.CylinderGeometry(10, 12, 60, 16),
+                new THREE.MeshStandardMaterial({color:0x0a192f, roughness:0.4, metalness:0.6}));
+            sec.position.set(tp.x, 30, tp.z);
+            ctGroup.add(sec);
+            const secBand = new THREE.Mesh(new THREE.CylinderGeometry(10.2, 10.2, 1.0, 16),
+                new THREE.MeshBasicMaterial({color:0x0284c7}));
+            secBand.position.set(tp.x, 50, tp.z);
+            ctGroup.add(secBand);
+        });
+
         this.cyberTowers = ctGroup;
         this.scene.add(ctGroup);
     }
+
 
     /* ==========================================================================
        7. CYBERABAD SKYSCRAPERS & WIREFRAME MODE
        ========================================================================== */
     _buildSkyscrapers() {
         this.buildingGroup = new THREE.Group();
-        const buildingMat = new THREE.MeshStandardMaterial({ color: 0x09111e, roughness: 0.4, metalness: 0.8 });
         const edgeMat = new THREE.LineBasicMaterial({ color: 0x1e3a5f });
-        const windowGlowMat = new THREE.MeshBasicMaterial({ color: 0x38bdf8, opacity: 0.85, transparent: true });
 
-        const buildingLocations = [];
+        const BUILDINGS_LEFT = [
+            {x:-55,z:-320,h:160,w:28,d:28},{x:-80,z:-260,h:90,w:22,d:22},{x:-45,z:-200,h:120,w:24,d:24},
+            {x:-70,z:-140,h:75,w:20,d:20},{x:-55,z:-80,h:100,w:26,d:26},{x:-80,z:-20,h:55,w:18,d:18},
+            {x:-50,z:40,h:80,w:22,d:22},{x:-75,z:100,h:140,w:28,d:28},{x:-55,z:160,h:65,w:20,d:20},
+            {x:-80,z:220,h:110,w:24,d:24},{x:-55,z:280,h:90,w:22,d:22},{x:-75,z:340,h:130,w:26,d:26},
+            {x:-120,z:-300,h:180,w:32,d:32},{x:-110,z:-150,h:95,w:24,d:24},{x:-130,z:50,h:150,w:30,d:30},
+            {x:-115,z:250,h:85,w:22,d:22}
+        ];
+        const BUILDINGS_RIGHT = [
+            {x:55,z:-320,h:140,w:26,d:26},{x:80,z:-260,h:85,w:22,d:22},{x:55,z:-200,h:110,w:24,d:24},
+            {x:75,z:-140,h:70,w:20,d:20},{x:55,z:-80,h:95,w:24,d:24},{x:80,z:-20,h:60,w:18,d:18},
+            {x:55,z:40,h:75,w:22,d:22},{x:78,z:100,h:125,w:28,d:28},{x:55,z:160,h:60,w:20,d:20},
+            {x:80,z:220,h:105,w:24,d:24},{x:55,z:280,h:85,w:22,d:22},{x:78,z:340,h:120,w:26,d:26},
+            {x:120,z:-290,h:175,w:32,d:32},{x:115,z:-120,h:90,w:24,d:24},{x:125,z:80,h:145,w:30,d:30},
+            {x:118,z:270,h:80,w:22,d:22}
+        ];
 
-        for (let z = -360; z <= 360; z += 55) {
-            const x = -48 - Math.random() * 85;
-            const h = 42 + Math.random() * 105;
-            const w = 22 + Math.random() * 22;
-            const d = 22 + Math.random() * 22;
-            buildingLocations.push({ x, z, h, w, d, name: `Tech Park Tower W-${Math.floor((z + 400) / 40)}` });
-        }
+        const allBuildings = BUILDINGS_LEFT.concat(BUILDINGS_RIGHT);
 
-        for (let z = -360; z <= 360; z += 58) {
-            const x = 52 + Math.random() * 95;
-            const h = 38 + Math.random() * 115;
-            const w = 20 + Math.random() * 24;
-            const d = 20 + Math.random() * 24;
-            buildingLocations.push({ x, z, h, w, d, name: `Knowledge City Tower E-${Math.floor((z + 400) / 40)}` });
-        }
-
-        buildingLocations.forEach(b => {
+        allBuildings.forEach((b, idx) => {
             const geo = new THREE.BoxGeometry(b.w, b.h, b.d);
-            const mesh = new THREE.Mesh(geo, buildingMat.clone());
+            const mat = new THREE.MeshStandardMaterial({ color: 0x09111e, roughness: 0.4, metalness: 0.8 });
+            const mesh = new THREE.Mesh(geo, mat);
             mesh.position.set(b.x, b.h / 2, b.z);
-            mesh.name = b.name;
+            mesh.name = `Tower-${idx}`;
             this.buildingGroup.add(mesh);
 
-            const wire = new THREE.LineSegments(new THREE.EdgesGeometry(geo), edgeMat);
+            // Edge wireframe
+            const wire = new THREE.LineSegments(new THREE.EdgesGeometry(geo), edgeMat.clone());
             wire.position.copy(mesh.position);
             this.buildingGroup.add(wire);
 
-            if (Math.random() < 0.65) {
-                const win = new THREE.Mesh(new THREE.BoxGeometry(b.w * 0.85, 1.6, b.d + 0.3), windowGlowMat);
-                win.position.set(b.x, b.h * 0.72, b.z);
+            // Window glow rows every 8 units of height
+            for (let wy = 8; wy < b.h; wy += 8) {
+                const winMat = new THREE.MeshBasicMaterial({ color: 0x0ea5e9, opacity: 0.6, transparent: true });
+                const win = new THREE.Mesh(new THREE.BoxGeometry(b.w * 0.9, 1.2, b.d + 0.3), winMat);
+                win.position.set(b.x, wy, b.z);
                 this.buildingGroup.add(win);
+            }
+
+            // Rooftop antenna + blinking beacon on tall buildings
+            if (b.h > 120) {
+                const antennaMat = new THREE.MeshBasicMaterial({ color: 0x38bdf8 });
+                const antenna = new THREE.Mesh(new THREE.CylinderGeometry(0.3, 0.3, 20, 8), antennaMat);
+                antenna.position.set(b.x, b.h + 10, b.z);
+                this.buildingGroup.add(antenna);
+
+                const beaconMat = new THREE.MeshBasicMaterial({ color: 0xef4444 });
+                const beacon = new THREE.Mesh(new THREE.SphereGeometry(0.8, 8, 8), beaconMat);
+                beacon.position.set(b.x, b.h + 21, b.z);
+                this.buildingGroup.add(beacon);
+                this.buildingBeacons.push(beacon);
             }
 
             this.buildings.push(mesh);
@@ -580,6 +660,7 @@ class NexraFlow3D {
 
         this.scene.add(this.buildingGroup);
     }
+
 
     toggleHoloWireframe() {
         this.isWireframeHolo = !this.isWireframeHolo;
@@ -1324,13 +1405,16 @@ class NexraFlow3D {
         this.tourIndex = 0;
         this.tourTimer = 0;
         this.tourStops = [
-            { pos: new THREE.Vector3(0, 240, 290), target: new THREE.Vector3(0, 15, 0), duration: 7 },
-            { pos: new THREE.Vector3(26, 32, -35), target: new THREE.Vector3(2, 18, 10), duration: 8 },
-            { pos: new THREE.Vector3(-45, 55, -150), target: new THREE.Vector3(-90, 45, -220), duration: 7 },
-            { pos: new THREE.Vector3(-25, 25, -120), target: new THREE.Vector3(0, 10, -70), duration: 7 }
+            { pos: new THREE.Vector3(0, 280, 340), target: new THREE.Vector3(0, 10, 0), duration: 9 },       // Grand overview
+            { pos: new THREE.Vector3(26, 32, -35), target: new THREE.Vector3(2, 18, 10), duration: 8 },      // Flyover close-up
+            { pos: new THREE.Vector3(-45, 55, -150), target: new THREE.Vector3(-90, 45, -220), duration: 8 }, // Cyber Towers
+            { pos: new THREE.Vector3(-25, 25, -120), target: new THREE.Vector3(0, 10, -70), duration: 7 },   // Street level approach
+            { pos: new THREE.Vector3(80, 40, -280), target: new THREE.Vector3(0, 15, -200), duration: 8 },   // Far building skyline
+            { pos: new THREE.Vector3(0, 15, -20), target: new THREE.Vector3(0, 8, 50), duration: 7 }          // Ground level through signals
         ];
         this._applyTourStop(0);
     }
+
 
     _applyTourStop(idx) {
         const stop = this.tourStops[idx];
@@ -1461,6 +1545,9 @@ class NexraFlow3D {
             if (this.gridHelper) {
                 this.gridHelper.visible = true;
             }
+            if (this.starField) {
+                this.starField.visible = true;
+            }
         } else {
             root.classList.remove('dark');
             root.classList.add('light');
@@ -1490,6 +1577,9 @@ class NexraFlow3D {
             }
             if (this.gridHelper) {
                 this.gridHelper.visible = false;
+            }
+            if (this.starField) {
+                this.starField.visible = false;
             }
         }
 
@@ -1533,6 +1623,15 @@ class NexraFlow3D {
         if (this.ctBeacon) {
             this.ctBeacon.material.color.setHex((Math.floor(time * 2) % 2 === 0) ? 0xef4444 : 0x330000);
         }
+
+        // Animate rooftop beacons on tall buildings
+        if (this.buildingBeacons && this.buildingBeacons.length > 0) {
+            const bOn = (Math.floor(time * 1.5) % 2 === 0);
+            this.buildingBeacons.forEach((b, i) => {
+                b.material.color.setHex((bOn && (i % 2 === 0)) || (!bOn && (i % 2 !== 0)) ? 0xef4444 : 0x330000);
+            });
+        }
+
 
         // Billowing Smoke from Stalled Incident Vehicle
         if (this.smokeParticles && this.smokeParticles.length > 0) {
