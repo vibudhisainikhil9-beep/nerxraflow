@@ -1,0 +1,4802 @@
+[
+  {
+    "packetIndex": 0,
+    "timestamp": "2026-01-20 00:00:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 47.5,
+    "flowPCU": 383,
+    "occupancyPct": 17.2,
+    "delayMin": 0.0,
+    "congestionIndex": 0.001,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 1,
+    "timestamp": "2026-01-20 00:05:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 43.2,
+    "flowPCU": 453,
+    "occupancyPct": 19.6,
+    "delayMin": 0.01,
+    "congestionIndex": 0.004,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 2,
+    "timestamp": "2026-01-20 00:10:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 43.9,
+    "flowPCU": 558,
+    "occupancyPct": 18.9,
+    "delayMin": 0.01,
+    "congestionIndex": 0.002,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 3,
+    "timestamp": "2026-01-20 00:15:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 43.9,
+    "flowPCU": 429,
+    "occupancyPct": 18.9,
+    "delayMin": 0.0,
+    "congestionIndex": 0.001,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 4,
+    "timestamp": "2026-01-20 00:20:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 40.0,
+    "flowPCU": 339,
+    "occupancyPct": 16.0,
+    "delayMin": 0.0,
+    "congestionIndex": 0.001,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 5,
+    "timestamp": "2026-01-20 00:25:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 42.4,
+    "flowPCU": 518,
+    "occupancyPct": 21.0,
+    "delayMin": 0.0,
+    "congestionIndex": 0.004,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 6,
+    "timestamp": "2026-01-20 00:30:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 49.9,
+    "flowPCU": 582,
+    "occupancyPct": 22.4,
+    "delayMin": 0.0,
+    "congestionIndex": 0.003,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 7,
+    "timestamp": "2026-01-20 00:35:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 46.0,
+    "flowPCU": 377,
+    "occupancyPct": 16.7,
+    "delayMin": 0.0,
+    "congestionIndex": 0.001,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 8,
+    "timestamp": "2026-01-20 00:40:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 43.2,
+    "flowPCU": 457,
+    "occupancyPct": 19.6,
+    "delayMin": 0.0,
+    "congestionIndex": 0.002,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 9,
+    "timestamp": "2026-01-20 00:45:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 43.3,
+    "flowPCU": 456,
+    "occupancyPct": 19.5,
+    "delayMin": 0.0,
+    "congestionIndex": 0.002,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 10,
+    "timestamp": "2026-01-20 00:50:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 45.9,
+    "flowPCU": 569,
+    "occupancyPct": 22.0,
+    "delayMin": 0.01,
+    "congestionIndex": 0.004,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 11,
+    "timestamp": "2026-01-20 00:55:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 47.4,
+    "flowPCU": 384,
+    "occupancyPct": 15.7,
+    "delayMin": 0.0,
+    "congestionIndex": 0.002,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 12,
+    "timestamp": "2026-01-20 01:00:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 43.9,
+    "flowPCU": 449,
+    "occupancyPct": 19.5,
+    "delayMin": 0.0,
+    "congestionIndex": 0.002,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 13,
+    "timestamp": "2026-01-20 01:05:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 43.2,
+    "flowPCU": 636,
+    "occupancyPct": 24.6,
+    "delayMin": 0.01,
+    "congestionIndex": 0.003,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 14,
+    "timestamp": "2026-01-20 01:10:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 51.4,
+    "flowPCU": 564,
+    "occupancyPct": 22.6,
+    "delayMin": 0.01,
+    "congestionIndex": 0.006,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 15,
+    "timestamp": "2026-01-20 01:15:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 43.3,
+    "flowPCU": 361,
+    "occupancyPct": 17.0,
+    "delayMin": 0.0,
+    "congestionIndex": 0.002,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 16,
+    "timestamp": "2026-01-20 01:20:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 43.3,
+    "flowPCU": 366,
+    "occupancyPct": 16.5,
+    "delayMin": 0.0,
+    "congestionIndex": 0.001,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 17,
+    "timestamp": "2026-01-20 01:25:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 44.0,
+    "flowPCU": 434,
+    "occupancyPct": 18.0,
+    "delayMin": 0.0,
+    "congestionIndex": 0.001,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 18,
+    "timestamp": "2026-01-20 01:30:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 40.0,
+    "flowPCU": 412,
+    "occupancyPct": 19.5,
+    "delayMin": 0.0,
+    "congestionIndex": 0.001,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 19,
+    "timestamp": "2026-01-20 01:35:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 40.0,
+    "flowPCU": 349,
+    "occupancyPct": 16.5,
+    "delayMin": 0.0,
+    "congestionIndex": 0.001,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 20,
+    "timestamp": "2026-01-20 01:40:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 43.0,
+    "flowPCU": 1160,
+    "occupancyPct": 24.0,
+    "delayMin": 0.02,
+    "congestionIndex": 0.009,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 21,
+    "timestamp": "2026-01-20 01:45:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 42.5,
+    "flowPCU": 399,
+    "occupancyPct": 17.7,
+    "delayMin": 0.0,
+    "congestionIndex": 0.001,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 22,
+    "timestamp": "2026-01-20 01:50:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 44.0,
+    "flowPCU": 332,
+    "occupancyPct": 15.6,
+    "delayMin": 0.0,
+    "congestionIndex": 0.001,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 23,
+    "timestamp": "2026-01-20 01:55:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 39.9,
+    "flowPCU": 456,
+    "occupancyPct": 16.8,
+    "delayMin": 0.0,
+    "congestionIndex": 0.003,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 24,
+    "timestamp": "2026-01-20 02:00:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 43.3,
+    "flowPCU": 405,
+    "occupancyPct": 23.4,
+    "delayMin": 0.0,
+    "congestionIndex": 0.001,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 25,
+    "timestamp": "2026-01-20 02:05:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 43.2,
+    "flowPCU": 410,
+    "occupancyPct": 18.7,
+    "delayMin": 0.0,
+    "congestionIndex": 0.003,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 26,
+    "timestamp": "2026-01-20 02:10:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 45.8,
+    "flowPCU": 342,
+    "occupancyPct": 17.3,
+    "delayMin": 0.01,
+    "congestionIndex": 0.004,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 27,
+    "timestamp": "2026-01-20 02:15:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 43.3,
+    "flowPCU": 443,
+    "occupancyPct": 19.2,
+    "delayMin": 0.0,
+    "congestionIndex": 0.001,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 28,
+    "timestamp": "2026-01-20 02:20:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 43.1,
+    "flowPCU": 578,
+    "occupancyPct": 23.3,
+    "delayMin": 0.01,
+    "congestionIndex": 0.006,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 29,
+    "timestamp": "2026-01-20 02:25:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 70.0,
+    "flowPCU": 312,
+    "occupancyPct": 15.5,
+    "delayMin": 0.0,
+    "congestionIndex": 0.001,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 30,
+    "timestamp": "2026-01-20 02:30:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 42.8,
+    "flowPCU": 425,
+    "occupancyPct": 19.1,
+    "delayMin": 0.0,
+    "congestionIndex": 0.001,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 31,
+    "timestamp": "2026-01-20 02:35:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 45.9,
+    "flowPCU": 323,
+    "occupancyPct": 16.9,
+    "delayMin": 0.0,
+    "congestionIndex": 0.002,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 32,
+    "timestamp": "2026-01-20 02:40:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 43.3,
+    "flowPCU": 490,
+    "occupancyPct": 20.4,
+    "delayMin": 0.0,
+    "congestionIndex": 0.002,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 33,
+    "timestamp": "2026-01-20 02:45:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 39.9,
+    "flowPCU": 647,
+    "occupancyPct": 20.4,
+    "delayMin": 0.01,
+    "congestionIndex": 0.002,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 34,
+    "timestamp": "2026-01-20 02:50:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 39.8,
+    "flowPCU": 636,
+    "occupancyPct": 23.6,
+    "delayMin": 0.01,
+    "congestionIndex": 0.004,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 35,
+    "timestamp": "2026-01-20 02:55:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 43.2,
+    "flowPCU": 650,
+    "occupancyPct": 21.3,
+    "delayMin": 0.0,
+    "congestionIndex": 0.002,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 36,
+    "timestamp": "2026-01-20 03:00:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 43.3,
+    "flowPCU": 407,
+    "occupancyPct": 17.8,
+    "delayMin": 0.0,
+    "congestionIndex": 0.001,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 37,
+    "timestamp": "2026-01-20 03:05:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 39.9,
+    "flowPCU": 465,
+    "occupancyPct": 20.3,
+    "delayMin": 0.0,
+    "congestionIndex": 0.003,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 38,
+    "timestamp": "2026-01-20 03:10:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 39.9,
+    "flowPCU": 593,
+    "occupancyPct": 23.6,
+    "delayMin": 0.01,
+    "congestionIndex": 0.004,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 39,
+    "timestamp": "2026-01-20 03:15:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 42.5,
+    "flowPCU": 167,
+    "occupancyPct": 12.2,
+    "delayMin": 0.0,
+    "congestionIndex": 0.001,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 40,
+    "timestamp": "2026-01-20 03:20:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 43.3,
+    "flowPCU": 394,
+    "occupancyPct": 17.4,
+    "delayMin": 0.0,
+    "congestionIndex": 0.001,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 41,
+    "timestamp": "2026-01-20 03:25:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 39.8,
+    "flowPCU": 495,
+    "occupancyPct": 20.8,
+    "delayMin": 0.01,
+    "congestionIndex": 0.004,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 42,
+    "timestamp": "2026-01-20 03:30:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 45.8,
+    "flowPCU": 535,
+    "occupancyPct": 22.8,
+    "delayMin": 0.01,
+    "congestionIndex": 0.005,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 43,
+    "timestamp": "2026-01-20 03:35:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 47.4,
+    "flowPCU": 812,
+    "occupancyPct": 16.8,
+    "delayMin": 0.0,
+    "congestionIndex": 0.001,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 44,
+    "timestamp": "2026-01-20 03:40:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 43.2,
+    "flowPCU": 562,
+    "occupancyPct": 22.9,
+    "delayMin": 0.01,
+    "congestionIndex": 0.003,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 45,
+    "timestamp": "2026-01-20 03:45:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 42.2,
+    "flowPCU": 496,
+    "occupancyPct": 22.3,
+    "delayMin": 0.01,
+    "congestionIndex": 0.008,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 46,
+    "timestamp": "2026-01-20 03:50:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 43.2,
+    "flowPCU": 527,
+    "occupancyPct": 21.3,
+    "delayMin": 0.0,
+    "congestionIndex": 0.002,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 47,
+    "timestamp": "2026-01-20 03:55:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 43.0,
+    "flowPCU": 495,
+    "occupancyPct": 20.8,
+    "delayMin": 0.01,
+    "congestionIndex": 0.007,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 48,
+    "timestamp": "2026-01-20 04:00:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 45.9,
+    "flowPCU": 427,
+    "occupancyPct": 18.2,
+    "delayMin": 0.0,
+    "congestionIndex": 0.002,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 49,
+    "timestamp": "2026-01-20 04:05:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 43.9,
+    "flowPCU": 362,
+    "occupancyPct": 17.5,
+    "delayMin": 0.0,
+    "congestionIndex": 0.003,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 50,
+    "timestamp": "2026-01-20 04:10:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 43.3,
+    "flowPCU": 345,
+    "occupancyPct": 16.4,
+    "delayMin": 0.0,
+    "congestionIndex": 0.001,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 51,
+    "timestamp": "2026-01-20 04:15:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 43.3,
+    "flowPCU": 431,
+    "occupancyPct": 18.8,
+    "delayMin": 0.0,
+    "congestionIndex": 0.002,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 52,
+    "timestamp": "2026-01-20 04:20:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 43.2,
+    "flowPCU": 497,
+    "occupancyPct": 20.0,
+    "delayMin": 0.01,
+    "congestionIndex": 0.002,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 53,
+    "timestamp": "2026-01-20 04:25:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 43.2,
+    "flowPCU": 464,
+    "occupancyPct": 19.4,
+    "delayMin": 0.01,
+    "congestionIndex": 0.004,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 54,
+    "timestamp": "2026-01-20 04:30:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 46.7,
+    "flowPCU": 267,
+    "occupancyPct": 14.2,
+    "delayMin": 0.0,
+    "congestionIndex": 0.0,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 55,
+    "timestamp": "2026-01-20 04:35:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 43.2,
+    "flowPCU": 605,
+    "occupancyPct": 23.7,
+    "delayMin": 0.01,
+    "congestionIndex": 0.004,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 56,
+    "timestamp": "2026-01-20 04:40:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 43.3,
+    "flowPCU": 460,
+    "occupancyPct": 19.8,
+    "delayMin": 0.0,
+    "congestionIndex": 0.002,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 57,
+    "timestamp": "2026-01-20 04:45:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 43.2,
+    "flowPCU": 532,
+    "occupancyPct": 21.2,
+    "delayMin": 0.0,
+    "congestionIndex": 0.003,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 58,
+    "timestamp": "2026-01-20 04:50:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 39.9,
+    "flowPCU": 431,
+    "occupancyPct": 18.9,
+    "delayMin": 0.0,
+    "congestionIndex": 0.002,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 59,
+    "timestamp": "2026-01-20 04:55:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 43.3,
+    "flowPCU": 409,
+    "occupancyPct": 18.0,
+    "delayMin": 0.0,
+    "congestionIndex": 0.001,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 60,
+    "timestamp": "2026-01-20 05:00:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 43.2,
+    "flowPCU": 521,
+    "occupancyPct": 21.1,
+    "delayMin": 0.0,
+    "congestionIndex": 0.002,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 61,
+    "timestamp": "2026-01-20 05:05:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 43.3,
+    "flowPCU": 487,
+    "occupancyPct": 19.9,
+    "delayMin": 0.0,
+    "congestionIndex": 0.002,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 62,
+    "timestamp": "2026-01-20 05:10:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 58.4,
+    "flowPCU": 593,
+    "occupancyPct": 22.5,
+    "delayMin": 0.0,
+    "congestionIndex": 0.003,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 63,
+    "timestamp": "2026-01-20 05:15:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 43.1,
+    "flowPCU": 660,
+    "occupancyPct": 24.5,
+    "delayMin": 0.01,
+    "congestionIndex": 0.005,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 64,
+    "timestamp": "2026-01-20 05:20:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 39.8,
+    "flowPCU": 646,
+    "occupancyPct": 24.5,
+    "delayMin": 0.01,
+    "congestionIndex": 0.005,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 65,
+    "timestamp": "2026-01-20 05:25:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 47.9,
+    "flowPCU": 513,
+    "occupancyPct": 18.8,
+    "delayMin": 0.0,
+    "congestionIndex": 0.002,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 66,
+    "timestamp": "2026-01-20 05:30:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 49.9,
+    "flowPCU": 535,
+    "occupancyPct": 19.9,
+    "delayMin": 0.01,
+    "congestionIndex": 0.002,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 67,
+    "timestamp": "2026-01-20 05:35:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 45.9,
+    "flowPCU": 521,
+    "occupancyPct": 20.5,
+    "delayMin": 0.0,
+    "congestionIndex": 0.002,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 68,
+    "timestamp": "2026-01-20 05:40:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 39.8,
+    "flowPCU": 660,
+    "occupancyPct": 25.1,
+    "delayMin": 0.01,
+    "congestionIndex": 0.005,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 69,
+    "timestamp": "2026-01-20 05:45:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 57.4,
+    "flowPCU": 579,
+    "occupancyPct": 23.2,
+    "delayMin": 0.01,
+    "congestionIndex": 0.004,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 70,
+    "timestamp": "2026-01-20 05:50:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 39.8,
+    "flowPCU": 754,
+    "occupancyPct": 48.5,
+    "delayMin": 0.01,
+    "congestionIndex": 0.006,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 71,
+    "timestamp": "2026-01-20 05:55:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 39.9,
+    "flowPCU": 561,
+    "occupancyPct": 22.1,
+    "delayMin": 0.0,
+    "congestionIndex": 0.002,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 72,
+    "timestamp": "2026-01-20 06:00:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 43.2,
+    "flowPCU": 634,
+    "occupancyPct": 24.1,
+    "delayMin": 0.01,
+    "congestionIndex": 0.004,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 73,
+    "timestamp": "2026-01-20 06:05:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 42.9,
+    "flowPCU": 879,
+    "occupancyPct": 30.7,
+    "delayMin": 0.02,
+    "congestionIndex": 0.009,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 74,
+    "timestamp": "2026-01-20 06:10:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 42.6,
+    "flowPCU": 896,
+    "occupancyPct": 32.7,
+    "delayMin": 0.03,
+    "congestionIndex": 0.018,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 75,
+    "timestamp": "2026-01-20 06:15:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 43.0,
+    "flowPCU": 845,
+    "occupancyPct": 29.7,
+    "delayMin": 0.02,
+    "congestionIndex": 0.009,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 76,
+    "timestamp": "2026-01-20 06:20:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 43.0,
+    "flowPCU": 757,
+    "occupancyPct": 27.9,
+    "delayMin": 0.01,
+    "congestionIndex": 0.009,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 77,
+    "timestamp": "2026-01-20 06:25:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 43.0,
+    "flowPCU": 788,
+    "occupancyPct": 28.3,
+    "delayMin": 0.02,
+    "congestionIndex": 0.009,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 78,
+    "timestamp": "2026-01-20 06:30:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 39.2,
+    "flowPCU": 1069,
+    "occupancyPct": 37.1,
+    "delayMin": 0.03,
+    "congestionIndex": 0.022,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 79,
+    "timestamp": "2026-01-20 06:35:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 45.6,
+    "flowPCU": 930,
+    "occupancyPct": 30.7,
+    "delayMin": 0.03,
+    "congestionIndex": 0.011,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 80,
+    "timestamp": "2026-01-20 06:40:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 43.6,
+    "flowPCU": 910,
+    "occupancyPct": 31.7,
+    "delayMin": 0.02,
+    "congestionIndex": 0.009,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 81,
+    "timestamp": "2026-01-20 06:45:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 43.6,
+    "flowPCU": 902,
+    "occupancyPct": 30.8,
+    "delayMin": 0.02,
+    "congestionIndex": 0.01,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 82,
+    "timestamp": "2026-01-20 06:50:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 43.0,
+    "flowPCU": 966,
+    "occupancyPct": 30.2,
+    "delayMin": 0.03,
+    "congestionIndex": 0.01,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 83,
+    "timestamp": "2026-01-20 06:55:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 42.7,
+    "flowPCU": 1029,
+    "occupancyPct": 34.5,
+    "delayMin": 0.03,
+    "congestionIndex": 0.016,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 84,
+    "timestamp": "2026-01-20 07:00:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 39.5,
+    "flowPCU": 973,
+    "occupancyPct": 33.3,
+    "delayMin": 0.03,
+    "congestionIndex": 0.013,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 85,
+    "timestamp": "2026-01-20 07:05:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 39.2,
+    "flowPCU": 1157,
+    "occupancyPct": 38.7,
+    "delayMin": 0.05,
+    "congestionIndex": 0.024,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 86,
+    "timestamp": "2026-01-20 07:10:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 45.2,
+    "flowPCU": 1036,
+    "occupancyPct": 35.3,
+    "delayMin": 0.02,
+    "congestionIndex": 0.017,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 87,
+    "timestamp": "2026-01-20 07:15:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 42.5,
+    "flowPCU": 1098,
+    "occupancyPct": 37.1,
+    "delayMin": 0.04,
+    "congestionIndex": 0.021,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 88,
+    "timestamp": "2026-01-20 07:20:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 44.4,
+    "flowPCU": 1139,
+    "occupancyPct": 39.4,
+    "delayMin": 0.06,
+    "congestionIndex": 0.038,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 89,
+    "timestamp": "2026-01-20 07:25:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 44.9,
+    "flowPCU": 1099,
+    "occupancyPct": 37.7,
+    "delayMin": 0.04,
+    "congestionIndex": 0.027,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 90,
+    "timestamp": "2026-01-20 07:30:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 38.4,
+    "flowPCU": 1225,
+    "occupancyPct": 41.6,
+    "delayMin": 0.06,
+    "congestionIndex": 0.04,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 91,
+    "timestamp": "2026-01-20 07:35:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 41.8,
+    "flowPCU": 1314,
+    "occupancyPct": 42.9,
+    "delayMin": 0.07,
+    "congestionIndex": 0.039,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 92,
+    "timestamp": "2026-01-20 07:40:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 45.2,
+    "flowPCU": 1269,
+    "occupancyPct": 41.6,
+    "delayMin": 0.06,
+    "congestionIndex": 0.035,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 93,
+    "timestamp": "2026-01-20 07:45:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 44.8,
+    "flowPCU": 1170,
+    "occupancyPct": 40.4,
+    "delayMin": 0.05,
+    "congestionIndex": 0.031,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 94,
+    "timestamp": "2026-01-20 07:50:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 41.5,
+    "flowPCU": 1239,
+    "occupancyPct": 41.5,
+    "delayMin": 0.08,
+    "congestionIndex": 0.047,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 95,
+    "timestamp": "2026-01-20 07:55:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 44.5,
+    "flowPCU": 1245,
+    "occupancyPct": 40.5,
+    "delayMin": 0.05,
+    "congestionIndex": 0.028,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 96,
+    "timestamp": "2026-01-20 08:00:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 46.4,
+    "flowPCU": 1375,
+    "occupancyPct": 40.1,
+    "delayMin": 0.05,
+    "congestionIndex": 0.024,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 97,
+    "timestamp": "2026-01-20 08:05:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 38.4,
+    "flowPCU": 1320,
+    "occupancyPct": 43.8,
+    "delayMin": 0.07,
+    "congestionIndex": 0.04,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 98,
+    "timestamp": "2026-01-20 08:10:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 42.2,
+    "flowPCU": 1395,
+    "occupancyPct": 45.5,
+    "delayMin": 0.08,
+    "congestionIndex": 0.043,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 99,
+    "timestamp": "2026-01-20 08:15:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 43.0,
+    "flowPCU": 1205,
+    "occupancyPct": 38.6,
+    "delayMin": 0.05,
+    "congestionIndex": 0.024,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 100,
+    "timestamp": "2026-01-20 08:20:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 43.1,
+    "flowPCU": 1207,
+    "occupancyPct": 38.5,
+    "delayMin": 0.05,
+    "congestionIndex": 0.021,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 101,
+    "timestamp": "2026-01-20 08:25:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 42.1,
+    "flowPCU": 1489,
+    "occupancyPct": 42.8,
+    "delayMin": 0.06,
+    "congestionIndex": 0.029,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 102,
+    "timestamp": "2026-01-20 08:30:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 46.7,
+    "flowPCU": 1225,
+    "occupancyPct": 61.6,
+    "delayMin": 0.03,
+    "congestionIndex": 0.017,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 103,
+    "timestamp": "2026-01-20 08:35:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 41.4,
+    "flowPCU": 1452,
+    "occupancyPct": 46.7,
+    "delayMin": 0.08,
+    "congestionIndex": 0.048,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 104,
+    "timestamp": "2026-01-20 08:40:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 41.9,
+    "flowPCU": 1288,
+    "occupancyPct": 36.1,
+    "delayMin": 0.07,
+    "congestionIndex": 0.037,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 105,
+    "timestamp": "2026-01-20 08:45:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 41.2,
+    "flowPCU": 1507,
+    "occupancyPct": 48.2,
+    "delayMin": 0.09,
+    "congestionIndex": 0.051,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 106,
+    "timestamp": "2026-01-20 08:50:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 55.5,
+    "flowPCU": 1961,
+    "occupancyPct": 47.4,
+    "delayMin": 0.1,
+    "congestionIndex": 0.051,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 26,
+      "busPct": 14
+    }
+  },
+  {
+    "packetIndex": 107,
+    "timestamp": "2026-01-20 08:55:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 41.6,
+    "flowPCU": 1422,
+    "occupancyPct": 45.8,
+    "delayMin": 0.09,
+    "congestionIndex": 0.045,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 108,
+    "timestamp": "2026-01-20 09:00:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 38.1,
+    "flowPCU": 1374,
+    "occupancyPct": 45.6,
+    "delayMin": 0.09,
+    "congestionIndex": 0.049,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 109,
+    "timestamp": "2026-01-20 09:05:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 42.1,
+    "flowPCU": 1301,
+    "occupancyPct": 42.3,
+    "delayMin": 0.05,
+    "congestionIndex": 0.03,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 110,
+    "timestamp": "2026-01-20 09:10:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 41.4,
+    "flowPCU": 1441,
+    "occupancyPct": 45.9,
+    "delayMin": 0.09,
+    "congestionIndex": 0.047,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 111,
+    "timestamp": "2026-01-20 09:15:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 41.3,
+    "flowPCU": 1326,
+    "occupancyPct": 41.7,
+    "delayMin": 0.06,
+    "congestionIndex": 0.031,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 112,
+    "timestamp": "2026-01-20 09:20:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 41.9,
+    "flowPCU": 1730,
+    "occupancyPct": 45.0,
+    "delayMin": 0.08,
+    "congestionIndex": 0.037,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 113,
+    "timestamp": "2026-01-20 09:25:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 39.9,
+    "flowPCU": 1560,
+    "occupancyPct": 55.1,
+    "delayMin": 0.14,
+    "congestionIndex": 0.088,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 114,
+    "timestamp": "2026-01-20 09:30:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 39.0,
+    "flowPCU": 1288,
+    "occupancyPct": 40.5,
+    "delayMin": 0.06,
+    "congestionIndex": 0.025,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 115,
+    "timestamp": "2026-01-20 09:35:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 42.2,
+    "flowPCU": 1193,
+    "occupancyPct": 38.1,
+    "delayMin": 0.06,
+    "congestionIndex": 0.03,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 116,
+    "timestamp": "2026-01-20 09:40:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 38.4,
+    "flowPCU": 1307,
+    "occupancyPct": 43.0,
+    "delayMin": 0.06,
+    "congestionIndex": 0.038,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 117,
+    "timestamp": "2026-01-20 09:45:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 42.1,
+    "flowPCU": 1135,
+    "occupancyPct": 38.8,
+    "delayMin": 0.05,
+    "congestionIndex": 0.031,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 118,
+    "timestamp": "2026-01-20 09:50:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 60.4,
+    "flowPCU": 1221,
+    "occupancyPct": 39.5,
+    "delayMin": 0.05,
+    "congestionIndex": 0.032,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 119,
+    "timestamp": "2026-01-20 09:55:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 43.2,
+    "flowPCU": 1153,
+    "occupancyPct": 37.2,
+    "delayMin": 0.04,
+    "congestionIndex": 0.018,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 120,
+    "timestamp": "2026-01-20 10:00:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 41.6,
+    "flowPCU": 1244,
+    "occupancyPct": 40.8,
+    "delayMin": 0.05,
+    "congestionIndex": 0.032,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 121,
+    "timestamp": "2026-01-20 10:05:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 43.8,
+    "flowPCU": 1215,
+    "occupancyPct": 39.9,
+    "delayMin": 0.04,
+    "congestionIndex": 0.029,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 122,
+    "timestamp": "2026-01-20 10:10:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 34.3,
+    "flowPCU": 1060,
+    "occupancyPct": 36.9,
+    "delayMin": 0.04,
+    "congestionIndex": 0.02,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 123,
+    "timestamp": "2026-01-20 10:15:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 39.3,
+    "flowPCU": 1042,
+    "occupancyPct": 37.3,
+    "delayMin": 0.04,
+    "congestionIndex": 0.02,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 124,
+    "timestamp": "2026-01-20 10:20:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 42.0,
+    "flowPCU": 1087,
+    "occupancyPct": 37.6,
+    "delayMin": 0.05,
+    "congestionIndex": 0.034,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 125,
+    "timestamp": "2026-01-20 10:25:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 42.2,
+    "flowPCU": 1139,
+    "occupancyPct": 38.2,
+    "delayMin": 0.05,
+    "congestionIndex": 0.03,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 126,
+    "timestamp": "2026-01-20 10:30:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 42.4,
+    "flowPCU": 1101,
+    "occupancyPct": 36.7,
+    "delayMin": 0.04,
+    "congestionIndex": 0.023,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 127,
+    "timestamp": "2026-01-20 10:35:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 38.3,
+    "flowPCU": 1079,
+    "occupancyPct": 37.8,
+    "delayMin": 0.07,
+    "congestionIndex": 0.043,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 128,
+    "timestamp": "2026-01-20 10:40:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 62.9,
+    "flowPCU": 1134,
+    "occupancyPct": 37.9,
+    "delayMin": 0.03,
+    "congestionIndex": 0.019,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 129,
+    "timestamp": "2026-01-20 10:45:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 42.5,
+    "flowPCU": 1062,
+    "occupancyPct": 36.0,
+    "delayMin": 0.05,
+    "congestionIndex": 0.021,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 130,
+    "timestamp": "2026-01-20 10:50:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 43.0,
+    "flowPCU": 943,
+    "occupancyPct": 29.7,
+    "delayMin": 0.01,
+    "congestionIndex": 0.008,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 131,
+    "timestamp": "2026-01-20 10:55:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 47.1,
+    "flowPCU": 851,
+    "occupancyPct": 30.7,
+    "delayMin": 0.02,
+    "congestionIndex": 0.012,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 132,
+    "timestamp": "2026-01-20 11:00:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 39.4,
+    "flowPCU": 909,
+    "occupancyPct": 38.9,
+    "delayMin": 0.02,
+    "congestionIndex": 0.014,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 133,
+    "timestamp": "2026-01-20 11:05:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 47.2,
+    "flowPCU": 814,
+    "occupancyPct": 32.3,
+    "delayMin": 0.02,
+    "congestionIndex": 0.009,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 134,
+    "timestamp": "2026-01-20 11:10:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 41.7,
+    "flowPCU": 959,
+    "occupancyPct": 35.4,
+    "delayMin": 0.03,
+    "congestionIndex": 0.022,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 135,
+    "timestamp": "2026-01-20 11:15:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 42.6,
+    "flowPCU": 983,
+    "occupancyPct": 33.1,
+    "delayMin": 0.03,
+    "congestionIndex": 0.018,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 136,
+    "timestamp": "2026-01-20 11:20:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 42.6,
+    "flowPCU": 868,
+    "occupancyPct": 31.5,
+    "delayMin": 0.03,
+    "congestionIndex": 0.018,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 137,
+    "timestamp": "2026-01-20 11:25:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 43.7,
+    "flowPCU": 762,
+    "occupancyPct": 28.6,
+    "delayMin": 0.02,
+    "congestionIndex": 0.009,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 138,
+    "timestamp": "2026-01-20 11:30:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 45.6,
+    "flowPCU": 810,
+    "occupancyPct": 29.7,
+    "delayMin": 0.01,
+    "congestionIndex": 0.009,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 139,
+    "timestamp": "2026-01-20 11:35:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 42.8,
+    "flowPCU": 870,
+    "occupancyPct": 40.4,
+    "delayMin": 0.02,
+    "congestionIndex": 0.014,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 140,
+    "timestamp": "2026-01-20 11:40:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 42.0,
+    "flowPCU": 926,
+    "occupancyPct": 31.5,
+    "delayMin": 0.02,
+    "congestionIndex": 0.013,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 141,
+    "timestamp": "2026-01-20 11:45:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 42.9,
+    "flowPCU": 1093,
+    "occupancyPct": 29.6,
+    "delayMin": 0.02,
+    "congestionIndex": 0.012,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 142,
+    "timestamp": "2026-01-20 11:50:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 42.7,
+    "flowPCU": 928,
+    "occupancyPct": 32.2,
+    "delayMin": 0.02,
+    "congestionIndex": 0.015,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 143,
+    "timestamp": "2026-01-20 11:55:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 43.0,
+    "flowPCU": 820,
+    "occupancyPct": 28.8,
+    "delayMin": 0.01,
+    "congestionIndex": 0.008,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 144,
+    "timestamp": "2026-01-20 12:00:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 39.6,
+    "flowPCU": 838,
+    "occupancyPct": 38.4,
+    "delayMin": 0.02,
+    "congestionIndex": 0.01,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 145,
+    "timestamp": "2026-01-20 12:05:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 42.8,
+    "flowPCU": 763,
+    "occupancyPct": 28.6,
+    "delayMin": 0.02,
+    "congestionIndex": 0.014,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 146,
+    "timestamp": "2026-01-20 12:10:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 32.8,
+    "flowPCU": 943,
+    "occupancyPct": 33.8,
+    "delayMin": 0.03,
+    "congestionIndex": 0.016,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 147,
+    "timestamp": "2026-01-20 12:15:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 43.7,
+    "flowPCU": 866,
+    "occupancyPct": 46.6,
+    "delayMin": 0.02,
+    "congestionIndex": 0.008,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 148,
+    "timestamp": "2026-01-20 12:20:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 44.5,
+    "flowPCU": 995,
+    "occupancyPct": 33.6,
+    "delayMin": 0.04,
+    "congestionIndex": 0.014,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 149,
+    "timestamp": "2026-01-20 12:25:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 45.3,
+    "flowPCU": 943,
+    "occupancyPct": 31.9,
+    "delayMin": 0.03,
+    "congestionIndex": 0.018,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 150,
+    "timestamp": "2026-01-20 12:30:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 43.1,
+    "flowPCU": 691,
+    "occupancyPct": 25.4,
+    "delayMin": 0.01,
+    "congestionIndex": 0.005,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 151,
+    "timestamp": "2026-01-20 12:35:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 39.5,
+    "flowPCU": 830,
+    "occupancyPct": 30.2,
+    "delayMin": 0.02,
+    "congestionIndex": 0.012,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 152,
+    "timestamp": "2026-01-20 12:40:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 43.6,
+    "flowPCU": 913,
+    "occupancyPct": 31.8,
+    "delayMin": 0.02,
+    "congestionIndex": 0.009,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 153,
+    "timestamp": "2026-01-20 12:45:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 42.8,
+    "flowPCU": 871,
+    "occupancyPct": 31.0,
+    "delayMin": 0.02,
+    "congestionIndex": 0.013,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 154,
+    "timestamp": "2026-01-20 12:50:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 43.1,
+    "flowPCU": 729,
+    "occupancyPct": 27.0,
+    "delayMin": 0.01,
+    "congestionIndex": 0.006,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 155,
+    "timestamp": "2026-01-20 12:55:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 42.5,
+    "flowPCU": 971,
+    "occupancyPct": 33.7,
+    "delayMin": 0.04,
+    "congestionIndex": 0.02,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 156,
+    "timestamp": "2026-01-20 13:00:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 39.0,
+    "flowPCU": 1041,
+    "occupancyPct": 37.4,
+    "delayMin": 0.04,
+    "congestionIndex": 0.025,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 157,
+    "timestamp": "2026-01-20 13:05:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 42.7,
+    "flowPCU": 1014,
+    "occupancyPct": 30.8,
+    "delayMin": 0.02,
+    "congestionIndex": 0.015,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 158,
+    "timestamp": "2026-01-20 13:10:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 43.7,
+    "flowPCU": 815,
+    "occupancyPct": 29.8,
+    "delayMin": 0.02,
+    "congestionIndex": 0.009,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 159,
+    "timestamp": "2026-01-20 13:15:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 42.6,
+    "flowPCU": 757,
+    "occupancyPct": 26.9,
+    "delayMin": 0.01,
+    "congestionIndex": 0.006,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 160,
+    "timestamp": "2026-01-20 13:20:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 42.9,
+    "flowPCU": 734,
+    "occupancyPct": 27.2,
+    "delayMin": 0.02,
+    "congestionIndex": 0.011,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 161,
+    "timestamp": "2026-01-20 13:25:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 43.1,
+    "flowPCU": 781,
+    "occupancyPct": 34.9,
+    "delayMin": 0.01,
+    "congestionIndex": 0.007,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 162,
+    "timestamp": "2026-01-20 13:30:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 42.9,
+    "flowPCU": 932,
+    "occupancyPct": 32.4,
+    "delayMin": 0.03,
+    "congestionIndex": 0.013,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 163,
+    "timestamp": "2026-01-20 13:35:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 42.8,
+    "flowPCU": 880,
+    "occupancyPct": 31.4,
+    "delayMin": 0.02,
+    "congestionIndex": 0.013,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 164,
+    "timestamp": "2026-01-20 13:40:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 42.8,
+    "flowPCU": 956,
+    "occupancyPct": 32.9,
+    "delayMin": 0.02,
+    "congestionIndex": 0.013,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 165,
+    "timestamp": "2026-01-20 13:45:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 43.0,
+    "flowPCU": 831,
+    "occupancyPct": 29.7,
+    "delayMin": 0.01,
+    "congestionIndex": 0.009,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 166,
+    "timestamp": "2026-01-20 13:50:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 43.7,
+    "flowPCU": 837,
+    "occupancyPct": 28.7,
+    "delayMin": 0.02,
+    "congestionIndex": 0.007,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 167,
+    "timestamp": "2026-01-20 13:55:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 32.6,
+    "flowPCU": 1026,
+    "occupancyPct": 37.1,
+    "delayMin": 0.04,
+    "congestionIndex": 0.02,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 168,
+    "timestamp": "2026-01-20 14:00:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 39.5,
+    "flowPCU": 943,
+    "occupancyPct": 34.7,
+    "delayMin": 0.03,
+    "congestionIndex": 0.013,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 169,
+    "timestamp": "2026-01-20 14:05:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 43.0,
+    "flowPCU": 1406,
+    "occupancyPct": 35.9,
+    "delayMin": 0.05,
+    "congestionIndex": 0.023,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 170,
+    "timestamp": "2026-01-20 14:10:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 39.6,
+    "flowPCU": 769,
+    "occupancyPct": 29.5,
+    "delayMin": 0.02,
+    "congestionIndex": 0.012,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 171,
+    "timestamp": "2026-01-20 14:15:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 47.2,
+    "flowPCU": 867,
+    "occupancyPct": 27.9,
+    "delayMin": 0.01,
+    "congestionIndex": 0.006,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 172,
+    "timestamp": "2026-01-20 14:20:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 43.5,
+    "flowPCU": 928,
+    "occupancyPct": 50.4,
+    "delayMin": 0.03,
+    "congestionIndex": 0.012,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 173,
+    "timestamp": "2026-01-20 14:25:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 51.7,
+    "flowPCU": 880,
+    "occupancyPct": 32.0,
+    "delayMin": 0.02,
+    "congestionIndex": 0.013,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 174,
+    "timestamp": "2026-01-20 14:30:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 59.4,
+    "flowPCU": 890,
+    "occupancyPct": 31.9,
+    "delayMin": 0.02,
+    "congestionIndex": 0.013,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 175,
+    "timestamp": "2026-01-20 14:35:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 45.0,
+    "flowPCU": 1021,
+    "occupancyPct": 34.1,
+    "delayMin": 0.04,
+    "congestionIndex": 0.024,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 176,
+    "timestamp": "2026-01-20 14:40:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 43.6,
+    "flowPCU": 892,
+    "occupancyPct": 30.0,
+    "delayMin": 0.02,
+    "congestionIndex": 0.009,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 177,
+    "timestamp": "2026-01-20 14:45:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 42.8,
+    "flowPCU": 942,
+    "occupancyPct": 32.0,
+    "delayMin": 0.03,
+    "congestionIndex": 0.015,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 178,
+    "timestamp": "2026-01-20 14:50:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 38.7,
+    "flowPCU": 1077,
+    "occupancyPct": 37.4,
+    "delayMin": 0.05,
+    "congestionIndex": 0.033,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 179,
+    "timestamp": "2026-01-20 14:55:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 39.2,
+    "flowPCU": 1106,
+    "occupancyPct": 37.9,
+    "delayMin": 0.04,
+    "congestionIndex": 0.021,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 180,
+    "timestamp": "2026-01-20 15:00:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 42.8,
+    "flowPCU": 899,
+    "occupancyPct": 31.8,
+    "delayMin": 0.02,
+    "congestionIndex": 0.013,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 181,
+    "timestamp": "2026-01-20 15:05:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 36.6,
+    "flowPCU": 1175,
+    "occupancyPct": 38.0,
+    "delayMin": 0.06,
+    "congestionIndex": 0.024,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 182,
+    "timestamp": "2026-01-20 15:10:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 39.1,
+    "flowPCU": 1099,
+    "occupancyPct": 38.6,
+    "delayMin": 0.05,
+    "congestionIndex": 0.024,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 183,
+    "timestamp": "2026-01-20 15:15:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 41.5,
+    "flowPCU": 1070,
+    "occupancyPct": 38.3,
+    "delayMin": 0.04,
+    "congestionIndex": 0.026,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 184,
+    "timestamp": "2026-01-20 15:20:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 38.9,
+    "flowPCU": 1187,
+    "occupancyPct": 41.5,
+    "delayMin": 0.07,
+    "congestionIndex": 0.033,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 185,
+    "timestamp": "2026-01-20 15:25:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 44.8,
+    "flowPCU": 1202,
+    "occupancyPct": 40.3,
+    "delayMin": 0.04,
+    "congestionIndex": 0.026,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 186,
+    "timestamp": "2026-01-20 15:30:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 42.1,
+    "flowPCU": 1204,
+    "occupancyPct": 40.6,
+    "delayMin": 0.05,
+    "congestionIndex": 0.029,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 187,
+    "timestamp": "2026-01-20 15:35:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 42.5,
+    "flowPCU": 1100,
+    "occupancyPct": 37.0,
+    "delayMin": 0.05,
+    "congestionIndex": 0.023,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 188,
+    "timestamp": "2026-01-20 15:40:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 41.7,
+    "flowPCU": 1338,
+    "occupancyPct": 43.7,
+    "delayMin": 0.08,
+    "congestionIndex": 0.042,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 189,
+    "timestamp": "2026-01-20 15:45:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 42.1,
+    "flowPCU": 1224,
+    "occupancyPct": 40.0,
+    "delayMin": 0.07,
+    "congestionIndex": 0.031,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 190,
+    "timestamp": "2026-01-20 15:50:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 44.7,
+    "flowPCU": 1273,
+    "occupancyPct": 42.3,
+    "delayMin": 0.05,
+    "congestionIndex": 0.03,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 191,
+    "timestamp": "2026-01-20 15:55:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 42.0,
+    "flowPCU": 1457,
+    "occupancyPct": 47.4,
+    "delayMin": 0.09,
+    "congestionIndex": 0.05,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 192,
+    "timestamp": "2026-01-20 16:00:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 37.9,
+    "flowPCU": 1444,
+    "occupancyPct": 47.5,
+    "delayMin": 0.09,
+    "congestionIndex": 0.05,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 193,
+    "timestamp": "2026-01-20 16:05:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 42.1,
+    "flowPCU": 1225,
+    "occupancyPct": 40.2,
+    "delayMin": 0.05,
+    "congestionIndex": 0.029,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 194,
+    "timestamp": "2026-01-20 16:10:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 38.2,
+    "flowPCU": 1381,
+    "occupancyPct": 46.1,
+    "delayMin": 0.09,
+    "congestionIndex": 0.049,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 195,
+    "timestamp": "2026-01-20 16:15:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 43.7,
+    "flowPCU": 1299,
+    "occupancyPct": 42.3,
+    "delayMin": 0.06,
+    "congestionIndex": 0.033,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 196,
+    "timestamp": "2026-01-20 16:20:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 38.8,
+    "flowPCU": 1374,
+    "occupancyPct": 43.6,
+    "delayMin": 0.09,
+    "congestionIndex": 0.034,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 197,
+    "timestamp": "2026-01-20 16:25:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 41.7,
+    "flowPCU": 1412,
+    "occupancyPct": 45.7,
+    "delayMin": 0.08,
+    "congestionIndex": 0.042,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 198,
+    "timestamp": "2026-01-20 16:30:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 43.0,
+    "flowPCU": 1197,
+    "occupancyPct": 39.0,
+    "delayMin": 0.05,
+    "congestionIndex": 0.025,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 199,
+    "timestamp": "2026-01-20 16:35:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 40.8,
+    "flowPCU": 1582,
+    "occupancyPct": 50.0,
+    "delayMin": 0.11,
+    "congestionIndex": 0.061,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 200,
+    "timestamp": "2026-01-20 16:40:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 57.3,
+    "flowPCU": 1273,
+    "occupancyPct": 42.1,
+    "delayMin": 0.06,
+    "congestionIndex": 0.033,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 201,
+    "timestamp": "2026-01-20 16:45:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 41.1,
+    "flowPCU": 1498,
+    "occupancyPct": 47.8,
+    "delayMin": 0.1,
+    "congestionIndex": 0.055,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 202,
+    "timestamp": "2026-01-20 16:50:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 41.4,
+    "flowPCU": 1608,
+    "occupancyPct": 51.7,
+    "delayMin": 0.15,
+    "congestionIndex": 0.07,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 203,
+    "timestamp": "2026-01-20 16:55:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 41.1,
+    "flowPCU": 1506,
+    "occupancyPct": 48.2,
+    "delayMin": 0.1,
+    "congestionIndex": 0.055,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 204,
+    "timestamp": "2026-01-20 17:00:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 37.7,
+    "flowPCU": 1605,
+    "occupancyPct": 51.2,
+    "delayMin": 0.13,
+    "congestionIndex": 0.061,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 205,
+    "timestamp": "2026-01-20 17:05:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 40.6,
+    "flowPCU": 1673,
+    "occupancyPct": 52.3,
+    "delayMin": 0.13,
+    "congestionIndex": 0.068,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 206,
+    "timestamp": "2026-01-20 17:10:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 74.1,
+    "flowPCU": 1337,
+    "occupancyPct": 42.0,
+    "delayMin": 0.06,
+    "congestionIndex": 0.029,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 207,
+    "timestamp": "2026-01-20 17:15:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 37.5,
+    "flowPCU": 1649,
+    "occupancyPct": 52.6,
+    "delayMin": 0.13,
+    "congestionIndex": 0.064,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 208,
+    "timestamp": "2026-01-20 17:20:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 45.8,
+    "flowPCU": 1400,
+    "occupancyPct": 45.4,
+    "delayMin": 0.08,
+    "congestionIndex": 0.043,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 209,
+    "timestamp": "2026-01-20 17:25:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 63.4,
+    "flowPCU": 1585,
+    "occupancyPct": 52.1,
+    "delayMin": 0.11,
+    "congestionIndex": 0.065,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 210,
+    "timestamp": "2026-01-20 17:30:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 40.6,
+    "flowPCU": 1618,
+    "occupancyPct": 51.5,
+    "delayMin": 0.12,
+    "congestionIndex": 0.067,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 211,
+    "timestamp": "2026-01-20 17:35:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 42.2,
+    "flowPCU": 1442,
+    "occupancyPct": 41.3,
+    "delayMin": 0.08,
+    "congestionIndex": 0.029,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 212,
+    "timestamp": "2026-01-20 17:40:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 40.9,
+    "flowPCU": 1598,
+    "occupancyPct": 51.0,
+    "delayMin": 0.12,
+    "congestionIndex": 0.063,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 213,
+    "timestamp": "2026-01-20 17:45:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 37.8,
+    "flowPCU": 1568,
+    "occupancyPct": 50.4,
+    "delayMin": 0.12,
+    "congestionIndex": 0.058,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 214,
+    "timestamp": "2026-01-20 17:50:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 38.2,
+    "flowPCU": 1538,
+    "occupancyPct": 47.3,
+    "delayMin": 0.12,
+    "congestionIndex": 0.045,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 215,
+    "timestamp": "2026-01-20 17:55:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 42.6,
+    "flowPCU": 1713,
+    "occupancyPct": 55.0,
+    "delayMin": 0.13,
+    "congestionIndex": 0.08,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 216,
+    "timestamp": "2026-01-20 18:00:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 41.6,
+    "flowPCU": 1728,
+    "occupancyPct": 55.2,
+    "delayMin": 0.15,
+    "congestionIndex": 0.061,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 217,
+    "timestamp": "2026-01-20 18:05:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 39.7,
+    "flowPCU": 1749,
+    "occupancyPct": 54.6,
+    "delayMin": 0.17,
+    "congestionIndex": 0.086,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 218,
+    "timestamp": "2026-01-20 18:10:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 43.4,
+    "flowPCU": 1632,
+    "occupancyPct": 66.0,
+    "delayMin": 0.12,
+    "congestionIndex": 0.062,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 219,
+    "timestamp": "2026-01-20 18:15:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 40.7,
+    "flowPCU": 1646,
+    "occupancyPct": 51.6,
+    "delayMin": 0.13,
+    "congestionIndex": 0.064,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 220,
+    "timestamp": "2026-01-20 18:20:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 43.7,
+    "flowPCU": 1403,
+    "occupancyPct": 46.6,
+    "delayMin": 0.07,
+    "congestionIndex": 0.046,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 221,
+    "timestamp": "2026-01-20 18:25:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 41.6,
+    "flowPCU": 1607,
+    "occupancyPct": 76.2,
+    "delayMin": 0.13,
+    "congestionIndex": 0.061,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 222,
+    "timestamp": "2026-01-20 18:30:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 58.4,
+    "flowPCU": 1478,
+    "occupancyPct": 45.3,
+    "delayMin": 0.07,
+    "congestionIndex": 0.036,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 223,
+    "timestamp": "2026-01-20 18:35:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 41.0,
+    "flowPCU": 1543,
+    "occupancyPct": 51.1,
+    "delayMin": 0.12,
+    "congestionIndex": 0.06,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 224,
+    "timestamp": "2026-01-20 18:40:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 40.4,
+    "flowPCU": 1520,
+    "occupancyPct": 50.5,
+    "delayMin": 0.08,
+    "congestionIndex": 0.053,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 225,
+    "timestamp": "2026-01-20 18:45:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 38.2,
+    "flowPCU": 1545,
+    "occupancyPct": 55.3,
+    "delayMin": 0.14,
+    "congestionIndex": 0.053,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 226,
+    "timestamp": "2026-01-20 18:50:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 40.9,
+    "flowPCU": 1625,
+    "occupancyPct": 51.0,
+    "delayMin": 0.11,
+    "congestionIndex": 0.06,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 227,
+    "timestamp": "2026-01-20 18:55:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 40.6,
+    "flowPCU": 1501,
+    "occupancyPct": 50.7,
+    "delayMin": 0.12,
+    "congestionIndex": 0.066,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 228,
+    "timestamp": "2026-01-20 19:00:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 40.6,
+    "flowPCU": 1388,
+    "occupancyPct": 46.7,
+    "delayMin": 0.07,
+    "congestionIndex": 0.046,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 229,
+    "timestamp": "2026-01-20 19:05:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 42.6,
+    "flowPCU": 1413,
+    "occupancyPct": 44.2,
+    "delayMin": 0.06,
+    "congestionIndex": 0.035,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 230,
+    "timestamp": "2026-01-20 19:10:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 41.6,
+    "flowPCU": 1344,
+    "occupancyPct": 43.4,
+    "delayMin": 0.09,
+    "congestionIndex": 0.045,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 231,
+    "timestamp": "2026-01-20 19:15:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 38.3,
+    "flowPCU": 1417,
+    "occupancyPct": 46.4,
+    "delayMin": 0.08,
+    "congestionIndex": 0.046,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 232,
+    "timestamp": "2026-01-20 19:20:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 51.3,
+    "flowPCU": 1328,
+    "occupancyPct": 45.0,
+    "delayMin": 0.07,
+    "congestionIndex": 0.042,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 233,
+    "timestamp": "2026-01-20 19:25:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 37.9,
+    "flowPCU": 1448,
+    "occupancyPct": 48.6,
+    "delayMin": 0.11,
+    "congestionIndex": 0.057,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 234,
+    "timestamp": "2026-01-20 19:30:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 42.2,
+    "flowPCU": 1216,
+    "occupancyPct": 40.0,
+    "delayMin": 0.05,
+    "congestionIndex": 0.029,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 235,
+    "timestamp": "2026-01-20 19:35:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 41.8,
+    "flowPCU": 1380,
+    "occupancyPct": 46.4,
+    "delayMin": 0.07,
+    "congestionIndex": 0.036,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 236,
+    "timestamp": "2026-01-20 19:40:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 44.9,
+    "flowPCU": 1177,
+    "occupancyPct": 39.9,
+    "delayMin": 0.04,
+    "congestionIndex": 0.026,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 237,
+    "timestamp": "2026-01-20 19:45:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 42.5,
+    "flowPCU": 1087,
+    "occupancyPct": 36.9,
+    "delayMin": 0.03,
+    "congestionIndex": 0.021,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 238,
+    "timestamp": "2026-01-20 19:50:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 42.2,
+    "flowPCU": 1100,
+    "occupancyPct": 39.9,
+    "delayMin": 0.04,
+    "congestionIndex": 0.028,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 239,
+    "timestamp": "2026-01-20 19:55:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 41.4,
+    "flowPCU": 1325,
+    "occupancyPct": 41.3,
+    "delayMin": 0.06,
+    "congestionIndex": 0.028,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 240,
+    "timestamp": "2026-01-20 20:00:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 42.5,
+    "flowPCU": 1108,
+    "occupancyPct": 37.5,
+    "delayMin": 0.04,
+    "congestionIndex": 0.022,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 241,
+    "timestamp": "2026-01-20 20:05:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 46.9,
+    "flowPCU": 950,
+    "occupancyPct": 33.2,
+    "delayMin": 0.03,
+    "congestionIndex": 0.015,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 242,
+    "timestamp": "2026-01-20 20:10:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 42.4,
+    "flowPCU": 1081,
+    "occupancyPct": 36.7,
+    "delayMin": 0.04,
+    "congestionIndex": 0.023,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 243,
+    "timestamp": "2026-01-20 20:15:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 42.7,
+    "flowPCU": 1307,
+    "occupancyPct": 44.4,
+    "delayMin": 0.03,
+    "congestionIndex": 0.016,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 244,
+    "timestamp": "2026-01-20 20:20:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 43.3,
+    "flowPCU": 996,
+    "occupancyPct": 34.9,
+    "delayMin": 0.03,
+    "congestionIndex": 0.017,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 245,
+    "timestamp": "2026-01-20 20:25:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 47.0,
+    "flowPCU": 865,
+    "occupancyPct": 32.1,
+    "delayMin": 0.02,
+    "congestionIndex": 0.012,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 246,
+    "timestamp": "2026-01-20 20:30:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 45.1,
+    "flowPCU": 1104,
+    "occupancyPct": 35.8,
+    "delayMin": 0.04,
+    "congestionIndex": 0.021,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 247,
+    "timestamp": "2026-01-20 20:35:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 43.2,
+    "flowPCU": 1000,
+    "occupancyPct": 34.8,
+    "delayMin": 0.04,
+    "congestionIndex": 0.021,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 248,
+    "timestamp": "2026-01-20 20:40:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 41.6,
+    "flowPCU": 985,
+    "occupancyPct": 35.4,
+    "delayMin": 0.03,
+    "congestionIndex": 0.021,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 249,
+    "timestamp": "2026-01-20 20:45:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 45.4,
+    "flowPCU": 886,
+    "occupancyPct": 31.9,
+    "delayMin": 0.02,
+    "congestionIndex": 0.015,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 250,
+    "timestamp": "2026-01-20 20:50:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 42.1,
+    "flowPCU": 891,
+    "occupancyPct": 30.5,
+    "delayMin": 0.02,
+    "congestionIndex": 0.01,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 251,
+    "timestamp": "2026-01-20 20:55:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 43.0,
+    "flowPCU": 805,
+    "occupancyPct": 28.6,
+    "delayMin": 0.03,
+    "congestionIndex": 0.01,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 252,
+    "timestamp": "2026-01-20 21:00:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 45.7,
+    "flowPCU": 741,
+    "occupancyPct": 27.4,
+    "delayMin": 0.01,
+    "congestionIndex": 0.006,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 253,
+    "timestamp": "2026-01-20 21:05:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 42.1,
+    "flowPCU": 845,
+    "occupancyPct": 29.2,
+    "delayMin": 0.02,
+    "congestionIndex": 0.009,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 254,
+    "timestamp": "2026-01-20 21:10:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 39.8,
+    "flowPCU": 623,
+    "occupancyPct": 22.9,
+    "delayMin": 0.01,
+    "congestionIndex": 0.005,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 255,
+    "timestamp": "2026-01-20 21:15:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 39.8,
+    "flowPCU": 684,
+    "occupancyPct": 26.0,
+    "delayMin": 0.01,
+    "congestionIndex": 0.005,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 256,
+    "timestamp": "2026-01-20 21:20:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 42.3,
+    "flowPCU": 635,
+    "occupancyPct": 25.1,
+    "delayMin": 0.01,
+    "congestionIndex": 0.005,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 257,
+    "timestamp": "2026-01-20 21:25:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 43.1,
+    "flowPCU": 621,
+    "occupancyPct": 24.5,
+    "delayMin": 0.01,
+    "congestionIndex": 0.007,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 258,
+    "timestamp": "2026-01-20 21:30:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 43.8,
+    "flowPCU": 751,
+    "occupancyPct": 26.6,
+    "delayMin": 0.01,
+    "congestionIndex": 0.005,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 259,
+    "timestamp": "2026-01-20 21:35:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 39.7,
+    "flowPCU": 729,
+    "occupancyPct": 26.6,
+    "delayMin": 0.01,
+    "congestionIndex": 0.006,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 260,
+    "timestamp": "2026-01-20 21:40:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 49.8,
+    "flowPCU": 608,
+    "occupancyPct": 22.6,
+    "delayMin": 0.0,
+    "congestionIndex": 0.003,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 261,
+    "timestamp": "2026-01-20 21:45:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 43.1,
+    "flowPCU": 699,
+    "occupancyPct": 26.4,
+    "delayMin": 0.01,
+    "congestionIndex": 0.006,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 262,
+    "timestamp": "2026-01-20 21:50:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 39.8,
+    "flowPCU": 904,
+    "occupancyPct": 25.3,
+    "delayMin": 0.01,
+    "congestionIndex": 0.005,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 263,
+    "timestamp": "2026-01-20 21:55:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 45.8,
+    "flowPCU": 622,
+    "occupancyPct": 23.7,
+    "delayMin": 0.01,
+    "congestionIndex": 0.005,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 264,
+    "timestamp": "2026-01-20 22:00:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 39.7,
+    "flowPCU": 696,
+    "occupancyPct": 27.0,
+    "delayMin": 0.01,
+    "congestionIndex": 0.008,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 265,
+    "timestamp": "2026-01-20 22:05:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 39.8,
+    "flowPCU": 571,
+    "occupancyPct": 23.8,
+    "delayMin": 0.01,
+    "congestionIndex": 0.004,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 266,
+    "timestamp": "2026-01-20 22:10:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 43.2,
+    "flowPCU": 598,
+    "occupancyPct": 23.0,
+    "delayMin": 0.0,
+    "congestionIndex": 0.003,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 267,
+    "timestamp": "2026-01-20 22:15:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 39.8,
+    "flowPCU": 645,
+    "occupancyPct": 24.9,
+    "delayMin": 0.01,
+    "congestionIndex": 0.005,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 268,
+    "timestamp": "2026-01-20 22:20:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 47.4,
+    "flowPCU": 660,
+    "occupancyPct": 19.8,
+    "delayMin": 0.0,
+    "congestionIndex": 0.002,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 269,
+    "timestamp": "2026-01-20 22:25:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 40.0,
+    "flowPCU": 328,
+    "occupancyPct": 16.3,
+    "delayMin": 0.0,
+    "congestionIndex": 0.001,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 270,
+    "timestamp": "2026-01-20 22:30:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 39.8,
+    "flowPCU": 637,
+    "occupancyPct": 25.1,
+    "delayMin": 0.01,
+    "congestionIndex": 0.006,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 271,
+    "timestamp": "2026-01-20 22:35:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 34.9,
+    "flowPCU": 532,
+    "occupancyPct": 22.1,
+    "delayMin": 0.01,
+    "congestionIndex": 0.003,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 272,
+    "timestamp": "2026-01-20 22:40:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 47.2,
+    "flowPCU": 608,
+    "occupancyPct": 24.4,
+    "delayMin": 0.01,
+    "congestionIndex": 0.006,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 273,
+    "timestamp": "2026-01-20 22:45:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 43.3,
+    "flowPCU": 484,
+    "occupancyPct": 20.0,
+    "delayMin": 0.0,
+    "congestionIndex": 0.002,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 274,
+    "timestamp": "2026-01-20 22:50:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 39.9,
+    "flowPCU": 537,
+    "occupancyPct": 21.8,
+    "delayMin": 0.0,
+    "congestionIndex": 0.003,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 275,
+    "timestamp": "2026-01-20 22:55:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 43.2,
+    "flowPCU": 490,
+    "occupancyPct": 20.7,
+    "delayMin": 0.01,
+    "congestionIndex": 0.003,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 276,
+    "timestamp": "2026-01-20 23:00:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 43.1,
+    "flowPCU": 636,
+    "occupancyPct": 24.7,
+    "delayMin": 0.01,
+    "congestionIndex": 0.007,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 277,
+    "timestamp": "2026-01-20 23:05:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 43.3,
+    "flowPCU": 348,
+    "occupancyPct": 16.2,
+    "delayMin": 0.0,
+    "congestionIndex": 0.001,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 278,
+    "timestamp": "2026-01-20 23:10:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 45.6,
+    "flowPCU": 631,
+    "occupancyPct": 24.1,
+    "delayMin": 0.02,
+    "congestionIndex": 0.01,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 279,
+    "timestamp": "2026-01-20 23:15:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 39.8,
+    "flowPCU": 1069,
+    "occupancyPct": 24.9,
+    "delayMin": 0.01,
+    "congestionIndex": 0.006,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 280,
+    "timestamp": "2026-01-20 23:20:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 45.9,
+    "flowPCU": 498,
+    "occupancyPct": 19.6,
+    "delayMin": 0.0,
+    "congestionIndex": 0.001,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 281,
+    "timestamp": "2026-01-20 23:25:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 43.3,
+    "flowPCU": 408,
+    "occupancyPct": 18.1,
+    "delayMin": 0.0,
+    "congestionIndex": 0.001,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 282,
+    "timestamp": "2026-01-20 23:30:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 43.3,
+    "flowPCU": 346,
+    "occupancyPct": 16.0,
+    "delayMin": 0.0,
+    "congestionIndex": 0.001,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 283,
+    "timestamp": "2026-01-20 23:35:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 43.2,
+    "flowPCU": 552,
+    "occupancyPct": 24.3,
+    "delayMin": 0.01,
+    "congestionIndex": 0.003,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 284,
+    "timestamp": "2026-01-20 23:40:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 39.8,
+    "flowPCU": 603,
+    "occupancyPct": 23.7,
+    "delayMin": 0.01,
+    "congestionIndex": 0.004,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 285,
+    "timestamp": "2026-01-20 23:45:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 44.0,
+    "flowPCU": 363,
+    "occupancyPct": 17.6,
+    "delayMin": 0.0,
+    "congestionIndex": 0.001,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 286,
+    "timestamp": "2026-01-20 23:50:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 39.9,
+    "flowPCU": 442,
+    "occupancyPct": 19.8,
+    "delayMin": 0.0,
+    "congestionIndex": 0.002,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 287,
+    "timestamp": "2026-01-20 23:55:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 39.9,
+    "flowPCU": 456,
+    "occupancyPct": 19.6,
+    "delayMin": 0.01,
+    "congestionIndex": 0.002,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 288,
+    "timestamp": "2026-01-21 00:00:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 43.2,
+    "flowPCU": 497,
+    "occupancyPct": 20.3,
+    "delayMin": 0.0,
+    "congestionIndex": 0.002,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 289,
+    "timestamp": "2026-01-21 00:05:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 43.2,
+    "flowPCU": 529,
+    "occupancyPct": 21.7,
+    "delayMin": 0.01,
+    "congestionIndex": 0.004,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 290,
+    "timestamp": "2026-01-21 00:10:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 43.3,
+    "flowPCU": 503,
+    "occupancyPct": 20.6,
+    "delayMin": 0.0,
+    "congestionIndex": 0.002,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 291,
+    "timestamp": "2026-01-21 00:15:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 43.3,
+    "flowPCU": 450,
+    "occupancyPct": 19.5,
+    "delayMin": 0.0,
+    "congestionIndex": 0.002,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 292,
+    "timestamp": "2026-01-21 00:20:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 57.2,
+    "flowPCU": 298,
+    "occupancyPct": 14.6,
+    "delayMin": 0.0,
+    "congestionIndex": 0.001,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 293,
+    "timestamp": "2026-01-21 00:25:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 47.4,
+    "flowPCU": 519,
+    "occupancyPct": 21.1,
+    "delayMin": 0.0,
+    "congestionIndex": 0.002,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 294,
+    "timestamp": "2026-01-21 00:30:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 47.5,
+    "flowPCU": 461,
+    "occupancyPct": 18.1,
+    "delayMin": 0.0,
+    "congestionIndex": 0.001,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 295,
+    "timestamp": "2026-01-21 00:35:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 34.9,
+    "flowPCU": 652,
+    "occupancyPct": 25.3,
+    "delayMin": 0.01,
+    "congestionIndex": 0.004,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 296,
+    "timestamp": "2026-01-21 00:40:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 43.2,
+    "flowPCU": 470,
+    "occupancyPct": 20.1,
+    "delayMin": 0.0,
+    "congestionIndex": 0.003,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 297,
+    "timestamp": "2026-01-21 00:45:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 45.9,
+    "flowPCU": 532,
+    "occupancyPct": 21.4,
+    "delayMin": 0.0,
+    "congestionIndex": 0.003,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 298,
+    "timestamp": "2026-01-21 00:50:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 49.4,
+    "flowPCU": 553,
+    "occupancyPct": 27.6,
+    "delayMin": 0.01,
+    "congestionIndex": 0.005,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  },
+  {
+    "packetIndex": 299,
+    "timestamp": "2026-01-21 00:55:00",
+    "source": "NEURAX_TESTING_NOISY_V2",
+    "rawSpeedKmh": 40.0,
+    "flowPCU": 341,
+    "occupancyPct": 16.6,
+    "delayMin": 0.0,
+    "congestionIndex": 0.001,
+    "composition": {
+      "twoWheelerPct": 42,
+      "autoRickshawPct": 18,
+      "carPct": 28,
+      "busPct": 12
+    }
+  }
+]
