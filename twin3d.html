@@ -181,6 +181,8 @@
                 </div>
                 <div class="w-px h-4 bg-white opacity-10"></div>
                 <span id="hud-scenario-name" class="text-[9.5px] font-sans font-semibold px-2 py-0.5 rounded" style="background: rgba(22,163,74,0.15); color: #4ade80; border: 1px solid rgba(74,222,128,0.25)">NOMINAL</span>
+                <div class="w-px h-4 bg-white opacity-10 hidden sm:block"></div>
+                <span id="hud-clock-3d" class="hud-value hidden sm:inline" style="color:#60a5fa;font-size:11px;letter-spacing:0.05em">--:-- IST</span>
             </div>
 
             <button id="btn-theme-toggle" onclick="toggleTwinTheme()" class="gov-btn" title="Toggle Day/Night [L]">
@@ -326,6 +328,23 @@
     <div class="hud-overlay bottom-4 left-4 hud-glass px-3 py-1.5 text-[10px] font-sans pointer-events-none hidden sm:block" style="color: rgba(148,163,184,0.8)">
         <i class="fa-solid fa-gamepad mr-1.5 text-blue-400"></i>
         <span class="font-medium text-white">Controls:</span> Drag to Orbit &bull; Scroll to Zoom &bull; Click Vehicle &bull; <kbd class="px-1 py-0.5 rounded bg-white/10 text-white font-mono">T</kbd> Presentation Tour &bull; <kbd class="px-1 py-0.5 rounded bg-white/10 text-white font-mono">1-5</kbd> Scenarios
+    </div>
+
+    <!-- Camera Elevation / Depth Indicator (Bottom Right) -->
+    <div class="hud-overlay bottom-4 right-4 hud-glass px-3 py-2 text-right space-y-1 pointer-events-none hidden sm:block">
+        <div class="hud-label mb-1"><i class="fa-solid fa-cube text-cyan-400 mr-1"></i>3D View State</div>
+        <div class="flex items-center justify-end gap-2">
+            <span class="hud-label">Altitude:</span>
+            <span id="hud-cam-alt" class="hud-value text-cyan-400">240 m</span>
+        </div>
+        <div class="flex items-center justify-end gap-2">
+            <span class="hud-label">View Depth:</span>
+            <span id="hud-cam-depth" class="hud-value" style="color:#a78bfa">Z-axis</span>
+        </div>
+        <div class="flex items-center justify-end gap-2">
+            <span class="hud-label">Scene:</span>
+            <span class="hud-value text-emerald-400">Cyberabad 3D</span>
+        </div>
     </div>
 
     <!-- Scripts -->
@@ -483,6 +502,30 @@
             if (!document.fullscreenElement) document.documentElement.requestFullscreen().catch(() => {});
             else if (document.exitFullscreen) document.exitFullscreen();
         }
+
+        // ── 3D UX Enhancements ──────────────────────────────────────────
+        // Live IST Clock
+        (function tickClock3D() {
+            const el = document.getElementById('hud-clock-3d');
+            if (el) {
+                const ist = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
+                el.textContent = `${String(ist.getHours()).padStart(2,'0')}:${String(ist.getMinutes()).padStart(2,'0')}:${String(ist.getSeconds()).padStart(2,'0')} IST`;
+            }
+            setTimeout(tickClock3D, 1000);
+        })();
+
+        // Camera Altitude / Depth Tracker
+        setInterval(() => {
+            if (!window.twin3D || !window.twin3D.camera) return;
+            const cam = window.twin3D.camera;
+            const altEl = document.getElementById('hud-cam-alt');
+            const depthEl = document.getElementById('hud-cam-depth');
+            if (altEl) altEl.textContent = `${Math.round(cam.position.y)} m`;
+            if (depthEl) {
+                const zVal = Math.round(cam.position.z);
+                depthEl.textContent = `${zVal > 0 ? '+' : ''}${zVal} Z`;
+            }
+        }, 500);
     </script>
 </body>
 </html>
